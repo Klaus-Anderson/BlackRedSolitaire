@@ -515,6 +515,7 @@
                 android:text="@string/press_to_discard"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="13sp"
+                android:visibility="invisible"
                 android:layout_weight="1"/>
         </LinearLayout>
 
@@ -552,6 +553,7 @@
                 android:text="@string/press_to_discard"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="13sp"
+                android:visibility="invisible"
                 android:layout_weight="1"/>
         </LinearLayout>
 
@@ -598,6 +600,7 @@
                 android:text="@string/press_to_discard"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="13sp"
+                android:visibility="invisible"
                 android:layout_weight="7"/>
 
             <TextView

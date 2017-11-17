@@ -32,10 +32,12 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
             newCount = Integer.parseInt(remainingCards.get(
                     deck.peek().getSuit()).getText()
                                                 + "") - 1;
-            remainingCards.get(deck.peek().getSuit()).setText(
-                    String.valueOf(newCount));
-            newCount = Integer.parseInt(cardsLeftText.getText() + "") - 1;
-            cardsLeftText.setText(String.valueOf(newCount));
+            if(deck.peek().getValue() >= Card.TEN_VALUE) {
+                remainingCards.get(deck.peek().getSuit()).setText(
+                        String.valueOf(newCount));
+                newCount = Integer.parseInt(cardsLeftText.getText() + "") - 1;
+                cardsLeftText.setText(String.valueOf(newCount));
+            }
 
             ImageView drawnCard = new ImageView(GameActivity.this);
 
@@ -58,10 +60,9 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
             }
             else {
                 if (deck.peek().isBlack()) {
-                    if (black == null) {
+                    if (colorCards.get(Card.COLOR_BLACK) == null) {
                         blackFrame.addView(drawnCard);
-                        black = deck.peek();
-                        deck.pop();
+                        colorCards.set(Card.COLOR_BLACK, deck.pop());
                         hasDrawn = false;
                     } else {
                         deckFrame.addView(drawnCard);
@@ -69,10 +70,9 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                         deckDiscardText.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    if (red == null) {
+                    if (colorCards.get(Card.COLOR_RED) == null) {
                         redFrame.addView(drawnCard);
-                        red = deck.peek();
-                        deck.pop();
+                        colorCards.set(Card.COLOR_RED, deck.pop());
                         hasDrawn = false;
                     } else {
                         deckFrame.addView(drawnCard);
@@ -202,7 +202,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
     ImageView topCard;
 
     private static Stack<Card> deck;
-    private Card black, red;
     private List<FrameLayout> colorFrames, pileFrames, faceFrames;
     private List<TextView> remainingCards;
     private List<Card> colorCards;
@@ -221,8 +220,8 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         deck = new Stack<>();
 
         colorCards = new ArrayList<>();
-        colorCards.add(Card.COLOR_BLACK, black = null);
-        colorCards.add(Card.COLOR_RED, red = null);
+        colorCards.add(Card.COLOR_BLACK, null);
+        colorCards.add(Card.COLOR_RED, null);
 
         toPlayFragment = new ToPlayFragment();
 
@@ -308,6 +307,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                     Card sameColorCard = colorCards.get(suit % 2);
                     Card otherColorCard = colorCards.get((suit+1) % 2);
 
+                    // use Face Card as Face Card
                     if (sameColorCard != null && sameColorCard.getSuit() == suit
                             && otherColorCard != null && !isFrameCardSet(pileFrame)
                             && (index < 4 || index/4 >= level)) {
@@ -317,16 +317,19 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
 
                         blackFrame.removeAllViews();
                         redFrame.removeAllViews();
-                        pileTotal = pileTotal + black.getValue() + red.getValue();
+
+                        pileTotal = pileTotal + colorCards.get(Card.COLOR_BLACK).getValue() +
+                                colorCards.get(Card.COLOR_RED).getValue();
                         pileText.setText(String.valueOf(pileTotal));
-                        black = null;
-                        red = null;
+
+                        colorCards.set(Card.COLOR_BLACK, null);
+                        colorCards.set(Card.COLOR_RED, null);
 
                         faceFrame.setClickable(false);
                         faceFrame.setBackground(getResources().getDrawable(R.drawable.shape2));
 
-                        if (isFrameCardSet(pile_clubs) && isFrameCardSet(pile_clubs) &&
-                                isFrameCardSet(pile_clubs) && isFrameCardSet(pile_clubs)) {
+                        if (isFrameCardSet(pile_clubs) && isFrameCardSet(pile_diamonds) &&
+                                isFrameCardSet(pile_spades) && isFrameCardSet(pile_hearts)) {
                             scoreTotal = scoreTotal + pileTotal;
                             scoreText.setText(String.valueOf(scoreTotal));
                             pileTotal = 0;
@@ -350,7 +353,9 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                             }
                         }
                         setUsedFaceCard(faceFrame, index);
-                    } else if (isFrameCardSet(pileFrame) && (index < 4 || index/4 < level)) {
+                    }
+                    // use Face Card as number Card
+                    else if (isFrameCardSet(faceFrame) && (index < 4 || index/4 < level)) {
                         FrameLayout colorFrame = colorFrames.get(index % 2);
                         ImageView dummy = (ImageView) colorFrame.getChildAt(0);
                         if (dummy != null) {
@@ -360,7 +365,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                         dummy = (ImageView) faceFrame.getChildAt(0);
                         faceFrame.removeView(dummy);
                         colorFrame.addView(dummy);
-                        sameColorCard = new Card(Card.TEN_VALUE, suit);
+                        colorCards.set(suit % 2, new Card(Card.TEN_VALUE, suit));
                         faceFrame.setClickable(false);
                         faceFrame.setBackground( getResources().getDrawable(R.drawable.shape2));
                         setUsedFaceCard(faceFrame, suit);
@@ -385,9 +390,9 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         blackDiscardText.setVisibility(View.INVISIBLE);
         deckDiscardText.setVisibility(View.INVISIBLE);
         if(deck.peek().isBlack()) {
-            black = deck.pop();
+            colorCards.set(Card.COLOR_BLACK, deck.pop());
         } else {
-            red = deck.pop();
+            colorCards.set(Card.COLOR_RED, deck.pop());
         }
         hasDrawn = false;
     }
