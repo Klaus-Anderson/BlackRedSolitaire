@@ -40,10 +40,8 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
             deckDiscardText.setVisibility(View.INVISIBLE);
             deck.pop();
             hasDrawn = false;
-        } else if (deck.size() == 0) {
-            topCard.setVisibility(View.INVISIBLE);
-            deckFrame.setClickable(false);
-            gameOver.setVisibility(View.VISIBLE);
+        } else {
+            emptyDeckCheck();
         }
     }
 
@@ -228,17 +226,12 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                     black = deck.pop();
                     hasDrawn = false;
                 }
-                if (deck.size() == 0) {
-                    topCard.setVisibility(View.INVISIBLE);
-                    deckFrame.setClickable(false);
-                    gameOver.setVisibility(View.VISIBLE);
-                }
+                emptyDeckCheck();
             }
 
         });
 
         redFrame.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 if (hasDrawn && deck.peek().isRed()) {
@@ -254,13 +247,8 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                     red = deck.pop();
                     hasDrawn = false;
                 }
-                if (deck.size() == 0) {
-                    topCard.setVisibility(View.INVISIBLE);
-                    deckFrame.setClickable(false);
-                    gameOver.setVisibility(View.VISIBLE);
-                }
+                emptyDeckCheck();
             }
-
         });
 
         ten_clubs.setOnClickListener(new OnClickListener() {
@@ -1258,6 +1246,14 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
 
         });
 
+    }
+
+    private void emptyDeckCheck() {
+        if (deck.size() == 0) {
+            topCard.setVisibility(View.INVISIBLE);
+            deckFrame.setClickable(false);
+            gameOver.setVisibility(View.VISIBLE);
+        }
     }
 
     private void remainingCardUpdate() {
