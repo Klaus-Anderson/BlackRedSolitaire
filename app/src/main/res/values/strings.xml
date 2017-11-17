@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BR Solitaire</string>
+    <string name="ten">10</string>
+    <string name="jack">Jack</string>
+    <string name="queen">Queen</string>
+    <string name="king">King</string>
+    <string name="ace">Ace</string>
+    <string name="howToPlay">How to Play BR Solitaire</string>
+    <string name="gameObjective">The objective of the game is to collect as many points as possible before you run out of cards.</string>
+    <string name="cardDraw">Press on the deck to draw a card. If the card drawn is a face card or a 10, it will go to its respective pool automatically. If the card is any other number card, it will go to the black or red pool based on its color.</string>
+    <string name="colorPools">The black and red pools can only contain one card at a time, so if you draw a red number card and there is already a card in the red pool, you must choose one to discard.</string>
+    <string name="scoringPoints">To score points, you must have a full pile containing one face card of each suit based on the current level, starting with Jack. Points are not scored until a pile is cleared.</string>
+    <string name="collectingPiles">To put a face card into a pile, you must have the following cards on the board: the face card you want to put into the pile, a number card that matches the suit as the face card, and another number card of the opposing color. Once these are all on board, press the face card to move the cards into the pile. The sum of the number cards used to collect the face card is put towards your pile total.</string>
+    <string name="tensAreWild">10s act as wild cards. When it is appropriate, press on a 10 to use it as substitution for a face card of the same suit as the 10. Otherwise, press on a 10 to move it into its respective color pool.</string>
+    <string name="expiredFaces">Once its level has been passed, a face card can no longer be used to collect piles. However, if its levels has been passed a face card can be pressed on to be moved into its respective color pool and used as number card of its on suit and of value 10.</string>
+    <string name="back">Back</string>
+    <string name="action_settings">Action Settings</string>
+    <string name="banner_ad_unit_id">ca-app-pub-8708235330552145/5577007312</string>
+
+</resources>
