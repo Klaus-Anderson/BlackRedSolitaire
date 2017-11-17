@@ -21,7 +21,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="15sp"
-            android:text="@+string/howToPlay" />
+            android:text="@string/howToPlay" />
 
         <TextView
             android:id="@+id/textView2"
@@ -30,7 +30,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="13sp"
-            android:text="@+string/gameObjective" />
+            android:text="@string/gameObjective" />
 
         <TextView
             android:id="@+id/textView3"
@@ -39,7 +39,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="13sp"
-            android:text="@+string/cardDraw" />
+            android:text="@string/cardDraw" />
 
         <TextView
             android:id="@+id/textView4"
@@ -48,7 +48,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="13sp"
-            android:text="@+string/colorPools" />
+            android:text="@string/colorPools" />
         
         <TextView
             android:id="@+id/textView5"
@@ -57,7 +57,7 @@
             android:layout_gravity="center"        
             android:gravity="center"
             android:textSize="13sp"
-            android:text="@+string/scoringPoints" />
+            android:text="@string/scoringPoints" />
         
         <TextView
             android:id="@+id/textView6"
@@ -66,7 +66,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="13sp"
-            android:text="@+string/collectingPiles" />
+            android:text="@string/collectingPiles" />
         
         <TextView
             android:id="@+id/textView7"
@@ -75,7 +75,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="13sp"
-            android:text="@+string/tensAreWild" />
+            android:text="@string/tensAreWild" />
         
         <TextView
             android:id="@+id/textView8"
@@ -84,7 +84,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="13sp"
-            android:text="@+string/expiredFaces" />
+            android:text="@string/expiredFaces" />
         
     </LinearLayout>
 
@@ -95,6 +95,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:textSize="13sp"
-        android:text="@+string/back" />
+        android:text="@string/back" />
 
 </RelativeLayout>
