@@ -22,9 +22,9 @@ public class ToPlayFragment extends Fragment {
 
 	// Container Activity must implement this interface
 	public interface OnValuesSetListener {
-		public void onValuesSet();
-        public void fragmentManager();
-		public void finishFragment();
+		void onValuesSet();
+        void fragmentManager();
+		void finishFragment();
 	}
 
 	@Override
@@ -46,16 +46,11 @@ public class ToPlayFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_toplay, container,
 				false);
-		Button backButton = (Button) rootView.findViewById(R.id.backButton);
-		backButton.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View v) {
-				mCallback.fragmentManager();
-                ToPlayFragment.this.mCallback.finishFragment();
-			}
-			
-		});
+		Button backButton = rootView.findViewById(R.id.backButton);
+		backButton.setOnClickListener(v -> {
+            mCallback.fragmentManager();
+ToPlayFragment.this.mCallback.finishFragment();
+        });
 		
 		mCallback.onValuesSet();
 

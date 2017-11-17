@@ -1,9 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+              android:id="@+id/container"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -325,7 +324,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Pile"
+                android:text="@string/pile"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="17sp" />
 
@@ -393,7 +392,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Discard"
+                android:text="@string/discard"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="17sp" />
 
@@ -414,8 +413,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="right"
-                    android:text="C:"
+                    android:gravity="end"
+                    android:text="@string/c"
                     android:textSize="17sp" />
 
                 <TextView
@@ -423,15 +422,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="13"
+                    android:text="@string/_13"
                     android:textSize="17sp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="right"
-                    android:text="D:"
+                    android:gravity="end"
+                    android:text="@string/d"
                     android:textSize="17sp" />
 
                 <TextView
@@ -439,7 +438,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="13"
+                    android:text="@string/_13"
                     android:textSize="17sp" />
             </LinearLayout>
 
@@ -452,8 +451,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="right"
-                    android:text="S:"
+                    android:gravity="end"
+                    android:text="@string/s"
                     android:textSize="17sp" />
 
                 <TextView
@@ -461,15 +460,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="13"
+                    android:text="@string/_13"
                     android:textSize="17sp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="right"
-                    android:text="H:"
+                    android:gravity="end"
+                    android:text="@string/h"
                     android:textSize="17sp" />
 
                 <TextView
@@ -477,7 +476,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="13"
+                    android:text="@string/_13"
                     android:textSize="17sp" />
             </LinearLayout>
         </LinearLayout>
@@ -495,7 +494,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Black"
+                android:text="@string/black"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="17sp" />
 
@@ -513,7 +512,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal"
                 android:layout_gravity="center"
-                android:text="Press to Discard"
+                android:text="@string/press_to_discard"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="13sp"
                 android:layout_weight="1"/>
@@ -532,7 +531,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Red"
+                android:text="@string/red"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="17sp" />
 
@@ -550,7 +549,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal"
                 android:layout_gravity="center"
-                android:text="Press to Discard"
+                android:text="@string/press_to_discard"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="13sp"
                 android:layout_weight="1"/>
@@ -569,7 +568,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Deck"
+                android:text="@string/deck"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="17sp" />
 
@@ -586,7 +585,8 @@
                     android:id="@+id/topCard"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/card_back" />
+                    android:src="@drawable/card_back"
+                    android:contentDescription="@string/top_card_access"/>
             </FrameLayout>
 
             <TextView
@@ -595,7 +595,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal"
                 android:layout_gravity="center"
-                android:text="Press to Discard"
+                android:text="@string/press_to_discard"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="13sp"
                 android:layout_weight="7"/>
@@ -605,7 +605,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:text="52"
+                android:text="@string/_52"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="15sp"
                 android:layout_weight="7"/>
@@ -624,7 +624,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Score"
+                android:text="@string/score"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="17sp" />
 
@@ -637,8 +637,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="right"
-                    android:text="Score:"
+                    android:gravity="end"
+                    android:text="@string/scoreColon"
                     android:textSize="13sp" />
 
                 <TextView
@@ -646,7 +646,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="0"
+                    android:text="@string/_0"
                     android:textSize="13sp" />
             </LinearLayout>
 
@@ -659,8 +659,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="right"
-                    android:text="Pile:"
+                    android:gravity="end"
+                    android:text="@string/pileColon"
                     android:textSize="13sp" />
 
                 <TextView
@@ -668,7 +668,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="0"
+                    android:text="@string/_0"
                     android:textSize="13sp" />
             </LinearLayout>
 
@@ -681,8 +681,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="right"
-                    android:text="Level:"
+                    android:gravity="end"
+                    android:text="@string/level"
                     android:textSize="13sp" />
 
                 <TextView
@@ -690,7 +690,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Jack"
+                    android:text="@string/jack"
                     android:textSize="13sp" />
             </LinearLayout>
 
@@ -698,7 +698,7 @@
                 android:id="@+id/gameOverButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Press Here for Game Over"
+                android:text="@string/press_here_for_game_over"
                 android:textSize="13sp"
                 android:layout_weight="3"/>
 
@@ -716,7 +716,7 @@
                 android:id="@+id/newGameButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="New Game"
+                android:text="@string/new_game"
                 android:textSize="15sp"
                 android:layout_weight="1"/>
 
@@ -724,7 +724,7 @@
                 android:id="@+id/toPlayButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="How to Play"
+                android:text="@string/how_to_play"
                 android:textSize="15sp"
                 android:layout_weight="1"/>
         </LinearLayout>

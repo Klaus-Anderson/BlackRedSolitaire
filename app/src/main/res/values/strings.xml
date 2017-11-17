@@ -18,5 +18,27 @@
     <string name="back">Back</string>
     <string name="action_settings">Action Settings</string>
     <string name="banner_ad_unit_id">ca-app-pub-8708235330552145/5577007312</string>
+    <string name="top_card_access">Top Card</string>
+    <string name="pile">Pile</string>
+    <string name="discard">Discard</string>
+    <string name="c">C:</string>
+    <string name="_13">13</string>
+    <string name="d">D:</string>
+    <string name="s">S:</string>
+    <string name="h">H:</string>
+    <string name="black">Black</string>
+    <string name="press_to_discard">Press to Discard</string>
+    <string name="red">Red</string>
+    <string name="deck">Deck</string>
+    <string name="_52">52</string>
+    <string name="score">Score</string>
+    <string name="_0">0</string>
+    <string name="pileColon">Pile:</string>
+    <string name="level">Level:</string>
+    <string name="press_here_for_game_over">Press Here for Game Over</string>
+    <string name="new_game">New Game</string>
+    <string name="how_to_play">How to Play</string>
+    <string name="god_Tier">God-Tier</string>
+    <string name="scoreColon">Score:</string>
 
 </resources>

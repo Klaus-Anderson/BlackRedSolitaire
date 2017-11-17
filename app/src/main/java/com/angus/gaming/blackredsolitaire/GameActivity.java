@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -34,9 +33,9 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                     deck.peek().getSuit()).getText()
                                                 + "") - 1;
             remainingCards.get(deck.peek().getSuit()).setText(
-                    newCount + "");
+                    String.valueOf(newCount));
             newCount = Integer.parseInt(cardsLeftText.getText() + "") - 1;
-            cardsLeftText.setText(newCount + "");
+            cardsLeftText.setText(String.valueOf(newCount));
 
             ImageView drawnCard = new ImageView(GameActivity.this);
 
@@ -178,8 +177,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
     @BindView(R.id.heartsText)
     TextView heartsText;
 
-    @BindView(R.id.toPlayButton)
-    Button toPlay;
     @OnClick(R.id.toPlayButton)
     void onToPlayClick(){
         adFragment.setVisibility(View.GONE);
@@ -187,8 +184,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                             .add(R.id.container, toPlayFragment)
                             .addToBackStack("aFrag").commit();
     }
-    @BindView(R.id.newGameButton)
-    Button newGame;
     @OnClick(R.id.newGameButton)
     void onNewGameClick(){
         Intent i = new Intent(GameActivity.this, GameActivity.class);
@@ -246,10 +241,10 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         faceFrames.add(Card.DIAMOND_SUIT, ten_diamonds);
         faceFrames.add(Card.SPADE_SUIT, ten_spades);
         faceFrames.add(Card.HEART_SUIT, ten_hearts);
-        faceFrames.add(1*4 + Card.CLUB_SUIT, jack_clubs);
-        faceFrames.add(1*4 + Card.DIAMOND_SUIT, jack_diamonds);
-        faceFrames.add(1*4 + Card.SPADE_SUIT, jack_spades);
-        faceFrames.add(1*4 + Card.HEART_SUIT, jack_hearts);
+        faceFrames.add(4 + Card.CLUB_SUIT, jack_clubs);
+        faceFrames.add(4 + Card.DIAMOND_SUIT, jack_diamonds);
+        faceFrames.add(4 + Card.SPADE_SUIT, jack_spades);
+        faceFrames.add(4 + Card.HEART_SUIT, jack_hearts);
         faceFrames.add(2*4 + Card.CLUB_SUIT, queen_clubs);
         faceFrames.add(2*4 + Card.DIAMOND_SUIT, queen_diamonds);
         faceFrames.add(2*4 + Card.SPADE_SUIT, queen_spades);
@@ -323,7 +318,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                         blackFrame.removeAllViews();
                         redFrame.removeAllViews();
                         pileTotal = pileTotal + black.getValue() + red.getValue();
-                        pileText.setText(pileTotal + "");
+                        pileText.setText(String.valueOf(pileTotal));
                         black = null;
                         red = null;
 
@@ -333,25 +328,25 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                         if (isFrameCardSet(pile_clubs) && isFrameCardSet(pile_clubs) &&
                                 isFrameCardSet(pile_clubs) && isFrameCardSet(pile_clubs)) {
                             scoreTotal = scoreTotal + pileTotal;
-                            scoreText.setText(scoreTotal + "");
+                            scoreText.setText(String.valueOf(scoreTotal));
                             pileTotal = 0;
-                            pileText.setText(pileTotal + "");
+                            pileText.setText(String.valueOf(pileTotal));
                             pile_clubs.removeAllViews();
                             pile_spades.removeAllViews();
                             pile_hearts.removeAllViews();
                             pile_diamonds.removeAllViews();
                             level++;
                             if (level == 2) {
-                                levelText.setText("Queen");
+                                levelText.setText(R.string.queen);
                             }
                             if (level == 3) {
-                                levelText.setText("King");
+                                levelText.setText(R.string.king);
                             }
                             if (level == 4) {
-                                levelText.setText("Ace");
+                                levelText.setText(R.string.ace);
                             }
                             if (level == 5) {
-                                levelText.setText("God-Tier");
+                                levelText.setText(R.string.god_Tier);
                             }
                         }
                         setUsedFaceCard(faceFrame, index);

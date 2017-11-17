@@ -28,8 +28,8 @@ public class Card {
 
 
     private int value, suit;
-    private HashMap<Integer, String> valueMap = new HashMap<Integer, String>();
-    private HashMap<Integer, String> suitMap = new HashMap<Integer, String>();
+    private HashMap<Integer, String> valueMap = new HashMap<>();
+    private HashMap<Integer, String> suitMap = new HashMap<>();
 
     public Card(int value, int suit) {
         this.value = value;
@@ -67,14 +67,12 @@ public class Card {
     }
 
     public String getImageName() {
-        String name = valueMap.get(value) + "_" + suitMap.get(suit);
-        return name;
+        return valueMap.get(value) + "_" + suitMap.get(suit);
     }
 
     @Override
     public String toString() {
-        String output = valueMap.get(value) + " of " + suitMap.get(suit);
-        return output;
+        return valueMap.get(value) + " of " + suitMap.get(suit);
     }
 
     public boolean isClub() {
