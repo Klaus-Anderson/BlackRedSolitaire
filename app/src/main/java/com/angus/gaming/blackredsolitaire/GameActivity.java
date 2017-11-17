@@ -28,10 +28,60 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
     void onDeckClick(View v){
         if (deck.size() != 0 && !hasDrawn) {
             hasDrawn = true;
-            remainingCardUpdate();
+
+            int newCount;
+            newCount = Integer.parseInt(remainingCards.get(
+                    deck.peek().getSuit()).getText()
+                                                + "") - 1;
+            remainingCards.get(deck.peek().getSuit()).setText(
+                    newCount + "");
+            newCount = Integer.parseInt(cardsLeftText.getText() + "") - 1;
+            cardsLeftText.setText(newCount + "");
+
             ImageView drawnCard = new ImageView(GameActivity.this);
-            imageSetup(drawnCard);
-            drawCheck(drawnCard);
+
+            String drawableName = deck.peek().getImageName();
+            int drawableId = getResources().getIdentifier(drawableName,
+                                                          "drawable", getPackageName());
+            drawnCard.setImageResource(drawableId);
+            drawnCard.setLayoutParams(new FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT));
+
+            if (deck.peek().getValue() > 9) {
+                int frameIndex = (deck.peek().getValue() - 10) * 4
+                        + deck.peek().getSuit();
+                FrameLayout moveToFrame = faceFrames.get(frameIndex);
+                moveToFrame.addView(drawnCard);
+                moveToFrame.setClickable(true);
+                deck.pop();
+                hasDrawn = false;
+            }
+            else {
+                if (deck.peek().isBlack()) {
+                    if (black == null) {
+                        blackFrame.addView(drawnCard);
+                        black = deck.peek();
+                        deck.pop();
+                        hasDrawn = false;
+                    } else {
+                        deckFrame.addView(drawnCard);
+                        blackDiscardText.setVisibility(View.VISIBLE);
+                        deckDiscardText.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    if (red == null) {
+                        redFrame.addView(drawnCard);
+                        red = deck.peek();
+                        deck.pop();
+                        hasDrawn = false;
+                    } else {
+                        deckFrame.addView(drawnCard);
+                        redDiscardText.setVisibility(View.VISIBLE);
+                        deckDiscardText.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
         } else if (deck.size() != 0 && hasDrawn) {
             ImageView dummy = (ImageView) deckFrame.getChildAt(1);
             deckFrame.removeView(dummy);
@@ -161,7 +211,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
     private List<FrameLayout> colorFrames, pileFrames, faceFrames;
     private List<TextView> remainingCards;
     private List<Card> colorCards;
-    private Boolean hasDrawn, pileClubs, pileSpades, pileHearts, pileDiamonds;
+    private Boolean hasDrawn;
     private int level, pileTotal, scoreTotal;
     private ToPlayFragment toPlayFragment;
     private View adFragment;
@@ -174,7 +224,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         ButterKnife.bind(this);
 
         deck = new Stack<>();
-        topCard = new ImageView(this);
 
         colorCards = new ArrayList<>();
         colorCards.add(Card.COLOR_BLACK, black = null);
@@ -225,10 +274,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
 //        adFragment = this.findViewById(R.id.adFragment);
 
         hasDrawn = false;
-        pileClubs = false;
-        pileSpades = false;
-        pileHearts = false;
-        pileDiamonds = false;
 
         pileTotal = 0;
         scoreTotal = 0;
@@ -285,7 +330,30 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                         faceFrame.setClickable(false);
                         faceFrame.setBackground(getResources().getDrawable(R.drawable.shape2));
 
-                        pileCheck();
+                        if (isFrameCardSet(pile_clubs) && isFrameCardSet(pile_clubs) &&
+                                isFrameCardSet(pile_clubs) && isFrameCardSet(pile_clubs)) {
+                            scoreTotal = scoreTotal + pileTotal;
+                            scoreText.setText(scoreTotal + "");
+                            pileTotal = 0;
+                            pileText.setText(pileTotal + "");
+                            pile_clubs.removeAllViews();
+                            pile_spades.removeAllViews();
+                            pile_hearts.removeAllViews();
+                            pile_diamonds.removeAllViews();
+                            level++;
+                            if (level == 2) {
+                                levelText.setText("Queen");
+                            }
+                            if (level == 3) {
+                                levelText.setText("King");
+                            }
+                            if (level == 4) {
+                                levelText.setText("Ace");
+                            }
+                            if (level == 5) {
+                                levelText.setText("God-Tier");
+                            }
+                        }
                         setUsedFaceCard(faceFrame, index);
                     } else if (isFrameCardSet(pileFrame) && (index < 4 || index/4 < level)) {
                         FrameLayout colorFrame = colorFrames.get(index % 2);
@@ -350,34 +418,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         frame.addView(suitImage);
     }
 
-    private void remainingCardUpdate() {
-        int newCount;
-        newCount = Integer.parseInt(remainingCards.get(
-                deck.peek().getSuit()).getText()
-                                            + "") - 1;
-        remainingCards.get(deck.peek().getSuit()).setText(
-                newCount + "");
-        newCount = Integer.parseInt(cardsLeftText.getText() + "") - 1;
-        cardsLeftText.setText(newCount + "");
-    }
-
-    private void imageSetup(ImageView drawnCard) {
-        String drawableName = deck.peek().getImageName();
-        int drawableId = getResources().getIdentifier(drawableName,
-                                                      "drawable", getPackageName());
-        drawnCard.setImageResource(drawableId);
-        drawnCard.setLayoutParams(new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-    }
-
-    private void drawCheck(ImageView drawnCard) {
-        if (deck.peek().getValue() > 9)
-            this.addFaceCard(drawnCard);
-        else
-            this.addNumberCard(drawnCard);
-    }
-
     private void addFaceCard(ImageView drawnCard) {
         int frameIndex = (deck.peek().getValue() - 10) * 4
                 + deck.peek().getSuit();
@@ -386,62 +426,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         moveToFrame.setClickable(true);
         deck.pop();
         hasDrawn = false;
-    }
-
-    private void addNumberCard(ImageView drawnCard) {
-        if (deck.peek().isBlack()) {
-            if (black == null) {
-                blackFrame.addView(drawnCard);
-                black = deck.peek();
-                deck.pop();
-                hasDrawn = false;
-            } else {
-                deckFrame.addView(drawnCard);
-                blackDiscardText.setVisibility(View.VISIBLE);
-                deckDiscardText.setVisibility(View.VISIBLE);
-            }
-        } else {
-            if (red == null) {
-                redFrame.addView(drawnCard);
-                red = deck.peek();
-                deck.pop();
-                hasDrawn = false;
-            } else {
-                deckFrame.addView(drawnCard);
-                redDiscardText.setVisibility(View.VISIBLE);
-                deckDiscardText.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    protected void pileCheck() {
-        if (pileClubs && pileSpades && pileHearts && pileDiamonds) {
-            scoreTotal = scoreTotal + pileTotal;
-            scoreText.setText(scoreTotal + "");
-            pileTotal = 0;
-            pileText.setText(pileTotal + "");
-            pile_clubs.removeAllViews();
-            pile_spades.removeAllViews();
-            pile_hearts.removeAllViews();
-            pile_diamonds.removeAllViews();
-            pileClubs = false;
-            pileSpades = false;
-            pileHearts = false;
-            pileDiamonds = false;
-            level++;
-            if (level == 2) {
-                levelText.setText("Queen");
-            }
-            if (level == 3) {
-                levelText.setText("King");
-            }
-            if (level == 4) {
-                levelText.setText("Ace");
-            }
-            if (level == 5) {
-                levelText.setText("God-Tier");
-            }
-        }
     }
 
     @Override
