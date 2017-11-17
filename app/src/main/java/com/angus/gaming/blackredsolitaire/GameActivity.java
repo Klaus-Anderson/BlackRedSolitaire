@@ -16,24 +16,109 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Stack;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class GameActivity extends Activity implements ToPlayFragment.OnValuesSetListener {
+    @BindView(R.id.deckFrame)
+    FrameLayout deckFrame;
+
+    @BindView(R.id.redFrame)
+    FrameLayout redFrame;
+    @BindView(R.id.blackFrame)
+    FrameLayout blackFrame;
+    @BindView(R.id.discardFrame)
+    FrameLayout discardFrame;
+
+    @BindView(R.id.ten_clubs)
+    FrameLayout ten_clubs;
+    @BindView(R.id.ten_diamonds)
+    FrameLayout ten_diamonds;
+    @BindView(R.id.ten_spades)
+    FrameLayout ten_spades;
+    @BindView(R.id.ten_hearts)
+    FrameLayout ten_hearts;
+    @BindView(R.id.jack_clubs)
+    FrameLayout jack_clubs;
+    @BindView(R.id.jack_diamonds)
+    FrameLayout jack_diamonds;
+    @BindView(R.id.jack_spades)
+    FrameLayout jack_spades;
+    @BindView(R.id.jack_hearts)
+    FrameLayout jack_hearts;
+    @BindView(R.id.queen_clubs)
+    FrameLayout queen_clubs;
+    @BindView(R.id.queen_diamonds)
+    FrameLayout queen_diamonds;
+    @BindView(R.id.queen_spades)
+    FrameLayout queen_spades;
+    @BindView(R.id.queen_hearts)
+    FrameLayout queen_hearts;
+    @BindView(R.id.king_clubs)
+    FrameLayout king_clubs;
+    @BindView(R.id.king_diamonds)
+    FrameLayout king_diamonds;
+    @BindView(R.id.king_spades)
+    FrameLayout king_spades;
+    @BindView(R.id.king_hearts)
+    FrameLayout king_hearts;
+    @BindView(R.id.ace_clubs)
+    FrameLayout ace_clubs;
+    @BindView(R.id.ace_diamonds)
+    FrameLayout ace_diamonds;
+    @BindView(R.id.ace_spades)
+    FrameLayout ace_spades;
+    @BindView(R.id.ace_hearts)
+    FrameLayout ace_hearts;
+
+    @BindView(R.id.pile_clubs)
+    FrameLayout pile_clubs;
+    @BindView(R.id.pile_diamonds)
+    FrameLayout pile_diamonds;
+    @BindView(R.id.pile_spades)
+    FrameLayout pile_spades;
+    @BindView(R.id.pile_hearts)
+    FrameLayout pile_hearts;
+
+    @BindView(R.id.deckDiscardText)
+    TextView deckDiscardText;
+    @BindView(R.id.redDiscardText)
+    TextView redDiscardText;
+    @BindView(R.id.blackDiscardText)
+    TextView blackDiscardText;
+
+    @BindView(R.id.scoreText)
+    TextView scoreText;
+    @BindView(R.id.pileText)
+    TextView pileText;
+    @BindView(R.id.levelText)
+    TextView levelText;
+    @BindView(R.id.cardsLeftText)
+    TextView cardsLeftText;
+
+    @BindView(R.id.clubsText)
+    TextView clubsText;
+    @BindView(R.id.diamondsText)
+    TextView diamondsText;
+    @BindView(R.id.spadesText)
+    TextView spadesText;
+    @BindView(R.id.heartsText)
+    TextView heartsText;
+
+    @BindView(R.id.toPlayButton)
+    Button toPlay;
+    @BindView(R.id.newGameButton)
+    Button newGame;
+    @BindView(R.id.gameOverButton)
+    Button gameOver;
+
+    @BindView(R.id.topCard)
+    ImageView topCard;
 
     private static Stack<Card> deck;
     private Card black, red;
-    private TextView scoreText, pileText, levelText, cardsLeftText,
-            deckDiscardText, redDiscardText, blackDiscardText, clubsText,
-            diamondsText, spadesText, heartsText;
-    private FrameLayout deckFrame, blackFrame, redFrame, discardFrame,
-            ten_clubs, ten_diamonds, ten_spades, ten_hearts, jack_clubs,
-            jack_diamonds, jack_spades, jack_hearts, queen_clubs,
-            queen_diamonds, queen_spades, queen_hearts, king_clubs,
-            king_diamonds, king_spades, king_hearts, ace_clubs, ace_diamonds,
-            ace_spades, ace_hearts, pile_clubs, pile_diamonds, pile_spades,
-            pile_hearts;
     private ArrayList<FrameLayout> faceFrames;
     private ArrayList<TextView> remainingCards;
-    private Button newGame, toPlay, gameOver;
-    private ImageView topCard;
     private Boolean hasDrawn, pileClubs, pileSpades, pileHearts, pileDiamonds;
     private int level, pileTotal, scoreTotal;
     private ToPlayFragment toPlayFragment;
@@ -44,6 +129,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         super.onCreate(savedInstanceState);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_game);
+        ButterKnife.bind(this);
 
         deck = new Stack<Card>();
         topCard = new ImageView(this);
@@ -52,88 +138,37 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
 
         toPlayFragment = new ToPlayFragment();
 
-        deckFrame = (FrameLayout) this.findViewById(R.id.deckFrame);
-        redFrame = (FrameLayout) this.findViewById(R.id.redFrame);
-        blackFrame = (FrameLayout) this.findViewById(R.id.blackFrame);
-        discardFrame = (FrameLayout) this.findViewById(R.id.discardFrame);
-
         faceFrames = new ArrayList<FrameLayout>();
-
-        ten_clubs = (FrameLayout) this.findViewById(R.id.ten_clubs);
         faceFrames.add(ten_clubs);
-        ten_diamonds = (FrameLayout) this.findViewById(R.id.ten_diamonds);
         faceFrames.add(ten_diamonds);
-        ten_spades = (FrameLayout) this.findViewById(R.id.ten_spades);
         faceFrames.add(ten_spades);
-        ten_hearts = (FrameLayout) this.findViewById(R.id.ten_hearts);
         faceFrames.add(ten_hearts);
-        jack_clubs = (FrameLayout) this.findViewById(R.id.jack_clubs);
         faceFrames.add(jack_clubs);
-        jack_diamonds = (FrameLayout) this.findViewById(R.id.jack_diamonds);
         faceFrames.add(jack_diamonds);
-        jack_spades = (FrameLayout) this.findViewById(R.id.jack_spades);
         faceFrames.add(jack_spades);
-        jack_hearts = (FrameLayout) this.findViewById(R.id.jack_hearts);
         faceFrames.add(jack_hearts);
-        queen_clubs = (FrameLayout) this.findViewById(R.id.queen_clubs);
         faceFrames.add(queen_clubs);
-        queen_diamonds = (FrameLayout) this.findViewById(R.id.queen_diamonds);
         faceFrames.add(queen_diamonds);
-        queen_spades = (FrameLayout) this.findViewById(R.id.queen_spades);
         faceFrames.add(queen_spades);
-        queen_hearts = (FrameLayout) this.findViewById(R.id.queen_hearts);
         faceFrames.add(queen_hearts);
-        king_clubs = (FrameLayout) this.findViewById(R.id.king_clubs);
         faceFrames.add(king_clubs);
-        king_diamonds = (FrameLayout) this.findViewById(R.id.king_diamonds);
         faceFrames.add(king_diamonds);
-        king_spades = (FrameLayout) this.findViewById(R.id.king_spades);
         faceFrames.add(king_spades);
-        king_hearts = (FrameLayout) this.findViewById(R.id.king_hearts);
         faceFrames.add(king_hearts);
-        ace_clubs = (FrameLayout) this.findViewById(R.id.ace_clubs);
         faceFrames.add(ace_clubs);
-        ace_diamonds = (FrameLayout) this.findViewById(R.id.ace_diamonds);
         faceFrames.add(ace_diamonds);
-        ace_spades = (FrameLayout) this.findViewById(R.id.ace_spades);
         faceFrames.add(ace_spades);
-        ace_hearts = (FrameLayout) this.findViewById(R.id.ace_hearts);
         faceFrames.add(ace_hearts);
-        pile_clubs = (FrameLayout) this.findViewById(R.id.pile_clubs);
-        pile_diamonds = (FrameLayout) this.findViewById(R.id.pile_diamonds);
-        pile_spades = (FrameLayout) this.findViewById(R.id.pile_spades);
-        pile_hearts = (FrameLayout) this.findViewById(R.id.pile_hearts);
 
-        deckDiscardText = (TextView) this.findViewById(R.id.deckDiscardText);
-        deckDiscardText.setVisibility(View.INVISIBLE);
-        redDiscardText = (TextView) this.findViewById(R.id.redDiscardText);
-        redDiscardText.setVisibility(View.INVISIBLE);
-        blackDiscardText = (TextView) this.findViewById(R.id.blackDiscardText);
-        blackDiscardText.setVisibility(View.INVISIBLE);
-
-        scoreText = (TextView) this.findViewById(R.id.scoreText);
-        pileText = (TextView) this.findViewById(R.id.pileText);
-        levelText = (TextView) this.findViewById(R.id.levelText);
-        cardsLeftText = (TextView) this.findViewById(R.id.cardsLeftText);
-
-        remainingCards = new ArrayList<TextView>();
-        clubsText = (TextView) this.findViewById(R.id.clubsText);
+        remainingCards = new ArrayList<>();
         remainingCards.add(clubsText);
-        diamondsText = (TextView) this.findViewById(R.id.diamondsText);
         remainingCards.add(diamondsText);
-        spadesText = (TextView) this.findViewById(R.id.spadesText);
         remainingCards.add(spadesText);
-        heartsText = (TextView) this.findViewById(R.id.heartsText);
         remainingCards.add(heartsText);
 
-        toPlay = (Button) this.findViewById(R.id.toPlayButton);
-        newGame = (Button) this.findViewById(R.id.newGameButton);
-        gameOver = (Button) this.findViewById(R.id.gameOverButton);
+        deckDiscardText.setVisibility(View.INVISIBLE);
         gameOver.setVisibility(View.INVISIBLE);
-
 //        adFragment = this.findViewById(R.id.adFragment);
-
-        topCard = (ImageView) this.findViewById(R.id.topCard);
 
         hasDrawn = false;
         pileClubs = false;
@@ -158,10 +193,10 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
             public void onClick(View v) {
                 if (deck.size() != 0 && !hasDrawn) {
                     hasDrawn = true;
-                    this.remainingCardUpdate();
+                    remainingCardUpdate();
                     ImageView drawnCard = new ImageView(GameActivity.this);
-                    this.imageSetup(drawnCard);
-                    this.drawCheck(drawnCard);
+                    imageSetup(drawnCard);
+                    drawCheck(drawnCard);
                 } else if (deck.size() != 0 && hasDrawn) {
                     ImageView dummy = (ImageView) deckFrame.getChildAt(1);
                     deckFrame.removeView(dummy);
@@ -178,71 +213,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                     gameOver.setVisibility(View.VISIBLE);
                 }
             }
-
-            private void remainingCardUpdate() {
-                int newCount;
-                newCount = Integer.parseInt(remainingCards.get(
-                       deck.peek().getSuit()).getText()
-                       + "") - 1;
-                    remainingCards.get(deck.peek().getSuit()).setText(
-                            newCount + "");
-                newCount = Integer.parseInt(cardsLeftText.getText() + "") - 1;
-                cardsLeftText.setText(newCount + "");
-            }
-
-            private void imageSetup(ImageView drawnCard) {
-                String drawableName = deck.peek().getImageName();
-                int drawableId = getResources().getIdentifier(drawableName,
-                        "drawable", getPackageName());
-                drawnCard.setImageResource(drawableId);
-                drawnCard.setLayoutParams(new FrameLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT));
-            }
-
-            private void drawCheck(ImageView drawnCard) {
-                if (deck.peek().getValue() > 9)
-                    this.addFaceCard(drawnCard);
-                else
-                    this.addNumberCard(drawnCard);
-            }
-
-            private void addFaceCard(ImageView drawnCard) {
-                int frameIndex = (deck.peek().getValue() - 10) * 4
-                        + deck.peek().getSuit();
-                FrameLayout moveToFrame = faceFrames.get(frameIndex);
-                moveToFrame.addView(drawnCard);
-                moveToFrame.setClickable(true);
-                deck.pop();
-                hasDrawn = false;
-            }
-
-            private void addNumberCard(ImageView drawnCard) {
-                if (deck.peek().getSuit() % 2 == 0) {
-                    if (black == null) {
-                        blackFrame.addView(drawnCard);
-                        black = deck.peek();
-                        deck.pop();
-                        hasDrawn = false;
-                    } else {
-                        deckFrame.addView(drawnCard);
-                        blackDiscardText.setVisibility(View.VISIBLE);
-                        deckDiscardText.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    if (red == null) {
-                        redFrame.addView(drawnCard);
-                        red = deck.peek();
-                        deck.pop();
-                        hasDrawn = false;
-                    } else {
-                        deckFrame.addView(drawnCard);
-                        redDiscardText.setVisibility(View.VISIBLE);
-                        deckDiscardText.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-
         });
 
         blackFrame.setOnClickListener(new OnClickListener() {
@@ -1292,6 +1262,70 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
 
         });
 
+    }
+
+    private void remainingCardUpdate() {
+        int newCount;
+        newCount = Integer.parseInt(remainingCards.get(
+                deck.peek().getSuit()).getText()
+                                            + "") - 1;
+        remainingCards.get(deck.peek().getSuit()).setText(
+                newCount + "");
+        newCount = Integer.parseInt(cardsLeftText.getText() + "") - 1;
+        cardsLeftText.setText(newCount + "");
+    }
+
+    private void imageSetup(ImageView drawnCard) {
+        String drawableName = deck.peek().getImageName();
+        int drawableId = getResources().getIdentifier(drawableName,
+                                                      "drawable", getPackageName());
+        drawnCard.setImageResource(drawableId);
+        drawnCard.setLayoutParams(new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+    }
+
+    private void drawCheck(ImageView drawnCard) {
+        if (deck.peek().getValue() > 9)
+            this.addFaceCard(drawnCard);
+        else
+            this.addNumberCard(drawnCard);
+    }
+
+    private void addFaceCard(ImageView drawnCard) {
+        int frameIndex = (deck.peek().getValue() - 10) * 4
+                + deck.peek().getSuit();
+        FrameLayout moveToFrame = faceFrames.get(frameIndex);
+        moveToFrame.addView(drawnCard);
+        moveToFrame.setClickable(true);
+        deck.pop();
+        hasDrawn = false;
+    }
+
+    private void addNumberCard(ImageView drawnCard) {
+        if (deck.peek().getSuit() % 2 == 0) {
+            if (black == null) {
+                blackFrame.addView(drawnCard);
+                black = deck.peek();
+                deck.pop();
+                hasDrawn = false;
+            } else {
+                deckFrame.addView(drawnCard);
+                blackDiscardText.setVisibility(View.VISIBLE);
+                deckDiscardText.setVisibility(View.VISIBLE);
+            }
+        } else {
+            if (red == null) {
+                redFrame.addView(drawnCard);
+                red = deck.peek();
+                deck.pop();
+                hasDrawn = false;
+            } else {
+                deckFrame.addView(drawnCard);
+                redDiscardText.setVisibility(View.VISIBLE);
+                deckDiscardText.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     protected void pileCheck() {
