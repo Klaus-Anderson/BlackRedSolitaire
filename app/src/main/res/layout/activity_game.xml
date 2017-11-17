@@ -32,20 +32,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:baselineAligned="false"
+                android:gravity="center_horizontal"
                 android:layout_weight="1">
 
                 <FrameLayout
                     android:id="@+id/ten_clubs"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginEnd="2dp">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/ten_diamonds"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginStart="2dp">
                 </FrameLayout>
             </LinearLayout>
 
@@ -53,20 +54,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:baselineAligned="false"
+                android:gravity="center_horizontal"
                 android:layout_weight="1">
 
                 <FrameLayout
                     android:id="@+id/ten_spades"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginEnd="2dp">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/ten_hearts"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginStart="2dp">
                 </FrameLayout>
             </LinearLayout>
         </LinearLayout>
@@ -92,20 +94,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:baselineAligned="false"
+                android:gravity="center_horizontal"
                 android:layout_weight="1">
 
                 <FrameLayout
                     android:id="@+id/jack_clubs"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginEnd="2dp">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/jack_diamonds"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginStart="2dp">
                 </FrameLayout>
             </LinearLayout>
 
@@ -113,20 +116,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:baselineAligned="false"
+                android:gravity="center_horizontal"
                 android:layout_weight="1">
 
                 <FrameLayout
                     android:id="@+id/jack_spades"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginEnd="2dp">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/jack_hearts"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginStart="2dp">
                 </FrameLayout>
             </LinearLayout>
         </LinearLayout>
@@ -152,20 +156,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:baselineAligned="false"
+                android:gravity="center_horizontal"
                 android:layout_weight="1">
 
                 <FrameLayout
                     android:id="@+id/queen_clubs"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginEnd="2dp">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/queen_diamonds"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginStart="2dp">
                 </FrameLayout>
             </LinearLayout>
 
@@ -173,20 +178,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:baselineAligned="false"
+                android:gravity="center_horizontal"
                 android:layout_weight="1">
 
                 <FrameLayout
                     android:id="@+id/queen_spades"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginEnd="2dp">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/queen_hearts"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginStart="2dp">
                 </FrameLayout>
             </LinearLayout>
         </LinearLayout>
@@ -212,20 +218,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:baselineAligned="false"
+                android:gravity="center_horizontal"
                 android:layout_weight="1">
 
                 <FrameLayout
                     android:id="@+id/king_clubs"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginEnd="2dp">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/king_diamonds"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginStart="2dp">
                 </FrameLayout>
             </LinearLayout>
 
@@ -233,20 +240,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:baselineAligned="false"
+                android:gravity="center_horizontal"
                 android:layout_weight="1">
 
                 <FrameLayout
                     android:id="@+id/king_spades"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginEnd="2dp">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/king_hearts"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginStart="2dp">
                 </FrameLayout>
             </LinearLayout>
         </LinearLayout>
@@ -272,20 +280,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:baselineAligned="false"
+                android:gravity="center_horizontal"
                 android:layout_weight="1">
 
                 <FrameLayout
                     android:id="@+id/ace_clubs"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginEnd="2dp">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/ace_diamonds"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginStart="2dp">
                 </FrameLayout>
             </LinearLayout>
 
@@ -293,20 +302,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:baselineAligned="false"
+                android:gravity="center_horizontal"
                 android:layout_weight="1">
 
                 <FrameLayout
                     android:id="@+id/ace_spades"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginEnd="2dp">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/ace_hearts"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginStart="2dp">
                 </FrameLayout>
             </LinearLayout>
         </LinearLayout>
@@ -332,20 +342,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:baselineAligned="false"
+                android:gravity="center_horizontal"
                 android:layout_weight="1">
 
                 <FrameLayout
                     android:id="@+id/pile_clubs"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginEnd="2dp">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/pile_diamonds"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginStart="2dp">
                 </FrameLayout>
             </LinearLayout>
 
@@ -353,20 +364,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:baselineAligned="false"
+                android:gravity="center_horizontal"
                 android:layout_weight="1">
 
                 <FrameLayout
                     android:id="@+id/pile_spades"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginEnd="2dp">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/pile_hearts"
-                    android:layout_width="match_parent"
+                    android:layout_width="45dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_marginStart="2dp">
                 </FrameLayout>
             </LinearLayout>
         </LinearLayout>
@@ -398,7 +410,7 @@
 
             <FrameLayout
                 android:id="@+id/discardFrame"
-                android:layout_width="match_parent"
+                android:layout_width="45dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="3">
@@ -500,7 +512,7 @@
 
             <FrameLayout
                 android:id="@+id/blackFrame"
-                android:layout_width="match_parent"
+                android:layout_width="45dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1">
@@ -538,7 +550,7 @@
 
             <FrameLayout
                 android:id="@+id/redFrame"
-                android:layout_width="match_parent"
+                android:layout_width="45dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1">
@@ -576,11 +588,10 @@
 
             <FrameLayout
                 android:id="@+id/deckFrame"
-                android:layout_width="match_parent"
+                android:layout_width="45dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_weight="5"
-
+                android:layout_weight="1"
                 >
 
                 <ImageView
@@ -590,28 +601,35 @@
                     android:src="@drawable/card_back"
                     android:contentDescription="@string/top_card_access"/>
             </FrameLayout>
-
-            <TextView
-                android:id="@+id/deckDiscardText"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:layout_gravity="center"
-                android:text="@string/press_to_discard"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="13sp"
-                android:visibility="invisible"
-                android:layout_weight="7"/>
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/deckDiscardText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"
+                    android:text="@string/press_to_discard"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="13sp"
+                    android:visibility="invisible"
+                    />
 
-            <TextView
-                android:id="@+id/cardsLeftText"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:text="@string/_52"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="15sp"
-                android:layout_weight="7"/>
+                <TextView
+                    android:id="@+id/cardsLeftText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/_52"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="15sp"/>
+            </RelativeLayout>
+
         </LinearLayout>
 
         <LinearLayout
