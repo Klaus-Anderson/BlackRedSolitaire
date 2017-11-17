@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
 import butterknife.BindView;
@@ -139,8 +140,9 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
 
     private static Stack<Card> deck;
     private Card black, red;
-    private ArrayList<FrameLayout> faceFrames;
-    private ArrayList<TextView> remainingCards;
+    private List<FrameLayout> colorFrames, pileFrames, tenFrames, faceFrames;
+    private List<TextView> remainingCards;
+    private List<Card> colorCards;
     private Boolean hasDrawn, pileClubs, pileSpades, pileHearts, pileDiamonds;
     private int level, pileTotal, scoreTotal;
     private ToPlayFragment toPlayFragment;
@@ -153,18 +155,32 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         setContentView(R.layout.activity_game);
         ButterKnife.bind(this);
 
-        deck = new Stack<Card>();
+        deck = new Stack<>();
         topCard = new ImageView(this);
-        red = null;
-        black = null;
+
+        colorCards = new ArrayList<>();
+        colorCards.add(Card.COLOR_BLACK, black = null);
+        colorCards.add(Card.COLOR_RED, red = null);
 
         toPlayFragment = new ToPlayFragment();
 
-        faceFrames = new ArrayList<FrameLayout>();
-        faceFrames.add(ten_clubs);
-        faceFrames.add(ten_diamonds);
-        faceFrames.add(ten_spades);
-        faceFrames.add(ten_hearts);
+        colorFrames = new ArrayList<>();
+        colorFrames.add(Card.COLOR_BLACK, blackFrame);
+        colorFrames.add(Card.COLOR_RED, redFrame);
+
+        pileFrames = new ArrayList<>();
+        pileFrames.add(Card.CLUB_SUIT, pile_clubs);
+        pileFrames.add(Card.DIAMOND_SUIT, pile_diamonds);
+        pileFrames.add(Card.SPADE_SUIT, pile_spades);
+        pileFrames.add(Card.HEART_SUIT, pile_hearts);
+
+        tenFrames = new ArrayList<>();
+        tenFrames.add(Card.CLUB_SUIT, ten_clubs);
+        tenFrames.add(Card.DIAMOND_SUIT, ten_diamonds);
+        tenFrames.add(Card.SPADE_SUIT, ten_spades);
+        tenFrames.add(Card.HEART_SUIT, ten_hearts);
+
+        faceFrames = new ArrayList<>();
         faceFrames.add(jack_clubs);
         faceFrames.add(jack_diamonds);
         faceFrames.add(jack_spades);
@@ -209,233 +225,68 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         }
         Collections.shuffle(deck);
 
-        blackFrame.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (hasDrawn && deck.peek().isBlack()) {
-                    colorFrameDiscardClick(blackFrame);
+        for(int i = 0; i<colorFrames.size(); i++){
+            int finalI = i;
+            colorFrames.get(i).setOnClickListener(v -> {
+                // colorFrames.get(0) = blackFrame
+                // colorFrames.get(1) = redFrame
+                if(hasDrawn){
+                    FrameLayout frame = (FrameLayout) v;
+                    if(finalI == Card.COLOR_BLACK && deck.peek().isBlack()){
+                        colorFrameDiscardClick(frame);
+                    } else if(finalI ==1 && deck.peek().isRed()){
+                        colorFrameDiscardClick(frame);
+                    }
                 }
                 emptyDeckCheck();
-            }
+            });
+        }
 
-        });
+        for(int i = 0; i<tenFrames.size(); i++){
+            int suit = i;
+            tenFrames.get(i).setOnClickListener(v -> {
+                if(!hasDrawn) {
+                    FrameLayout frame = (FrameLayout) v;
+                    FrameLayout pileFrame = pileFrames.get(suit);
+                    Card sameColorCard = colorCards.get(suit % 2);
+                    Card otherColorCard = colorCards.get((suit+1) % 2);
 
-        redFrame.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (hasDrawn && deck.peek().isRed()) {
-                    colorFrameDiscardClick(blackFrame);
+                    if (sameColorCard != null && sameColorCard.getSuit() == suit
+                            && otherColorCard != null && !frameCardSet(pileFrame)) {
+                        ImageView dummy = (ImageView) frame.getChildAt(0);
+                        frame.removeView(dummy);
+                        pileFrame.addView(dummy);
+
+                        blackFrame.removeAllViews();
+                        redFrame.removeAllViews();
+                        pileTotal = pileTotal + black.getValue() + red.getValue();
+                        pileText.setText(pileTotal + "");
+                        black = null;
+                        red = null;
+
+                        frame.setClickable(false);
+                        frame.setBackground(getResources().getDrawable(R.drawable.shape2));
+
+                        pileCheck();
+                        setUsedFaceCard(frame, suit);
+                    } else if (frameCardSet(pileFrame)) {
+                        FrameLayout colorFrame = colorFrames.get(suit % 2);
+                        ImageView dummy = (ImageView) colorFrame.getChildAt(0);
+                        if (dummy != null) {
+                            colorFrame.removeView(dummy);
+                            discardFrame.addView(dummy);
+                        }
+                        dummy = (ImageView) frame.getChildAt(0);
+                        frame.removeView(dummy);
+                        colorFrame.addView(dummy);
+                        sameColorCard = new Card(Card.TEN_VALUE, suit);
+                        frame.setClickable(false);
+                        frame.setBackground( getResources().getDrawable(R.drawable.shape2));
+                        setUsedFaceCard(frame, suit);
+                    }
                 }
-                emptyDeckCheck();
-            }
-        });
-
-        ten_clubs.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (black != null && black.getSuit() == 0 && red != null
-                        && !pileClubs && !hasDrawn) {
-                    ImageView dummy = (ImageView) ten_clubs.getChildAt(0);
-                    ten_clubs.removeView(dummy);
-                    pile_clubs.addView(dummy);
-                    blackFrame.removeAllViews();
-                    redFrame.removeAllViews();
-                    pileTotal = pileTotal + black.getValue() + red.getValue();
-                    pileText.setText(pileTotal + "");
-                    black = null;
-                    red = null;
-                    ten_clubs.setClickable(false);
-                    pileClubs = true;
-                    int sdk = android.os.Build.VERSION.SDK_INT;
-                    if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                        ten_clubs.setBackgroundDrawable( getResources().getDrawable(R.drawable.shape2) );
-                    } else {
-                        ten_clubs.setBackground( getResources().getDrawable(R.drawable.shape2));
-                    }
-                    ImageView suit = new ImageView(getApplicationContext());
-                    suit.setImageResource(R.drawable.club);
-                    ten_clubs.addView(suit);
-                    pileCheck();
-                } else if (!hasDrawn && ten_clubs.getChildAt(0) != null) {
-                    ImageView dummy = (ImageView) blackFrame.getChildAt(0);
-                    if (dummy != null) {
-                        blackFrame.removeView(dummy);
-                        discardFrame.addView(dummy);
-                    }
-                    dummy = (ImageView) ten_clubs.getChildAt(0);
-                    ten_clubs.removeView(dummy);
-                    blackFrame.addView(dummy);
-                    black = new Card(10, 0);
-                    ten_clubs.setClickable(false);
-                    int sdk = android.os.Build.VERSION.SDK_INT;
-                    if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                        ten_clubs.setBackgroundDrawable( getResources().getDrawable(R.drawable.shape2) );
-                    } else {
-                        ten_clubs.setBackground( getResources().getDrawable(R.drawable.shape2));
-                    }
-                    ImageView suit = new ImageView(getApplicationContext());
-                    suit.setImageResource(R.drawable.club);
-                    ten_clubs.addView(suit);
-                }
-            }
-
-        });
-
-        ten_diamonds.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (red != null && red.getSuit() == 1 && black != null
-                        && !pileDiamonds && !hasDrawn) {
-                    ImageView dummy = (ImageView) ten_diamonds.getChildAt(0);
-                    ten_diamonds.removeView(dummy);
-                    pile_diamonds.addView(dummy);
-                    blackFrame.removeAllViews();
-                    redFrame.removeAllViews();
-                    pileTotal = pileTotal + red.getValue() + red.getValue();
-                    pileText.setText(pileTotal + "");
-                    red = null;
-                    black = null;
-                    ten_diamonds.setClickable(false);
-                    pileDiamonds = true;
-                    int sdk = android.os.Build.VERSION.SDK_INT;
-                    if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                        ten_diamonds.setBackgroundDrawable( getResources().getDrawable(R.drawable.shape2) );
-                    } else {
-                        ten_diamonds.setBackground( getResources().getDrawable(R.drawable.shape2));
-                    }
-                    ImageView suit = new ImageView(getApplicationContext());
-                    suit.setImageResource(R.drawable.diamond);
-                    ten_diamonds.addView(suit);
-                    pileCheck();
-                } else if (!hasDrawn && ten_diamonds.getChildAt(0) != null) {
-                    ImageView dummy = (ImageView) redFrame.getChildAt(0);
-                    if (dummy != null) {
-                        redFrame.removeView(dummy);
-                        discardFrame.addView(dummy);
-                    }
-                    dummy = (ImageView) ten_diamonds.getChildAt(0);
-                    ten_diamonds.removeView(dummy);
-                    redFrame.addView(dummy);
-                    red = new Card(10, 1);
-                    ten_diamonds.setClickable(false);
-                    int sdk = android.os.Build.VERSION.SDK_INT;
-                    if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                        ten_diamonds.setBackgroundDrawable( getResources().getDrawable(R.drawable.shape2) );
-                    } else {
-                        ten_diamonds.setBackground( getResources().getDrawable(R.drawable.shape2));
-                    }
-                    ImageView suit = new ImageView(getApplicationContext());
-                    suit.setImageResource(R.drawable.diamond);
-                    ten_diamonds.addView(suit);
-                }
-            }
-
-        });
-
-        ten_spades.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (black != null && black.getSuit() == 2 && red != null
-                        && !pileSpades && !hasDrawn) {
-                    ImageView dummy = (ImageView) ten_spades.getChildAt(0);
-                    ten_spades.removeView(dummy);
-                    pile_spades.addView(dummy);
-                    blackFrame.removeAllViews();
-                    redFrame.removeAllViews();
-                    pileTotal = pileTotal + black.getValue() + red.getValue();
-                    pileText.setText(pileTotal + "");
-                    black = null;
-                    red = null;
-                    ten_spades.setClickable(false);
-                    int sdk = android.os.Build.VERSION.SDK_INT;
-                    if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                        ten_spades.setBackgroundDrawable( getResources().getDrawable(R.drawable.shape2) );
-                    } else {
-                        ten_spades.setBackground( getResources().getDrawable(R.drawable.shape2));
-                    }
-                    ImageView suit = new ImageView(getApplicationContext());
-                    suit.setImageResource(R.drawable.spades);
-                    ten_spades.addView(suit);
-                    pileSpades = true;
-                    pileCheck();
-                } else if (!hasDrawn && ten_spades.getChildAt(0) != null) {
-                    ImageView dummy = (ImageView) blackFrame.getChildAt(0);
-                    if (dummy != null) {
-                        blackFrame.removeView(dummy);
-                        discardFrame.addView(dummy);
-                    }
-                    dummy = (ImageView) ten_spades.getChildAt(0);
-                    ten_spades.removeView(dummy);
-                    blackFrame.addView(dummy);
-                    black = new Card(10, 2);
-                    ten_spades.setClickable(false);
-                    int sdk = android.os.Build.VERSION.SDK_INT;
-                    if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                        ten_spades.setBackgroundDrawable( getResources().getDrawable(R.drawable.shape2) );
-                    } else {
-                        ten_spades.setBackground( getResources().getDrawable(R.drawable.shape2));
-                    }
-                    ImageView suit = new ImageView(getApplicationContext());
-                    suit.setImageResource(R.drawable.spades);
-                    ten_spades.addView(suit);
-                }
-            }
-
-        });
-
-        ten_hearts.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (red != null && red.getSuit() == 3 && black != null
-                        && !pileHearts && !hasDrawn) {
-                    ImageView dummy = (ImageView) ten_hearts.getChildAt(0);
-                    ten_hearts.removeView(dummy);
-                    pile_hearts.addView(dummy);
-                    redFrame.removeAllViews();
-                    blackFrame.removeAllViews();
-                    pileTotal = pileTotal + red.getValue() + red.getValue();
-                    pileText.setText(pileTotal + "");
-                    red = null;
-                    black = null;
-                    ten_hearts.setClickable(false);
-                    int sdk = android.os.Build.VERSION.SDK_INT;
-                    if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                        ten_hearts.setBackgroundDrawable( getResources().getDrawable(R.drawable.shape2) );
-                    } else {
-                        ten_hearts.setBackground( getResources().getDrawable(R.drawable.shape2));
-                    }
-                    ImageView suit = new ImageView(getApplicationContext());
-                    suit.setImageResource(R.drawable.heart);
-                    ten_hearts.addView(suit);
-                    pileHearts = true;
-                    pileCheck();
-                } else if (!hasDrawn && ten_hearts.getChildAt(0) != null) {
-                    ImageView dummy = (ImageView) redFrame.getChildAt(0);
-                    if (dummy != null) {
-                        redFrame.removeView(dummy);
-                        discardFrame.addView(dummy);
-                    }
-                    dummy = (ImageView) ten_hearts.getChildAt(0);
-                    ten_hearts.removeView(dummy);
-                    redFrame.addView(dummy);
-                    red = new Card(10, 3);
-                    int sdk = android.os.Build.VERSION.SDK_INT;
-                    if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                        ten_hearts.setBackgroundDrawable( getResources().getDrawable(R.drawable.shape2) );
-                    } else {
-                        ten_hearts.setBackground( getResources().getDrawable(R.drawable.shape2));
-                    }
-                    ImageView suit = new ImageView(getApplicationContext());
-                    suit.setImageResource(R.drawable.heart);
-                    ten_hearts.addView(suit);
-                    ten_hearts.setClickable(false);
-                }
-            }
-
-        });
+            });
+        }
 
         jack_clubs.setOnClickListener(new OnClickListener() {
 
@@ -1207,8 +1058,8 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
             public void onClick(View v) {
                 adFragment.setVisibility(View.GONE);
                 getFragmentManager().beginTransaction()
-                        .add(R.id.container, toPlayFragment)
-                        .addToBackStack("aFrag").commit();
+                                    .add(R.id.container, toPlayFragment)
+                                    .addToBackStack("aFrag").commit();
 
             }
 
@@ -1225,6 +1076,10 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
 
         });
 
+    }
+
+    private boolean frameCardSet(FrameLayout frame) {
+        return frame.getChildAt(0) != null;
     }
 
     private void colorFrameDiscardClick(FrameLayout colorFrame) {
@@ -1251,6 +1106,19 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
             deckFrame.setClickable(false);
             gameOver.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void setUsedFaceCard(FrameLayout frame, int suit) {
+        ImageView suitImage = new ImageView(getApplicationContext());
+        if(suit == Card.CLUB_SUIT)
+            suitImage.setImageResource(R.drawable.club);
+        else if (suit == Card.DIAMOND_SUIT)
+            suitImage.setImageResource(R.drawable.diamond);
+        else if (suit == Card.SPADE_SUIT)
+            suitImage.setImageResource(R.drawable.spades);
+        else
+            suitImage.setImageResource(R.drawable.heart);
+        frame.addView(suitImage);
     }
 
     private void remainingCardUpdate() {

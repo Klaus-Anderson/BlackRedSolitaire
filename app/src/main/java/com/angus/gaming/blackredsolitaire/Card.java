@@ -4,24 +4,27 @@ import java.util.HashMap;
 
 public class Card {
 
-    private final int CLUB_SUIT = 0;
-    private final int DIAMOND_SUIT = 1;
-    private final int SPADE_SUIT = 2;
-    private final int HEART_SUIT = 3;
+    public static final int COLOR_BLACK = 0;
+    public static final int COLOR_RED = 1;
 
-    private final int TWO_VALUE=2;
-    private final int THREE_VALUE=3;
-    private final int FOUR_VALUE=4;
-    private final int FIVE_VALUE=5;
-    private final int SIX_VALUE=6;
-    private final int SEVEN_VALUE=7;
-    private final int EIGHT_VALUE=8;
-    private final int NINE_VALUE=9;
-    private final int TEN_VALUE=10;
-    private final int JACK_VALUE=11;
-    private final int QUEEN_VALUE=12;
-    private final int KING_VALUE=13;
-    private final int ACE_VALUE=14;
+    public static final int CLUB_SUIT = 0;
+    public static final int DIAMOND_SUIT = 1;
+    public static final int SPADE_SUIT = 2;
+    public static final int HEART_SUIT = 3;
+
+    public static final int TWO_VALUE=2;
+    public static final int THREE_VALUE=3;
+    public static final int FOUR_VALUE=4;
+    public static final int FIVE_VALUE=5;
+    public static final int SIX_VALUE=6;
+    public static final int SEVEN_VALUE=7;
+    public static final int EIGHT_VALUE=8;
+    public static final int NINE_VALUE=9;
+    public static final int TEN_VALUE=10;
+    public static final int JACK_VALUE=11;
+    public static final int QUEEN_VALUE=12;
+    public static final int KING_VALUE=13;
+    public static final int ACE_VALUE=14;
 
 
     private int value, suit;
