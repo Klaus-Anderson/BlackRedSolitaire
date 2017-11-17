@@ -210,21 +210,10 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         Collections.shuffle(deck);
 
         blackFrame.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 if (hasDrawn && deck.peek().isBlack()) {
-                    ImageView dummy = (ImageView) blackFrame.getChildAt(0);
-                    blackFrame.removeView(dummy);
-                    discardFrame.addView(dummy);
-                    dummy = (ImageView) deckFrame.getChildAt(1);
-                    deckFrame.removeView(dummy);
-                    blackFrame.addView(dummy);
-                    redDiscardText.setVisibility(View.INVISIBLE);
-                    blackDiscardText.setVisibility(View.INVISIBLE);
-                    deckDiscardText.setVisibility(View.INVISIBLE);
-                    black = deck.pop();
-                    hasDrawn = false;
+                    colorFrameDiscardClick(blackFrame);
                 }
                 emptyDeckCheck();
             }
@@ -235,17 +224,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
             @Override
             public void onClick(View v) {
                 if (hasDrawn && deck.peek().isRed()) {
-                    ImageView dummy = (ImageView) redFrame.getChildAt(0);
-                    redFrame.removeView(dummy);
-                    discardFrame.addView(dummy);
-                    dummy = (ImageView) deckFrame.getChildAt(1);
-                    deckFrame.removeView(dummy);
-                    redFrame.addView(dummy);
-                    redDiscardText.setVisibility(View.INVISIBLE);
-                    redDiscardText.setVisibility(View.INVISIBLE);
-                    deckDiscardText.setVisibility(View.INVISIBLE);
-                    red = deck.pop();
-                    hasDrawn = false;
+                    colorFrameDiscardClick(blackFrame);
                 }
                 emptyDeckCheck();
             }
@@ -1246,6 +1225,24 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
 
         });
 
+    }
+
+    private void colorFrameDiscardClick(FrameLayout colorFrame) {
+        ImageView dummy = (ImageView) colorFrame.getChildAt(0);
+        colorFrame.removeView(dummy);
+        discardFrame.addView(dummy);
+        dummy = (ImageView) deckFrame.getChildAt(1);
+        deckFrame.removeView(dummy);
+        colorFrame.addView(dummy);
+        redDiscardText.setVisibility(View.INVISIBLE);
+        blackDiscardText.setVisibility(View.INVISIBLE);
+        deckDiscardText.setVisibility(View.INVISIBLE);
+        if(deck.peek().isBlack()) {
+            black = deck.pop();
+        } else {
+            red = deck.pop();
+        }
+        hasDrawn = false;
     }
 
     private void emptyDeckCheck() {
