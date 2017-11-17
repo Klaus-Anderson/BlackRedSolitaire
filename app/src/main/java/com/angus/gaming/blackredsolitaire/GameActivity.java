@@ -18,10 +18,34 @@ import java.util.Stack;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class GameActivity extends Activity implements ToPlayFragment.OnValuesSetListener {
     @BindView(R.id.deckFrame)
     FrameLayout deckFrame;
+    @OnClick(R.id.deckFrame)
+    void onClick(View v){
+        if (deck.size() != 0 && !hasDrawn) {
+            hasDrawn = true;
+            remainingCardUpdate();
+            ImageView drawnCard = new ImageView(GameActivity.this);
+            imageSetup(drawnCard);
+            drawCheck(drawnCard);
+        } else if (deck.size() != 0 && hasDrawn) {
+            ImageView dummy = (ImageView) deckFrame.getChildAt(1);
+            deckFrame.removeView(dummy);
+            discardFrame.addView(dummy);
+            redDiscardText.setVisibility(View.INVISIBLE);
+            blackDiscardText.setVisibility(View.INVISIBLE);
+            deckDiscardText.setVisibility(View.INVISIBLE);
+            deck.pop();
+            hasDrawn = false;
+        } else if (deck.size() == 0) {
+            topCard.setVisibility(View.INVISIBLE);
+            deckFrame.setClickable(false);
+            gameOver.setVisibility(View.VISIBLE);
+        }
+    }
 
     @BindView(R.id.redFrame)
     FrameLayout redFrame;
@@ -186,34 +210,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
             }
         }
         Collections.shuffle(deck);
-
-        deckFrame.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (deck.size() != 0 && !hasDrawn) {
-                    hasDrawn = true;
-                    remainingCardUpdate();
-                    ImageView drawnCard = new ImageView(GameActivity.this);
-                    imageSetup(drawnCard);
-                    drawCheck(drawnCard);
-                } else if (deck.size() != 0 && hasDrawn) {
-                    ImageView dummy = (ImageView) deckFrame.getChildAt(1);
-                    deckFrame.removeView(dummy);
-                    discardFrame.addView(dummy);
-                    redDiscardText.setVisibility(View.INVISIBLE);
-                    blackDiscardText.setVisibility(View.INVISIBLE);
-                    deckDiscardText.setVisibility(View.INVISIBLE);
-                    deck.pop();
-                    hasDrawn = false;
-                }
-                if (deck.size() == 0) {
-                    topCard.setVisibility(View.INVISIBLE);
-                    deckFrame.setClickable(false);
-                    gameOver.setVisibility(View.VISIBLE);
-                }
-            }
-        });
 
         blackFrame.setOnClickListener(new OnClickListener() {
 
