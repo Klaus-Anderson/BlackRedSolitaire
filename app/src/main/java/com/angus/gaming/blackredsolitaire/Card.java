@@ -4,6 +4,26 @@ import java.util.HashMap;
 
 public class Card {
 
+    private final int CLUB_SUIT = 0;
+    private final int DIAMOND_SUIT = 1;
+    private final int SPADE_SUIT = 2;
+    private final int HEART_SUIT = 3;
+
+    private final int TWO_VALUE=2;
+    private final int THREE_VALUE=3;
+    private final int FOUR_VALUE=4;
+    private final int FIVE_VALUE=5;
+    private final int SIX_VALUE=6;
+    private final int SEVEN_VALUE=7;
+    private final int EIGHT_VALUE=8;
+    private final int NINE_VALUE=9;
+    private final int TEN_VALUE=10;
+    private final int JACK_VALUE=11;
+    private final int QUEEN_VALUE=12;
+    private final int KING_VALUE=13;
+    private final int ACE_VALUE=14;
+
+
     private int value, suit;
     private HashMap<Integer, String> valueMap = new HashMap<Integer, String>();
     private HashMap<Integer, String> suitMap = new HashMap<Integer, String>();
@@ -15,25 +35,24 @@ public class Card {
     }
 
     private void createHashMaps() {
-        suitMap.put(0, "clubs");
-        suitMap.put(1, "diamonds");
-        suitMap.put(2, "spades");
-        suitMap.put(3, "hearts");
+        suitMap.put(CLUB_SUIT, "clubs");
+        suitMap.put(DIAMOND_SUIT, "diamonds");
+        suitMap.put(SPADE_SUIT, "spades");
+        suitMap.put(HEART_SUIT, "hearts");
 
-        
-        valueMap.put(2, "two");
-        valueMap.put(3, "three");
-        valueMap.put(4, "four");
-        valueMap.put(5, "five");
-        valueMap.put(6, "six");
-        valueMap.put(7, "seven");
-        valueMap.put(8, "eight");
-        valueMap.put(9, "nine");
-        valueMap.put(10, "ten");
-        valueMap.put(11, "jack");
-        valueMap.put(12, "queen");
-        valueMap.put(13, "king");
-        valueMap.put(14, "ace");
+        valueMap.put(TWO_VALUE, "two");
+        valueMap.put(THREE_VALUE, "three");
+        valueMap.put(FOUR_VALUE, "four");
+        valueMap.put(FIVE_VALUE, "five");
+        valueMap.put(SIX_VALUE, "six");
+        valueMap.put(SEVEN_VALUE, "seven");
+        valueMap.put(EIGHT_VALUE, "eight");
+        valueMap.put(NINE_VALUE, "nine");
+        valueMap.put(TEN_VALUE, "ten");
+        valueMap.put(JACK_VALUE, "jack");
+        valueMap.put(QUEEN_VALUE, "queen");
+        valueMap.put(KING_VALUE, "king");
+        valueMap.put(ACE_VALUE, "ace");
     }
 
     public int getValue() {
@@ -53,5 +72,29 @@ public class Card {
     public String toString() {
         String output = valueMap.get(value) + " of " + suitMap.get(suit);
         return output;
+    }
+
+    public boolean isClub() {
+        return suit == CLUB_SUIT;
+    }
+
+    public boolean isDiamond() {
+        return suit == DIAMOND_SUIT;
+    }
+
+    public boolean isSpade() {
+        return suit == SPADE_SUIT;
+    }
+
+    public boolean isHeart() {
+        return suit == HEART_SUIT;
+    }
+
+    public boolean isBlack() {
+        return isClub() || isSpade();
+    }
+
+    public boolean isRed() {
+        return isDiamond() || isHeart();
     }
 }

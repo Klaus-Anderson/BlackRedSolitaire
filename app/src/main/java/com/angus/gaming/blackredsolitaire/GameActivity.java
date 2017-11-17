@@ -215,7 +215,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
 
             @Override
             public void onClick(View v) {
-                if (hasDrawn && deck.peek().getSuit() % 2 == 0) {
+                if (hasDrawn && deck.peek().isBlack()) {
                     ImageView dummy = (ImageView) blackFrame.getChildAt(0);
                     blackFrame.removeView(dummy);
                     discardFrame.addView(dummy);
@@ -241,7 +241,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
 
             @Override
             public void onClick(View v) {
-                if (hasDrawn && deck.peek().getSuit() % 2 == 1) {
+                if (hasDrawn && deck.peek().isRed()) {
                     ImageView dummy = (ImageView) redFrame.getChildAt(0);
                     redFrame.removeView(dummy);
                     discardFrame.addView(dummy);
@@ -1299,7 +1299,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
     }
 
     private void addNumberCard(ImageView drawnCard) {
-        if (deck.peek().getSuit() % 2 == 0) {
+        if (deck.peek().isBlack()) {
             if (black == null) {
                 blackFrame.addView(drawnCard);
                 black = deck.peek();
