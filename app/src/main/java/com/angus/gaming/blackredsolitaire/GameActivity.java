@@ -6,7 +6,6 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,7 +53,9 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                         + deck.peek().getSuit();
                 FrameLayout moveToFrame = faceFrames.get(frameIndex);
                 moveToFrame.addView(drawnCard);
-                moveToFrame.setClickable(true);
+                if((deck.peek().getValue() - 10) * 4 != brokenLevel) {
+                    moveToFrame.setClickable(true);
+                }
                 deck.pop();
                 hasDrawn = false;
             }
@@ -93,6 +94,19 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         } else {
             emptyDeckCheck();
         }
+    }
+
+    @OnClick(R.id.breakButton)
+    void onBreakClick(View view){
+        view.setClickable(false);
+        for(int i = 0; i < 4; i++) {
+            int index = ( level * 4 ) + i;
+            FrameLayout frame = faceFrames.get(( level * 4 ) + i);
+            frame.setClickable(false);
+            faceFrames.set(index,frame);
+        }
+        brokenLevel = level;
+        increaseLevel();
     }
 
     @BindView(R.id.redFrame)
@@ -179,21 +193,12 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
 
     @OnClick(R.id.toPlayButton)
     void onToPlayClick(){
-        adFragment.setVisibility(View.GONE);
         getFragmentManager().beginTransaction()
                             .add(R.id.container, toPlayFragment)
                             .addToBackStack("aFrag").commit();
     }
     @OnClick(R.id.newGameButton)
     void onNewGameClick(){
-        Intent i = new Intent(GameActivity.this, GameActivity.class);
-        startActivity(i);
-        finish();
-    }
-    @BindView(R.id.gameOverButton)
-    Button gameOver;
-    @OnClick(R.id.gameOverButton)
-    void onGameOverClick(){
         Intent i = new Intent(GameActivity.this, GameActivity.class);
         startActivity(i);
         finish();
@@ -206,9 +211,8 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
     private List<TextView> remainingCards;
     private List<Card> colorCards;
     private Boolean hasDrawn;
-    private int level, pileTotal, scoreTotal;
+    private int level, pileTotal, scoreTotal, brokenLevel = -1;
     private ToPlayFragment toPlayFragment;
-    private View adFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -264,8 +268,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         remainingCards.add(heartsText);
 
         deckDiscardText.setVisibility(View.INVISIBLE);
-        gameOver.setVisibility(View.INVISIBLE);
-//        adFragment = this.findViewById(R.id.adFragment);
 
         hasDrawn = false;
 
@@ -328,6 +330,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                         faceFrame.setClickable(false);
                         faceFrame.setBackground(getResources().getDrawable(R.drawable.shape2));
 
+                        // pile check
                         if (isFrameCardSet(pile_clubs) && isFrameCardSet(pile_diamonds) &&
                                 isFrameCardSet(pile_spades) && isFrameCardSet(pile_hearts)) {
                             scoreTotal = scoreTotal + pileTotal;
@@ -338,19 +341,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                             pile_spades.removeAllViews();
                             pile_hearts.removeAllViews();
                             pile_diamonds.removeAllViews();
-                            level++;
-                            if (level == 2) {
-                                levelText.setText(R.string.queen);
-                            }
-                            if (level == 3) {
-                                levelText.setText(R.string.king);
-                            }
-                            if (level == 4) {
-                                levelText.setText(R.string.ace);
-                            }
-                            if (level == 5) {
-                                levelText.setText(R.string.god_Tier);
-                            }
+                            increaseLevel();
                         }
                         setUsedFaceCard(faceFrame, index);
                     }
@@ -372,6 +363,22 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                     }
                 }
             });
+        }
+    }
+
+    private void increaseLevel() {
+        level++;
+        if (level == 2) {
+            levelText.setText(R.string.queen);
+        }
+        if (level == 3) {
+            levelText.setText(R.string.king);
+        }
+        if (level == 4) {
+            levelText.setText(R.string.ace);
+        }
+        if (level == 5) {
+            levelText.setText(R.string.god_Tier);
         }
     }
 
@@ -401,7 +408,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         if (deck.size() == 0) {
             topCard.setVisibility(View.INVISIBLE);
             deckFrame.setClickable(false);
-            gameOver.setVisibility(View.VISIBLE);
         }
     }
 
@@ -418,94 +424,13 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         frame.addView(suitImage);
     }
 
-    private void addFaceCard(ImageView drawnCard) {
-        int frameIndex = (deck.peek().getValue() - 10) * 4
-                + deck.peek().getSuit();
-        FrameLayout moveToFrame = faceFrames.get(frameIndex);
-        moveToFrame.addView(drawnCard);
-        moveToFrame.setClickable(true);
-        deck.pop();
-        hasDrawn = false;
-    }
-
     @Override
-    public void onValuesSet() {
-
-    }
+    public void onValuesSet() {}
 
     @Override
     public void finishFragment() {
-        getFragmentManager().beginTransaction().remove(toPlayFragment).commit();
-
-    }
+        getFragmentManager().beginTransaction().remove(toPlayFragment).commit();}
 
     @Override
-    public void fragmentManager() {
-        adFragment.setVisibility(View.VISIBLE);
-
-    }
-
-//    /**
-//     * This class makes the ad request and loads the ad.
-//     */
-//    public static class AdFragment extends Fragment {
-//
-//        private AdView mAdView;
-//
-//        public AdFragment() {
-//        }
-//
-//        @Override
-//        public void onActivityCreated(Bundle bundle) {
-//            super.onActivityCreated(bundle);
-//
-//            // Gets the ad view defined in layout/ad_fragment.xml with ad unit ID set in
-//            // values/strings.xml.
-//            mAdView = (AdView) getView().findViewById(R.id.adView);
-//
-//            // Create an ad request. Check logcat output for the hashed device ID to
-//            // get test ads on a physical device. e.g.
-//            // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
-//            AdRequest adRequest = new AdRequest.Builder()
-//                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-//                    .build();
-//
-//            // Start loading the ad in the background.
-//            mAdView.loadAd(adRequest);
-//        }
-//
-//        @Override
-//        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                                 Bundle savedInstanceState) {
-//            return inflater.inflate(R.layout.fragment_ad, container, false);
-//        }
-//
-//        /** Called when leaving the activity */
-//        @Override
-//        public void onPause() {
-//            if (mAdView != null) {
-//                mAdView.pause();
-//            }
-//            super.onPause();
-//        }
-//
-//        /** Called when returning to the activity */
-//        @Override
-//        public void onResume() {
-//            super.onResume();
-//            if (mAdView != null) {
-//                mAdView.resume();
-//            }
-//        }
-//
-//        /** Called before the activity is destroyed */
-//        @Override
-//        public void onDestroy() {
-//            if (mAdView != null) {
-//                mAdView.destroy();
-//            }
-//            super.onDestroy();
-//        }
-//
-//    }
+    public void fragmentManager() {}
 }

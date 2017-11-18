@@ -40,5 +40,6 @@
     <string name="how_to_play">How to Play</string>
     <string name="god_Tier">God-Tier</string>
     <string name="scoreColon">Score:</string>
+    <string name="breakString">break</string>
 
 </resources>

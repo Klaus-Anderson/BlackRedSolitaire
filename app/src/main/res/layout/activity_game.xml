@@ -608,10 +608,10 @@
                 <TextView
                     android:id="@+id/deckDiscardText"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:layout_centerHorizontal="true"
-                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentTop="true"
                     android:text="@string/press_to_discard"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="13sp"
@@ -716,13 +716,12 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/gameOverButton"
+                android:id="@+id/breakButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/press_here_for_game_over"
+                android:text="@string/breakString"
                 android:textSize="13sp"
                 android:layout_weight="3"/>
-
         </LinearLayout>
 
         <LinearLayout
@@ -732,7 +731,6 @@
             android:layout_weight="1"
             android:background="@drawable/shape"
             android:orientation="vertical" >
-
             <Button
                 android:id="@+id/newGameButton"
                 android:layout_width="match_parent"
