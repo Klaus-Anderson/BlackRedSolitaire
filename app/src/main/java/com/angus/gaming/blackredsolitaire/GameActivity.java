@@ -22,93 +22,6 @@ import butterknife.OnClick;
 public class GameActivity extends Activity implements ToPlayFragment.OnValuesSetListener {
     @BindView(R.id.deckFrame)
     FrameLayout deckFrame;
-    @OnClick(R.id.deckFrame)
-    void onDeckClick(View v){
-        if (deck.size() != 0 && !hasDrawn) {
-            hasDrawn = true;
-
-            int newCount;
-            newCount = Integer.parseInt(remainingCards.get(
-                    deck.peek().getSuit()).getText()
-                                                + "") - 1;
-            if(deck.peek().getValue() >= Card.TEN_VALUE) {
-                remainingCards.get(deck.peek().getSuit()).setText(
-                        String.valueOf(newCount));
-                newCount = Integer.parseInt(cardsLeftText.getText() + "") - 1;
-                cardsLeftText.setText(String.valueOf(newCount));
-            }
-
-            ImageView drawnCard = new ImageView(GameActivity.this);
-
-            String drawableName = deck.peek().getImageName();
-            int drawableId = getResources().getIdentifier(drawableName,
-                                                          "drawable", getPackageName());
-            drawnCard.setImageResource(drawableId);
-            drawnCard.setLayoutParams(new FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT));
-
-            if (deck.peek().getValue() > 9) {
-                int frameIndex = (deck.peek().getValue() - 10) * 4
-                        + deck.peek().getSuit();
-                FrameLayout moveToFrame = faceFrames.get(frameIndex);
-                moveToFrame.addView(drawnCard);
-                if((deck.peek().getValue() - 10) * 4 != brokenLevel) {
-                    moveToFrame.setClickable(true);
-                }
-                deck.pop();
-                hasDrawn = false;
-            }
-            else {
-                if (deck.peek().isBlack()) {
-                    if (colorCards.get(Card.COLOR_BLACK) == null) {
-                        blackFrame.addView(drawnCard);
-                        colorCards.set(Card.COLOR_BLACK, deck.pop());
-                        hasDrawn = false;
-                    } else {
-                        deckFrame.addView(drawnCard);
-                        blackDiscardText.setVisibility(View.VISIBLE);
-                        deckDiscardText.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    if (colorCards.get(Card.COLOR_RED) == null) {
-                        redFrame.addView(drawnCard);
-                        colorCards.set(Card.COLOR_RED, deck.pop());
-                        hasDrawn = false;
-                    } else {
-                        deckFrame.addView(drawnCard);
-                        redDiscardText.setVisibility(View.VISIBLE);
-                        deckDiscardText.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        } else if (deck.size() != 0 && hasDrawn) {
-            ImageView dummy = (ImageView) deckFrame.getChildAt(1);
-            deckFrame.removeView(dummy);
-            discardFrame.addView(dummy);
-            redDiscardText.setVisibility(View.INVISIBLE);
-            blackDiscardText.setVisibility(View.INVISIBLE);
-            deckDiscardText.setVisibility(View.INVISIBLE);
-            deck.pop();
-            hasDrawn = false;
-        } else {
-            emptyDeckCheck();
-        }
-    }
-
-    @OnClick(R.id.breakButton)
-    void onBreakClick(View view){
-        view.setClickable(false);
-        for(int i = 0; i < 4; i++) {
-            int index = ( level * 4 ) + i;
-            FrameLayout frame = faceFrames.get(( level * 4 ) + i);
-            frame.setClickable(false);
-            faceFrames.set(index,frame);
-        }
-        brokenLevel = level;
-        increaseLevel();
-    }
-
     @BindView(R.id.redFrame)
     FrameLayout redFrame;
     @BindView(R.id.blackFrame)
@@ -191,18 +104,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
     @BindView(R.id.heartsText)
     TextView heartsText;
 
-    @OnClick(R.id.toPlayButton)
-    void onToPlayClick(){
-        getFragmentManager().beginTransaction()
-                            .add(R.id.container, toPlayFragment)
-                            .addToBackStack("aFrag").commit();
-    }
-    @OnClick(R.id.newGameButton)
-    void onNewGameClick(){
-        Intent i = new Intent(GameActivity.this, GameActivity.class);
-        startActivity(i);
-        finish();
-    }
     @BindView(R.id.topCard)
     ImageView topCard;
 
@@ -364,6 +265,108 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                 }
             });
         }
+    }
+
+    @OnClick(R.id.deckFrame)
+    void onDeckClick(View v){
+        if (deck.size() != 0 && !hasDrawn) {
+            hasDrawn = true;
+
+            int newCount;
+            newCount = Integer.parseInt(remainingCards.get(
+                    deck.peek().getSuit()).getText()
+                                                + "") - 1;
+            if(deck.peek().getValue() >= Card.TEN_VALUE) {
+                remainingCards.get(deck.peek().getSuit()).setText(
+                        String.valueOf(newCount));
+                newCount = Integer.parseInt(cardsLeftText.getText() + "") - 1;
+                cardsLeftText.setText(String.valueOf(newCount));
+            }
+
+            ImageView drawnCard = new ImageView(GameActivity.this);
+
+            String drawableName = deck.peek().getImageName();
+            int drawableId = getResources().getIdentifier(drawableName,
+                                                          "drawable", getPackageName());
+            drawnCard.setImageResource(drawableId);
+            drawnCard.setLayoutParams(new FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT));
+
+            if (deck.peek().getValue() > 9) {
+                int frameIndex = (deck.peek().getValue() - 10) * 4
+                        + deck.peek().getSuit();
+                FrameLayout moveToFrame = faceFrames.get(frameIndex);
+                moveToFrame.addView(drawnCard);
+                if((deck.peek().getValue() - 10) * 4 != brokenLevel) {
+                    moveToFrame.setClickable(true);
+                }
+                deck.pop();
+                hasDrawn = false;
+            }
+            else {
+                if (deck.peek().isBlack()) {
+                    if (colorCards.get(Card.COLOR_BLACK) == null) {
+                        blackFrame.addView(drawnCard);
+                        colorCards.set(Card.COLOR_BLACK, deck.pop());
+                        hasDrawn = false;
+                    } else {
+                        deckFrame.addView(drawnCard);
+                        blackDiscardText.setVisibility(View.VISIBLE);
+                        deckDiscardText.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    if (colorCards.get(Card.COLOR_RED) == null) {
+                        redFrame.addView(drawnCard);
+                        colorCards.set(Card.COLOR_RED, deck.pop());
+                        hasDrawn = false;
+                    } else {
+                        deckFrame.addView(drawnCard);
+                        redDiscardText.setVisibility(View.VISIBLE);
+                        deckDiscardText.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        } else if (deck.size() != 0 && hasDrawn) {
+            ImageView dummy = (ImageView) deckFrame.getChildAt(1);
+            deckFrame.removeView(dummy);
+            discardFrame.addView(dummy);
+            redDiscardText.setVisibility(View.INVISIBLE);
+            blackDiscardText.setVisibility(View.INVISIBLE);
+            deckDiscardText.setVisibility(View.INVISIBLE);
+            deck.pop();
+            hasDrawn = false;
+        } else {
+            emptyDeckCheck();
+        }
+    }
+
+    @OnClick(R.id.breakButton)
+    void onBreakClick(View view){
+        view.setClickable(false);
+        view.setVisibility(View.GONE);
+        for(int i = 0; i < 4; i++) {
+            int index = ( level * 4 ) + i;
+            FrameLayout frame = faceFrames.get(( level * 4 ) + i);
+            frame.setClickable(false);
+            faceFrames.set(index,frame);
+        }
+        brokenLevel = level;
+        increaseLevel();
+    }
+
+    @OnClick(R.id.toPlayButton)
+    void onToPlayClick(){
+        getFragmentManager().beginTransaction()
+                            .add(R.id.container, toPlayFragment)
+                            .addToBackStack("aFrag").commit();
+    }
+
+    @OnClick(R.id.newGameButton)
+    void onNewGameClick(){
+        Intent i = new Intent(GameActivity.this, GameActivity.class);
+        startActivity(i);
+        finish();
     }
 
     private void increaseLevel() {
