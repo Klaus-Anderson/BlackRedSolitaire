@@ -26,6 +26,7 @@
                 android:layout_gravity="center"
                 android:text="@string/ten"
                 android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/white"
                 android:textSize="17sp" />
 
             <LinearLayout
@@ -326,7 +327,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/locked_level_shape"
+            android:background="@drawable/bottom_row_shape"
             android:orientation="vertical" >
 
             <TextView

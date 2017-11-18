@@ -3,7 +3,6 @@ package com.angus.gaming.blackredsolitaire;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -291,14 +290,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
 
             int newCount;
             newCount = Integer.parseInt(remainingCards.get(
-                    deck.peek().getSuit()).getText()
-                                                + "") - 1;
-            if(deck.peek().getValue() >= Card.TEN_VALUE) {
-                remainingCards.get(deck.peek().getSuit()).setText(
-                        String.valueOf(newCount));
-                newCount = Integer.parseInt(cardsLeftText.getText() + "") - 1;
-                cardsLeftText.setText(String.valueOf(newCount));
-            }
+                    deck.peek().getSuit()).getText() + "") - 1;
 
             ImageView drawnCard = new ImageView(GameActivity.this);
 
@@ -310,25 +302,30 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
 
-            if (deck.peek().getValue() > 9) {
-                int frameIndex = (deck.peek().getValue() - 10) * 4
+            remainingCards.get(deck.peek().getSuit()).setText(
+                    String.valueOf(newCount));
+            newCount = Integer.parseInt(cardsLeftText.getText() + "") - 1;
+            cardsLeftText.setText(String.valueOf(newCount));
+
+            if (deck.peek().getValue() >= Card.TEN_VALUE ) {
+                int frameIndex = ( deck.peek().getValue() - 10 ) * 4
                         + deck.peek().getSuit();
                 FrameLayout moveToFrame = faceFrames.get(frameIndex);
-                if((deck.peek().getValue() - 10) * 4 != brokenLevel) {
+                if (deck.peek().getValue() != 10 + brokenLevel) {
                     moveToFrame.addView(drawnCard);
                     moveToFrame.setClickable(true);
                 } else {
-                    moveToFrame.setClickable(false);
                     moveToFrame.setBackground(getResources().getDrawable(R.drawable.black_shape));
                 }
                 deck.pop();
+                cardsLeftText.setText(String.valueOf(deck.size()));
                 hasDrawn = false;
-            }
-            else {
+            }else {
                 if (deck.peek().isBlack()) {
                     if (colorCards.get(Card.COLOR_BLACK) == null) {
                         blackFrame.addView(drawnCard);
                         colorCards.set(Card.COLOR_BLACK, deck.pop());
+                        cardsLeftText.setText(String.valueOf(deck.size()));
                         hasDrawn = false;
                     } else {
                         deckFrame.addView(drawnCard);
@@ -339,6 +336,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                     if (colorCards.get(Card.COLOR_RED) == null) {
                         redFrame.addView(drawnCard);
                         colorCards.set(Card.COLOR_RED, deck.pop());
+                        cardsLeftText.setText(String.valueOf(deck.size()));
                         hasDrawn = false;
                     } else {
                         deckFrame.addView(drawnCard);
@@ -355,10 +353,10 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
             blackDiscardText.setVisibility(View.INVISIBLE);
             deckDiscardText.setVisibility(View.INVISIBLE);
             deck.pop();
+            cardsLeftText.setText(String.valueOf(deck.size()));
             hasDrawn = false;
-        } else {
-            emptyDeckCheck();
         }
+        emptyDeckCheck();
     }
 
     @OnClick(R.id.breakButton)
@@ -391,8 +389,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
     }
 
     private void increaseLevel(boolean isBroken) {
-        level++;
-        if (level == 2) {
+        if (level == 1) {
             levelText.setText(R.string.queen);
             if(!isBroken) {
                 jacksLayout.setBackground(getResources().getDrawable(R.drawable.face_number_shape));
@@ -403,39 +400,49 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
             }
             queensLayout.setBackground(getResources().getDrawable(R.drawable.current_level_shape));
         }
-        if (level == 3) {
+        else if (level == 2) {
             levelText.setText(R.string.king);
             if(!isBroken) {
                 queensLayout.setBackground(getResources().getDrawable(R.drawable.face_number_shape));
-                textViewJ.setTextColor(getResources().getColor(R.color.white));
+                textViewQ.setTextColor(getResources().getColor(R.color.white));
             } else {
                 queensLayout.setBackground(getResources().getDrawable(R.drawable.black_shape));
-                textViewJ.setTextColor(getResources().getColor(R.color.white));
+                textViewQ.setTextColor(getResources().getColor(R.color.white));
             }
             kingsLayout.setBackground(getResources().getDrawable(R.drawable.current_level_shape));
 
         }
-        if (level == 4) {
+        else if (level == 3) {
             levelText.setText(R.string.ace);
             if(!isBroken) {
                 kingsLayout.setBackground(getResources().getDrawable(R.drawable.face_number_shape));
-                textViewJ.setTextColor(getResources().getColor(R.color.white));
+                textViewK.setTextColor(getResources().getColor(R.color.white));
             } else {
                 kingsLayout.setBackground(getResources().getDrawable(R.drawable.black_shape));
-                textViewJ.setTextColor(getResources().getColor(R.color.white));
+                textViewK.setTextColor(getResources().getColor(R.color.white));
             }
             acesLayout.setBackground(getResources().getDrawable(R.drawable.current_level_shape));
         }
-        if (level == 5) {
+        else if (level == 4) {
             levelText.setText(R.string.god_Tier);
             if(!isBroken) {
                 acesLayout.setBackground(getResources().getDrawable(R.drawable.face_number_shape));
-                textViewJ.setTextColor(getResources().getColor(R.color.white));
+                textViewK.setTextColor(getResources().getColor(R.color.white));
             } else {
                 acesLayout.setBackground(getResources().getDrawable(R.drawable.black_shape));
                 textViewJ.setTextColor(getResources().getColor(R.color.white));
             }
         }
+        if(isBroken) {
+            for (int i = level * 4; i < level * 4 + 4; i++){
+                if(faceFrames.get(i).getChildCount() != 0) {
+                    faceFrames.get(i).removeAllViews();
+                    faceFrames.get(i).setBackground(
+                            getResources().getDrawable(R.drawable.black_shape));
+                }
+            }
+        }
+        level++;
     }
 
     private boolean isFrameCardSet(FrameLayout frame) {
@@ -454,10 +461,13 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         deckDiscardText.setVisibility(View.INVISIBLE);
         if(deck.peek().isBlack()) {
             colorCards.set(Card.COLOR_BLACK, deck.pop());
+            cardsLeftText.setText(String.valueOf(deck.size()));
         } else {
             colorCards.set(Card.COLOR_RED, deck.pop());
+            cardsLeftText.setText(String.valueOf(deck.size()));
         }
         hasDrawn = false;
+        emptyDeckCheck();
     }
 
     private void emptyDeckCheck() {
