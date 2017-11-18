@@ -3,11 +3,13 @@ package com.angus.gaming.blackredsolitaire;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -28,6 +30,27 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
     FrameLayout blackFrame;
     @BindView(R.id.discardFrame)
     FrameLayout discardFrame;
+
+    @BindView(R.id.tens)
+    LinearLayout tensLayout;
+    @BindView(R.id.textView10)
+    TextView textView10;
+    @BindView(R.id.jacks)
+    LinearLayout jacksLayout;
+    @BindView(R.id.textViewJ)
+    TextView textViewJ;
+    @BindView(R.id.queens)
+    LinearLayout queensLayout;
+    @BindView(R.id.textViewQ)
+    TextView textViewQ;
+    @BindView(R.id.kings)
+    LinearLayout kingsLayout;
+    @BindView(R.id.textViewK)
+    TextView textViewK;
+    @BindView(R.id.aces)
+    LinearLayout acesLayout;
+    @BindView(R.id.textViewA)
+    TextView textViewA;
 
     @BindView(R.id.ten_clubs)
     FrameLayout ten_clubs;
@@ -103,7 +126,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
     TextView spadesText;
     @BindView(R.id.heartsText)
     TextView heartsText;
-
     @BindView(R.id.topCard)
     ImageView topCard;
 
@@ -228,9 +250,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                         colorCards.set(Card.COLOR_BLACK, null);
                         colorCards.set(Card.COLOR_RED, null);
 
-                        faceFrame.setClickable(false);
-                        faceFrame.setBackground(getResources().getDrawable(R.drawable.shape2));
-
                         // pile check
                         if (isFrameCardSet(pile_clubs) && isFrameCardSet(pile_diamonds) &&
                                 isFrameCardSet(pile_spades) && isFrameCardSet(pile_hearts)) {
@@ -242,7 +261,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                             pile_spades.removeAllViews();
                             pile_hearts.removeAllViews();
                             pile_diamonds.removeAllViews();
-                            increaseLevel();
+                            increaseLevel(false);
                         }
                         setUsedFaceCard(faceFrame, index);
                     }
@@ -258,8 +277,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                         faceFrame.removeView(dummy);
                         colorFrame.addView(dummy);
                         colorCards.set(suit % 2, new Card(Card.TEN_VALUE, suit));
-                        faceFrame.setClickable(false);
-                        faceFrame.setBackground( getResources().getDrawable(R.drawable.shape2));
                         setUsedFaceCard(faceFrame, suit);
                     }
                 }
@@ -286,8 +303,8 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
             ImageView drawnCard = new ImageView(GameActivity.this);
 
             String drawableName = deck.peek().getImageName();
-            int drawableId = getResources().getIdentifier(drawableName,
-                                                          "drawable", getPackageName());
+            int drawableId = getResources().getIdentifier(
+                    drawableName, "drawable", getPackageName());
             drawnCard.setImageResource(drawableId);
             drawnCard.setLayoutParams(new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
@@ -297,9 +314,12 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                 int frameIndex = (deck.peek().getValue() - 10) * 4
                         + deck.peek().getSuit();
                 FrameLayout moveToFrame = faceFrames.get(frameIndex);
-                moveToFrame.addView(drawnCard);
                 if((deck.peek().getValue() - 10) * 4 != brokenLevel) {
+                    moveToFrame.addView(drawnCard);
                     moveToFrame.setClickable(true);
+                } else {
+                    moveToFrame.setClickable(false);
+                    moveToFrame.setBackground(getResources().getDrawable(R.drawable.black_shape));
                 }
                 deck.pop();
                 hasDrawn = false;
@@ -352,7 +372,8 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
             faceFrames.set(index,frame);
         }
         brokenLevel = level;
-        increaseLevel();
+        increaseLevel(true);
+
     }
 
     @OnClick(R.id.toPlayButton)
@@ -369,19 +390,51 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         finish();
     }
 
-    private void increaseLevel() {
+    private void increaseLevel(boolean isBroken) {
         level++;
         if (level == 2) {
             levelText.setText(R.string.queen);
+            if(!isBroken) {
+                jacksLayout.setBackground(getResources().getDrawable(R.drawable.face_number_shape));
+                textViewJ.setTextColor(getResources().getColor(R.color.white));
+            } else {
+                jacksLayout.setBackground(getResources().getDrawable(R.drawable.black_shape));
+                textViewJ.setTextColor(getResources().getColor(R.color.white));
+            }
+            queensLayout.setBackground(getResources().getDrawable(R.drawable.current_level_shape));
         }
         if (level == 3) {
             levelText.setText(R.string.king);
+            if(!isBroken) {
+                queensLayout.setBackground(getResources().getDrawable(R.drawable.face_number_shape));
+                textViewJ.setTextColor(getResources().getColor(R.color.white));
+            } else {
+                queensLayout.setBackground(getResources().getDrawable(R.drawable.black_shape));
+                textViewJ.setTextColor(getResources().getColor(R.color.white));
+            }
+            kingsLayout.setBackground(getResources().getDrawable(R.drawable.current_level_shape));
+
         }
         if (level == 4) {
             levelText.setText(R.string.ace);
+            if(!isBroken) {
+                kingsLayout.setBackground(getResources().getDrawable(R.drawable.face_number_shape));
+                textViewJ.setTextColor(getResources().getColor(R.color.white));
+            } else {
+                kingsLayout.setBackground(getResources().getDrawable(R.drawable.black_shape));
+                textViewJ.setTextColor(getResources().getColor(R.color.white));
+            }
+            acesLayout.setBackground(getResources().getDrawable(R.drawable.current_level_shape));
         }
         if (level == 5) {
             levelText.setText(R.string.god_Tier);
+            if(!isBroken) {
+                acesLayout.setBackground(getResources().getDrawable(R.drawable.face_number_shape));
+                textViewJ.setTextColor(getResources().getColor(R.color.white));
+            } else {
+                acesLayout.setBackground(getResources().getDrawable(R.drawable.black_shape));
+                textViewJ.setTextColor(getResources().getColor(R.color.white));
+            }
         }
     }
 
@@ -415,6 +468,8 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
     }
 
     private void setUsedFaceCard(FrameLayout frame, int suit) {
+        frame.setClickable(false);
+        frame.setBackground(getResources().getDrawable(R.drawable.face_cover_shape));
         ImageView suitImage = new ImageView(getApplicationContext());
         if(suit == Card.CLUB_SUIT)
             suitImage.setImageResource(R.drawable.club);

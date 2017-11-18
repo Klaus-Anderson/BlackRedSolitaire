@@ -10,7 +10,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="@drawable/shape2"
+        android:background="@drawable/face_cover_shape"
         
         android:orientation="vertical" >
 

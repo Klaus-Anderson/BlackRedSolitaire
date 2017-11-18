@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/shape"
+            android:background="@drawable/face_number_shape"
             android:orientation="vertical" >
 
             <TextView
@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/shape"
+            android:background="@drawable/current_level_shape"
             android:orientation="vertical" >
 
             <TextView
@@ -140,7 +140,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/shape"
+            android:background="@drawable/locked_level_shape"
             android:orientation="vertical" >
 
             <TextView
@@ -202,7 +202,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/shape"
+            android:background="@drawable/locked_level_shape"
             android:orientation="vertical" >
 
             <TextView
@@ -264,7 +264,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/shape"
+            android:background="@drawable/locked_level_shape"
             android:orientation="vertical" >
 
             <TextView
@@ -326,7 +326,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/shape"
+            android:background="@drawable/locked_level_shape"
             android:orientation="vertical" >
 
             <TextView
@@ -396,7 +396,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/shape"
+            android:background="@drawable/bottom_row_shape"
             android:orientation="vertical" >
 
             <TextView
@@ -498,7 +498,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/shape"
+            android:background="@drawable/bottom_row_shape"
             android:orientation="vertical" >
 
             <TextView
@@ -536,7 +536,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/shape"
+            android:background="@drawable/bottom_row_shape"
             android:orientation="vertical" >
 
             <TextView
@@ -574,7 +574,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/shape"
+            android:background="@drawable/bottom_row_shape"
             android:orientation="vertical" >
 
             <TextView
@@ -637,7 +637,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/shape"
+            android:background="@drawable/bottom_row_shape"
             android:orientation="vertical" >
 
             <TextView
@@ -729,7 +729,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/shape"
+            android:background="@drawable/bottom_row_shape"
             android:orientation="vertical" >
             <Button
                 android:id="@+id/newGameButton"
