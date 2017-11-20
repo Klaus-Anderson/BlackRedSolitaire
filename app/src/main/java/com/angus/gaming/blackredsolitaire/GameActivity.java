@@ -225,7 +225,8 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
             int index = i;
             faceFrames.get(i).setOnClickListener(v -> {
                 if(!hasDrawn) {
-                    int suit = index % 4;
+                    int localizedIndex = index;
+                    int suit = localizedIndex % 4;
                     FrameLayout faceFrame = (FrameLayout) v;
                     FrameLayout pileFrame = pileFrames.get(suit);
                     Card sameColorCard = colorCards.get(suit % 2);
@@ -234,7 +235,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                     // use Face Card as Face Card
                     if (sameColorCard != null && sameColorCard.getSuit() == suit
                             && otherColorCard != null && !isFrameCardSet(pileFrame)
-                            && (index < 4 || index/4 >= level)) {
+                            && (localizedIndex < 4 || localizedIndex/4 <= level)) {
                         ImageView dummy = (ImageView) faceFrame.getChildAt(0);
                         faceFrame.removeView(dummy);
                         pileFrame.addView(dummy);
@@ -262,11 +263,12 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                             pile_diamonds.removeAllViews();
                             increaseLevel(false);
                         }
-                        setUsedFaceCard(faceFrame, index);
+                        setUsedFaceCard(faceFrame, suit);
                     }
                     // use Face Card as number Card
-                    else if (isFrameCardSet(faceFrame) && (index < 4 || index/4 < level)) {
-                        FrameLayout colorFrame = colorFrames.get(index % 2);
+                    else if (isFrameCardSet(faceFrame)
+                            && (localizedIndex < 4 || localizedIndex/4 < level)) {
+                        FrameLayout colorFrame = colorFrames.get(localizedIndex % 2);
                         ImageView dummy = (ImageView) colorFrame.getChildAt(0);
                         if (dummy != null) {
                             colorFrame.removeView(dummy);
@@ -302,11 +304,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
 
-            remainingCards.get(deck.peek().getSuit()).setText(
-                    String.valueOf(newCount));
-            newCount = Integer.parseInt(cardsLeftText.getText() + "") - 1;
-            cardsLeftText.setText(String.valueOf(newCount));
-
             if (deck.peek().getValue() >= Card.TEN_VALUE ) {
                 int frameIndex = ( deck.peek().getValue() - 10 ) * 4
                         + deck.peek().getSuit();
@@ -321,6 +318,11 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                 cardsLeftText.setText(String.valueOf(deck.size()));
                 hasDrawn = false;
             }else {
+                remainingCards.get(deck.peek().getSuit()).setText(
+                        String.valueOf(newCount));
+                newCount = Integer.parseInt(cardsLeftText.getText() + "") - 1;
+                cardsLeftText.setText(String.valueOf(newCount));
+
                 if (deck.peek().isBlack()) {
                     if (colorCards.get(Card.COLOR_BLACK) == null) {
                         blackFrame.addView(drawnCard);
@@ -362,7 +364,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
     @OnClick(R.id.breakButton)
     void onBreakClick(View view){
         view.setClickable(false);
-        view.setVisibility(View.GONE);
+        view.setVisibility(View.INVISIBLE);
         for(int i = 0; i < 4; i++) {
             int index = ( level * 4 ) + i;
             FrameLayout frame = faceFrames.get(( level * 4 ) + i);
@@ -435,7 +437,8 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         }
         if(isBroken) {
             for (int i = level * 4; i < level * 4 + 4; i++){
-                if(faceFrames.get(i).getChildCount() != 0) {
+                if(faceFrames.get(i).getChildCount() != 0 &&
+                        pileFrames.get(i % 4).getChildCount() == 0) {
                     faceFrames.get(i).removeAllViews();
                     faceFrames.get(i).setBackground(
                             getResources().getDrawable(R.drawable.black_shape));
