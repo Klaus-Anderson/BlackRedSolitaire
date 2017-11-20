@@ -135,13 +135,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
     @BindView(R.id.topCard)
     ImageView topCard;
 
-    private final String COLOR_FRAMES_KEY = "color_frames_key", PILE_FRAMES_KEY = "pile_frames_key",
-            FACE_FRAMES_KEY = "face_frames_key", REMAINING_CARDS_KEY = "remaining_cards_key",
-            COLOR_CARD_KEY = "color_card_key", DECK_KEY = "deck_key", LEVEL_KEY = "level_key",
-            BROKEN_LEVEL_KEY = "broken_level_key", PILE_TOTAL_KEY = "deck_key",
-            SCORE_TOTAL_KEY = "score_total_key", HAS_DRAWN_BOOLEAN_KEY = "has_drawn_boolean",
-            DECK_FRAME = "deck_frame";
-
     private Stack<Card> deck;
     private List<FrameLayout> colorFrames, pileFrames, faceFrames;
     private List<TextView> remainingCards;
@@ -158,6 +151,10 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         ButterKnife.bind(this);
 
         deck = new Stack<>();
+
+        colorCards = new ArrayList<>();
+        colorCards.add(Card.COLOR_BLACK, null);
+        colorCards.add(Card.COLOR_RED, null);
 
         toPlayFragment = new ToPlayFragment();
 
@@ -295,11 +292,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
     @OnClick(R.id.deckFrame)
     void onDeckClick(View v){
         if (deck.size() != 0 && !hasDrawn) {
@@ -332,7 +324,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                 deck.pop();
                 cardsLeftText.setText(String.valueOf(deck.size()));
                 hasDrawn = false;
-            }else {
+            } else {
                 remainingCards.get(deck.peek().getSuit()).setText(
                         String.valueOf(newCount));
                 newCount = Integer.parseInt(cardsLeftText.getText() + "") - 1;
