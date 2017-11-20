@@ -20,6 +20,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.angus.gaming.blackredsolitaire.Card.CLUB_SUIT;
+import static com.angus.gaming.blackredsolitaire.Card.COLOR_BLACK;
+import static com.angus.gaming.blackredsolitaire.Card.COLOR_RED;
+import static com.angus.gaming.blackredsolitaire.Card.DIAMOND_SUIT;
+import static com.angus.gaming.blackredsolitaire.Card.HEART_SUIT;
+import static com.angus.gaming.blackredsolitaire.Card.SPADE_SUIT;
+
 public class GameActivity extends Activity implements ToPlayFragment.OnValuesSetListener {
     @BindView(R.id.deckFrame)
     FrameLayout deckFrame;
@@ -128,7 +135,14 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
     @BindView(R.id.topCard)
     ImageView topCard;
 
-    private static Stack<Card> deck;
+    private final String COLOR_FRAMES_KEY = "color_frames_key", PILE_FRAMES_KEY = "pile_frames_key",
+            FACE_FRAMES_KEY = "face_frames_key", REMAINING_CARDS_KEY = "remaining_cards_key",
+            COLOR_CARD_KEY = "color_card_key", DECK_KEY = "deck_key", LEVEL_KEY = "level_key",
+            BROKEN_LEVEL_KEY = "broken_level_key", PILE_TOTAL_KEY = "deck_key",
+            SCORE_TOTAL_KEY = "score_total_key", HAS_DRAWN_BOOLEAN_KEY = "has_drawn_boolean",
+            DECK_FRAME = "deck_frame";
+
+    private Stack<Card> deck;
     private List<FrameLayout> colorFrames, pileFrames, faceFrames;
     private List<TextView> remainingCards;
     private List<Card> colorCards;
@@ -145,43 +159,39 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
 
         deck = new Stack<>();
 
-        colorCards = new ArrayList<>();
-        colorCards.add(Card.COLOR_BLACK, null);
-        colorCards.add(Card.COLOR_RED, null);
-
         toPlayFragment = new ToPlayFragment();
 
         colorFrames = new ArrayList<>();
-        colorFrames.add(Card.COLOR_BLACK, blackFrame);
-        colorFrames.add(Card.COLOR_RED, redFrame);
+        colorFrames.add(COLOR_BLACK, blackFrame);
+        colorFrames.add(COLOR_RED, redFrame);
 
         pileFrames = new ArrayList<>();
-        pileFrames.add(Card.CLUB_SUIT, pile_clubs);
-        pileFrames.add(Card.DIAMOND_SUIT, pile_diamonds);
-        pileFrames.add(Card.SPADE_SUIT, pile_spades);
-        pileFrames.add(Card.HEART_SUIT, pile_hearts);
+        pileFrames.add(CLUB_SUIT, pile_clubs);
+        pileFrames.add(DIAMOND_SUIT, pile_diamonds);
+        pileFrames.add(SPADE_SUIT, pile_spades);
+        pileFrames.add(HEART_SUIT, pile_hearts);
 
         faceFrames = new ArrayList<>();
-        faceFrames.add(Card.CLUB_SUIT, ten_clubs);
-        faceFrames.add(Card.DIAMOND_SUIT, ten_diamonds);
-        faceFrames.add(Card.SPADE_SUIT, ten_spades);
-        faceFrames.add(Card.HEART_SUIT, ten_hearts);
-        faceFrames.add(4 + Card.CLUB_SUIT, jack_clubs);
-        faceFrames.add(4 + Card.DIAMOND_SUIT, jack_diamonds);
-        faceFrames.add(4 + Card.SPADE_SUIT, jack_spades);
-        faceFrames.add(4 + Card.HEART_SUIT, jack_hearts);
-        faceFrames.add(2*4 + Card.CLUB_SUIT, queen_clubs);
-        faceFrames.add(2*4 + Card.DIAMOND_SUIT, queen_diamonds);
-        faceFrames.add(2*4 + Card.SPADE_SUIT, queen_spades);
-        faceFrames.add(2*4 + Card.HEART_SUIT, queen_hearts);
-        faceFrames.add(3*4 + Card.CLUB_SUIT, king_clubs);
-        faceFrames.add(3*4 + Card.DIAMOND_SUIT, king_diamonds);
-        faceFrames.add(3*4 + Card.SPADE_SUIT, king_spades);
-        faceFrames.add(3*4 + Card.HEART_SUIT, king_hearts);
-        faceFrames.add(4*4 + Card.CLUB_SUIT, ace_clubs);
-        faceFrames.add(4*4 + Card.DIAMOND_SUIT, ace_diamonds);
-        faceFrames.add(4*4 + Card.SPADE_SUIT, ace_spades);
-        faceFrames.add(4*4 + Card.HEART_SUIT, ace_hearts);
+        faceFrames.add(CLUB_SUIT, ten_clubs);
+        faceFrames.add(DIAMOND_SUIT, ten_diamonds);
+        faceFrames.add(SPADE_SUIT, ten_spades);
+        faceFrames.add(HEART_SUIT, ten_hearts);
+        faceFrames.add(4 + CLUB_SUIT, jack_clubs);
+        faceFrames.add(4 + DIAMOND_SUIT, jack_diamonds);
+        faceFrames.add(4 + SPADE_SUIT, jack_spades);
+        faceFrames.add(4 + HEART_SUIT, jack_hearts);
+        faceFrames.add(2*4 + CLUB_SUIT, queen_clubs);
+        faceFrames.add(2*4 + DIAMOND_SUIT, queen_diamonds);
+        faceFrames.add(2*4 + SPADE_SUIT, queen_spades);
+        faceFrames.add(2*4 + HEART_SUIT, queen_hearts);
+        faceFrames.add(3*4 + CLUB_SUIT, king_clubs);
+        faceFrames.add(3*4 + DIAMOND_SUIT, king_diamonds);
+        faceFrames.add(3*4 + SPADE_SUIT, king_spades);
+        faceFrames.add(3*4 + HEART_SUIT, king_hearts);
+        faceFrames.add(4*4 + CLUB_SUIT, ace_clubs);
+        faceFrames.add(4*4 + DIAMOND_SUIT, ace_diamonds);
+        faceFrames.add(4*4 + SPADE_SUIT, ace_spades);
+        faceFrames.add(4*4 + HEART_SUIT, ace_hearts);
 
         remainingCards = new ArrayList<>();
         remainingCards.add(clubsText);
@@ -211,7 +221,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                 // colorFrames.get(1) = redFrame
                 if(hasDrawn){
                     FrameLayout frame = (FrameLayout) v;
-                    if(finalI == Card.COLOR_BLACK && deck.peek().isBlack()){
+                    if(finalI == COLOR_BLACK && deck.peek().isBlack()){
                         colorFrameDiscardClick(frame);
                     } else if(finalI ==1 && deck.peek().isRed()){
                         colorFrameDiscardClick(frame);
@@ -243,12 +253,12 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                         blackFrame.removeAllViews();
                         redFrame.removeAllViews();
 
-                        pileTotal = pileTotal + colorCards.get(Card.COLOR_BLACK).getValue() +
-                                colorCards.get(Card.COLOR_RED).getValue();
+                        pileTotal = pileTotal + colorCards.get(COLOR_BLACK).getValue() +
+                                colorCards.get(COLOR_RED).getValue();
                         pileText.setText(String.valueOf(pileTotal));
 
-                        colorCards.set(Card.COLOR_BLACK, null);
-                        colorCards.set(Card.COLOR_RED, null);
+                        colorCards.set(COLOR_BLACK, null);
+                        colorCards.set(COLOR_RED, null);
 
                         // pile check
                         if (isFrameCardSet(pile_clubs) && isFrameCardSet(pile_diamonds) &&
@@ -283,6 +293,11 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                 }
             });
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @OnClick(R.id.deckFrame)
@@ -324,9 +339,9 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                 cardsLeftText.setText(String.valueOf(newCount));
 
                 if (deck.peek().isBlack()) {
-                    if (colorCards.get(Card.COLOR_BLACK) == null) {
+                    if (colorCards.get(COLOR_BLACK) == null) {
                         blackFrame.addView(drawnCard);
-                        colorCards.set(Card.COLOR_BLACK, deck.pop());
+                        colorCards.set(COLOR_BLACK, deck.pop());
                         cardsLeftText.setText(String.valueOf(deck.size()));
                         hasDrawn = false;
                     } else {
@@ -335,9 +350,9 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                         deckDiscardText.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    if (colorCards.get(Card.COLOR_RED) == null) {
+                    if (colorCards.get(COLOR_RED) == null) {
                         redFrame.addView(drawnCard);
-                        colorCards.set(Card.COLOR_RED, deck.pop());
+                        colorCards.set(COLOR_RED, deck.pop());
                         cardsLeftText.setText(String.valueOf(deck.size()));
                         hasDrawn = false;
                     } else {
@@ -373,7 +388,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         }
         brokenLevel = level;
         increaseLevel(true);
-
     }
 
     @OnClick(R.id.toPlayButton)
@@ -463,10 +477,10 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         blackDiscardText.setVisibility(View.INVISIBLE);
         deckDiscardText.setVisibility(View.INVISIBLE);
         if(deck.peek().isBlack()) {
-            colorCards.set(Card.COLOR_BLACK, deck.pop());
+            colorCards.set(COLOR_BLACK, deck.pop());
             cardsLeftText.setText(String.valueOf(deck.size()));
         } else {
-            colorCards.set(Card.COLOR_RED, deck.pop());
+            colorCards.set(COLOR_RED, deck.pop());
             cardsLeftText.setText(String.valueOf(deck.size()));
         }
         hasDrawn = false;
@@ -484,11 +498,11 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         frame.setClickable(false);
         frame.setBackground(getResources().getDrawable(R.drawable.face_cover_shape));
         ImageView suitImage = new ImageView(getApplicationContext());
-        if(suit == Card.CLUB_SUIT)
+        if(suit == CLUB_SUIT)
             suitImage.setImageResource(R.drawable.club);
-        else if (suit == Card.DIAMOND_SUIT)
+        else if (suit == DIAMOND_SUIT)
             suitImage.setImageResource(R.drawable.diamond);
-        else if (suit == Card.SPADE_SUIT)
+        else if (suit == SPADE_SUIT)
             suitImage.setImageResource(R.drawable.spades);
         else
             suitImage.setImageResource(R.drawable.heart);
