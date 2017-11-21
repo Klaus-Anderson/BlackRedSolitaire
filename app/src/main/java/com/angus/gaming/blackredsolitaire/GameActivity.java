@@ -260,7 +260,8 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                         // pile check
                         if (isFrameCardSet(pile_clubs) && isFrameCardSet(pile_diamonds) &&
                                 isFrameCardSet(pile_spades) && isFrameCardSet(pile_hearts)) {
-                            scoreTotal = scoreTotal + pileTotal;
+                            scoreTotal = scoreTotal +
+                                    pileTotal * (level - (brokenLevel != -1 ? 1 : 0));
                             scoreText.setText(String.valueOf(scoreTotal));
                             pileTotal = 0;
                             pileText.setText(String.valueOf(pileTotal));
@@ -435,10 +436,10 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
             levelText.setText(R.string.god_Tier);
             if(!isBroken) {
                 acesLayout.setBackground(getResources().getDrawable(R.drawable.face_number_shape));
-                textViewK.setTextColor(getResources().getColor(R.color.white));
+                textViewA.setTextColor(getResources().getColor(R.color.white));
             } else {
                 acesLayout.setBackground(getResources().getDrawable(R.drawable.black_shape));
-                textViewJ.setTextColor(getResources().getColor(R.color.white));
+                textViewA.setTextColor(getResources().getColor(R.color.white));
             }
         }
         if(isBroken) {
