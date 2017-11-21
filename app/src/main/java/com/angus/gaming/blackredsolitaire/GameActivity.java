@@ -320,7 +320,9 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                     moveToFrame.addView(drawnCard);
                     moveToFrame.setClickable(true);
                 } else {
-                    moveToFrame.setBackground(getResources().getDrawable(R.drawable.black_shape));
+                    ImageView face_down = new ImageView(this);
+                    face_down.setImageResource(R.drawable.card_back);
+                    moveToFrame.addView(face_down);
                 }
                 deck.pop();
                 cardsLeftText.setText(String.valueOf(deck.size()));
