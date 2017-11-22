@@ -108,8 +108,8 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
     @BindView(R.id.pile_hearts)
     FrameLayout pile_hearts;
 
-    @BindView(R.id.deckDiscardText)
-    TextView deckDiscardText;
+    @BindView(R.id.deckText)
+    TextView deckText;
     @BindView(R.id.redDiscardText)
     TextView redDiscardText;
     @BindView(R.id.blackDiscardText)
@@ -197,9 +197,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         remainingCards.add(spadesText);
         remainingCards.add(heartsText);
 
-        deckDiscardText.setVisibility(View.INVISIBLE);
-
-        hasDrawn = false;
+        setHasDrawn(false);
 
         pileTotal = 0;
         scoreTotal = 0;
@@ -300,7 +298,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
     @OnClick(R.id.deckFrame)
     void onDeckClick(View v){
         if (deck.size() != 0 && !hasDrawn) {
-            hasDrawn = true;
+            setHasDrawn(true);
 
             int newCount;
             newCount = Integer.parseInt(remainingCards.get(
@@ -331,7 +329,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                 deck.pop();
                 cardsLeftText.setText(String.valueOf(deck.size()));
                 checkIfFaceIsEligible(frameIndex);
-                hasDrawn = false;
+                setHasDrawn(false);
             } else {
                 remainingCards.get(deck.peek().getSuit()).setText(
                         String.valueOf(newCount));
@@ -343,24 +341,22 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                         blackFrame.addView(drawnCard);
                         colorCards.set(COLOR_BLACK, deck.pop());
                         cardsLeftText.setText(String.valueOf(deck.size()));
-                        hasDrawn = false;
+                        setHasDrawn(false);
                         findEligibleFaces();
                     } else {
                         deckFrame.addView(drawnCard);
                         blackDiscardText.setVisibility(View.VISIBLE);
-                        deckDiscardText.setVisibility(View.VISIBLE);
                     }
                 } else {
                     if (colorCards.get(COLOR_RED) == null) {
                         redFrame.addView(drawnCard);
                         colorCards.set(COLOR_RED, deck.pop());
                         cardsLeftText.setText(String.valueOf(deck.size()));
-                        hasDrawn = false;
+                        setHasDrawn(false);
                         findEligibleFaces();
                     } else {
                         deckFrame.addView(drawnCard);
                         redDiscardText.setVisibility(View.VISIBLE);
-                        deckDiscardText.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -370,10 +366,9 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
             discardFrame.addView(dummy);
             redDiscardText.setVisibility(View.INVISIBLE);
             blackDiscardText.setVisibility(View.INVISIBLE);
-            deckDiscardText.setVisibility(View.INVISIBLE);
             deck.pop();
             cardsLeftText.setText(String.valueOf(deck.size()));
-            hasDrawn = false;
+            setHasDrawn(false);
             findEligibleFaces();
         }
         emptyDeckCheck();
@@ -489,6 +484,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
             }
         }
         level++;
+        findEligibleFaces();
     }
 
     private boolean isFrameCardSet(FrameLayout frame) {
@@ -504,7 +500,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         colorFrame.addView(dummy);
         redDiscardText.setVisibility(View.INVISIBLE);
         blackDiscardText.setVisibility(View.INVISIBLE);
-        deckDiscardText.setVisibility(View.INVISIBLE);
         if(deck.peek().isBlack()) {
             colorCards.set(COLOR_BLACK, deck.pop());
             cardsLeftText.setText(String.valueOf(deck.size()));
@@ -512,7 +507,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
             colorCards.set(COLOR_RED, deck.pop());
             cardsLeftText.setText(String.valueOf(deck.size()));
         }
-        hasDrawn = false;
+        setHasDrawn(false);
         findEligibleFaces();
         emptyDeckCheck();
     }
@@ -543,6 +538,15 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
 
     }
 
+    private void setHasDrawn(boolean hasDrawn) {
+        if(hasDrawn){
+            deckText.setText(R.string.press_to_discard);
+        } else {
+            deckText.setText(R.string.press_to_draw);
+        }
+        this.hasDrawn = hasDrawn;
+    }
+
     @Override
     public void onValuesSet() {}
 
@@ -552,4 +556,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
 
     @Override
     public void fragmentManager() {}
+
+
 }

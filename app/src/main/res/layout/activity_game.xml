@@ -694,7 +694,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
                 <TextView
-                    android:id="@+id/deckDiscardText"
+                    android:id="@+id/deckText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -703,7 +703,6 @@
                     android:text="@string/press_to_draw"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="13sp"
-                    android:visibility="invisible"
                     />
 
                 <TextView
