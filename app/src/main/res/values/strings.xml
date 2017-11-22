@@ -41,5 +41,6 @@
     <string name="god_Tier">God-Tier</string>
     <string name="scoreColon">Score:</string>
     <string name="breakString">break</string>
+    <string name="press_to_draw">Press deck to draw</string>
 
 </resources>

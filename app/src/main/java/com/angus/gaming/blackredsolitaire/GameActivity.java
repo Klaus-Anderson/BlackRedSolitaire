@@ -139,6 +139,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
     private List<FrameLayout> colorFrames, pileFrames, faceFrames;
     private List<TextView> remainingCards;
     private List<Card> colorCards;
+    private List<Integer> eligibleIndexes;
     private Boolean hasDrawn;
     private int level, pileTotal, scoreTotal, brokenLevel = -1;
     private ToPlayFragment toPlayFragment;
@@ -203,6 +204,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         pileTotal = 0;
         scoreTotal = 0;
         level = 1;
+        eligibleIndexes = new ArrayList<>();
 
         for (int i = 0; i < 4; i++) {
             for (int j = 2; j < 15; j++) {
@@ -271,7 +273,8 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                             pile_diamonds.removeAllViews();
                             increaseLevel(false);
                         }
-                        setUsedFaceCard(faceFrame, suit);
+                        findEligibleFaces();
+                        setUsedFaceCard(faceFrame, suit, localizedIndex);
                     }
                     // use Face Card as number Card
                     else if (isFrameCardSet(faceFrame)
@@ -286,7 +289,8 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                         faceFrame.removeView(dummy);
                         colorFrame.addView(dummy);
                         colorCards.set(suit % 2, new Card(Card.TEN_VALUE, suit));
-                        setUsedFaceCard(faceFrame, suit);
+                        findEligibleFaces();
+                        setUsedFaceCard(faceFrame, suit, localizedIndex);
                     }
                 }
             });
@@ -326,6 +330,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                 }
                 deck.pop();
                 cardsLeftText.setText(String.valueOf(deck.size()));
+                checkIfFaceIsEligible(frameIndex);
                 hasDrawn = false;
             } else {
                 remainingCards.get(deck.peek().getSuit()).setText(
@@ -339,6 +344,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                         colorCards.set(COLOR_BLACK, deck.pop());
                         cardsLeftText.setText(String.valueOf(deck.size()));
                         hasDrawn = false;
+                        findEligibleFaces();
                     } else {
                         deckFrame.addView(drawnCard);
                         blackDiscardText.setVisibility(View.VISIBLE);
@@ -350,6 +356,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
                         colorCards.set(COLOR_RED, deck.pop());
                         cardsLeftText.setText(String.valueOf(deck.size()));
                         hasDrawn = false;
+                        findEligibleFaces();
                     } else {
                         deckFrame.addView(drawnCard);
                         redDiscardText.setVisibility(View.VISIBLE);
@@ -367,6 +374,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
             deck.pop();
             cardsLeftText.setText(String.valueOf(deck.size()));
             hasDrawn = false;
+            findEligibleFaces();
         }
         emptyDeckCheck();
     }
@@ -399,6 +407,32 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         finish();
     }
 
+    private void checkIfFaceIsEligible(int frameIndex) {
+        if(faceFrames.get(frameIndex) != null && faceFrames.get(frameIndex).getChildCount() != 0 &&
+                faceFrames.get(frameIndex).isClickable()) {
+            if (colorCards.get(COLOR_BLACK) != null && colorCards.get(COLOR_RED) != null &&
+                    frameIndex / 4 <= level && ( frameIndex % 4 == colorCards.get(frameIndex % 2).getSuit() ) &&
+                    pileFrames.get(frameIndex % 4).getChildCount() == 0) {
+                eligibleIndexes.add(frameIndex);
+                faceFrames.get(frameIndex).setBackgroundResource(R.drawable.face_eligible_shape);
+            } else if (frameIndex / 4 < level && frameIndex / 4 != brokenLevel) {
+                faceFrames.get(frameIndex).setBackgroundResource(R.drawable.number_eligible_shape);
+            }
+        }
+    }
+
+    private void findEligibleFaces(){
+        for(Integer i : eligibleIndexes){
+            faceFrames.get(i).setBackground(null);
+        }
+        eligibleIndexes.clear();
+
+        if(colorCards.get(COLOR_RED) != null && colorCards.get(COLOR_BLACK) != null) {
+            for (int i = 0; i < 4 * ( level + 1 ); i++) {
+                checkIfFaceIsEligible(i);
+            }
+        }
+    }
     private void increaseLevel(boolean isBroken) {
         if (level == 1) {
             levelText.setText(R.string.queen);
@@ -479,6 +513,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
             cardsLeftText.setText(String.valueOf(deck.size()));
         }
         hasDrawn = false;
+        findEligibleFaces();
         emptyDeckCheck();
     }
 
@@ -489,7 +524,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         }
     }
 
-    private void setUsedFaceCard(FrameLayout frame, int suit) {
+    private void setUsedFaceCard(FrameLayout frame, int suit, int localizedIndex) {
         frame.setClickable(false);
         frame.setBackground(getResources().getDrawable(R.drawable.face_cover_shape));
         ImageView suitImage = new ImageView(getApplicationContext());
@@ -502,6 +537,10 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         else
             suitImage.setImageResource(R.drawable.heart);
         frame.addView(suitImage);
+
+        // set to null so that it won't be playable
+        faceFrames.get(localizedIndex);
+
     }
 
     @Override
