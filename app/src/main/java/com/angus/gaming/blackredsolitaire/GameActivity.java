@@ -386,7 +386,9 @@ public class GameActivity extends Activity {
     }
 
     @OnClick(R.id.toPlayButton)
-    void onToPlayClick(){ }
+    void onToPlayClick(){
+        getFragmentManager().beginTransaction().add(R.id.container, new ToPlayFragment(), ToPlayFragment.class.getSimpleName()).commit();
+    }
 
     @OnClick(R.id.newGameButton)
     void onNewGameClick(){

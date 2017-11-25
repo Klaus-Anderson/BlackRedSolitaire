@@ -22,17 +22,24 @@
         starting with Jack. Points are not scoRed until a level is completed.
         Having a complete “Pile” will move you to next level.</string>
     <string name="hintFive">To “Collect” a face card into the “Pile”, you must have the following
-        cards on the board: the face card you want to “Collect” into the “Pile”, a number card that
-        matches the suit of the face card in one of the color “Places”, and another number card of
-        the opposing color in the other color “Place”. Once all of these cards are on the board,
-        press the face card to “collect” it and move that card onto the pile. The sum of the number
-        cards used to “Collect” the face card is put towards your “Pile” total. Face cards that can
-        be “Collected” are surrounded with a Red border.</string>
-    <string name="hintSix">Once a level has been completed the face cards from that level become
-        “Wild”. “Wild” face cards can be “Collected” instead of the current level’s face cards.
-        “Wild” face cards which can be “Collected” are surrounded with a red border. “Wild”
-        face cards have the same prerequisites as the current level face cards to be collected onto
-        the pile. 10s start the game as “Wild”.</string>
+        cards on the board (example shown above):\n
+        The face card you want to “Collect” into the “Pile”,\n
+        A number card that matches the suit of the face card in one of the color “Places”,\n
+        and another number card of the opposing color in the other color “Place”.\a
+        Once all of these cards are on the board, press the face card to “collect” it and
+        move that card onto the pile. Face cards that can be “Collected” are surrounded with a red border.</string>
+    <string name="rulesFive">
+        The face card you want to “Collect” into the “Pile”,\n
+        A number card that matches the suit of the face card in one of the color “Places”,\n
+        and another number card of the opposing color in the other color “Place”.\n
+    </string>
+    <string name="hintSix">
+        The sum of the number cards used to “Collect” a face card is put towards your “Pile” total.
+        Once a level has been completed the face cards from that level become “Wild”. “Wild” face
+        cards can be “Collected” instead of the current level’s face cards. “Wild” face cards which
+        can be “Collected” are surrounded with a red border. “Wild” face cards have the same
+        prerequisites as the current level face cards to be collected ontothe pile. 10s start the
+        game as “Wild”.</string>
     <string name="hintSeven">“Wild” face cards can also be used as number cards. To use a “Wild”
         face card as a number card, press on that card and it will move to it’s respective color
         “Place”. “Wild” face cards that can be used as number cards will be surrounded with a yellow
@@ -68,5 +75,7 @@
     <string name="scoreColon">Score:</string>
     <string name="breakString">break</string>
     <string name="press_to_draw">Press deck to draw</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
 
 </resources>

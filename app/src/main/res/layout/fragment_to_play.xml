@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.angus.gaming.blackredsolitaire.ToPlayFragment">
+    tools:context="com.angus.gaming.blackredsolitaire.ToPlayFragment"
+    android:background="@drawable/current_level_shape">
 
     <TextView
         android:id="@+id/title_textview"
@@ -30,10 +31,27 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/hint_imageview"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/hintFive"
+        android:text="@string/hintOne"
         android:layout_marginTop="10dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:gravity="center"/>
+
+    <Button
+        android:id="@+id/previousButton"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/previous"
+        android:visibility="invisible"/>
+
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next"/>
 
 </RelativeLayout>
