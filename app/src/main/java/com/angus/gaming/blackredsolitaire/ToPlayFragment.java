@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -29,6 +30,9 @@ public class ToPlayFragment extends Fragment {
 
     @BindView(R.id.nextButton)
     Button nextButton;
+
+    @BindView(R.id.toPlayFragmentLayout)
+    LinearLayout toPlayFragmentLayout;
 
     private int hintNumber = 1;
 
@@ -68,16 +72,20 @@ public class ToPlayFragment extends Fragment {
             case 1:
                 hintTextview.setText(R.string.hintOne);
                 previousButton.setVisibility(View.INVISIBLE);
+                toPlayFragmentLayout.setBackgroundResource(R.drawable.current_level_shape);
                 break;
             case 2:
                 hintTextview.setText(R.string.hintTwo);
                 previousButton.setVisibility(View.VISIBLE);
+                toPlayFragmentLayout.setBackgroundResource(R.drawable.locked_level_shape);
                 break;
             case 3:
                 hintTextview.setText(R.string.hintThree);
+                toPlayFragmentLayout.setBackgroundResource(R.drawable.bottom_row_shape);
                 break;
             case 4:
                 hintTextview.setText(R.string.hintFour);
+                toPlayFragmentLayout.setBackgroundResource(R.drawable.current_level_shape);
                 break;
             case 5:
                 hintTextview.setText(R.string.hintFive);

@@ -5,4 +5,10 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="frameStyle">
+        <item name="android:layout_width">45dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:padding">@dimen/frame_padding</item>
+    </style>
+
 </resources>

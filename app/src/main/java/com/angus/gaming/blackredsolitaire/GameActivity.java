@@ -428,10 +428,8 @@ public class GameActivity extends Activity {
             levelText.setText(R.string.queen);
             if(!isBroken) {
                 jacksLayout.setBackground(getResources().getDrawable(R.drawable.face_number_shape));
-                textViewJ.setTextColor(getResources().getColor(R.color.white));
             } else {
-                jacksLayout.setBackground(getResources().getDrawable(R.drawable.black_shape));
-                textViewJ.setTextColor(getResources().getColor(R.color.white));
+                jacksLayout.setBackground(getResources().getDrawable(R.drawable.broken_shape));
             }
             queensLayout.setBackground(getResources().getDrawable(R.drawable.current_level_shape));
         }
@@ -439,10 +437,8 @@ public class GameActivity extends Activity {
             levelText.setText(R.string.king);
             if(!isBroken) {
                 queensLayout.setBackground(getResources().getDrawable(R.drawable.face_number_shape));
-                textViewQ.setTextColor(getResources().getColor(R.color.white));
             } else {
-                queensLayout.setBackground(getResources().getDrawable(R.drawable.black_shape));
-                textViewQ.setTextColor(getResources().getColor(R.color.white));
+                queensLayout.setBackground(getResources().getDrawable(R.drawable.broken_shape));
             }
             kingsLayout.setBackground(getResources().getDrawable(R.drawable.current_level_shape));
 
@@ -451,10 +447,8 @@ public class GameActivity extends Activity {
             levelText.setText(R.string.ace);
             if(!isBroken) {
                 kingsLayout.setBackground(getResources().getDrawable(R.drawable.face_number_shape));
-                textViewK.setTextColor(getResources().getColor(R.color.white));
             } else {
-                kingsLayout.setBackground(getResources().getDrawable(R.drawable.black_shape));
-                textViewK.setTextColor(getResources().getColor(R.color.white));
+                kingsLayout.setBackground(getResources().getDrawable(R.drawable.broken_shape));
             }
             acesLayout.setBackground(getResources().getDrawable(R.drawable.current_level_shape));
         }
@@ -462,10 +456,8 @@ public class GameActivity extends Activity {
             levelText.setText(R.string.god_Tier);
             if(!isBroken) {
                 acesLayout.setBackground(getResources().getDrawable(R.drawable.face_number_shape));
-                textViewA.setTextColor(getResources().getColor(R.color.white));
             } else {
-                acesLayout.setBackground(getResources().getDrawable(R.drawable.black_shape));
-                textViewA.setTextColor(getResources().getColor(R.color.white));
+                acesLayout.setBackground(getResources().getDrawable(R.drawable.broken_shape));
             }
         }
         if(isBroken) {
@@ -473,8 +465,9 @@ public class GameActivity extends Activity {
                 if(faceFrames.get(i).getChildCount() != 0 &&
                         pileFrames.get(i % 4).getChildCount() == 0) {
                     faceFrames.get(i).removeAllViews();
-                    faceFrames.get(i).setBackground(
-                            getResources().getDrawable(R.drawable.black_shape));
+                    ImageView face_down = new ImageView(this);
+                    face_down.setImageResource(R.drawable.card_back);
+                    faceFrames.get(i).addView(face_down);
                 }
             }
         }

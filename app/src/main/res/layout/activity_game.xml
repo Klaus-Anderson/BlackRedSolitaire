@@ -18,6 +18,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/face_number_shape"
+            android:paddingTop="@dimen/card_padding"
             android:orientation="vertical" >
 
             <TextView
@@ -26,9 +27,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/ten"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/white"
-                android:textSize="17sp" />
+                android:textAppearance="?android:attr/textAppearanceInverse"
+                android:textSize="17sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -39,22 +39,12 @@
 
                 <FrameLayout
                     android:id="@+id/ten_clubs"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/ten_diamonds"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
             </LinearLayout>
 
@@ -67,22 +57,12 @@
 
                 <FrameLayout
                     android:id="@+id/ten_spades"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/ten_hearts"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
             </LinearLayout>
         </LinearLayout>
@@ -93,6 +73,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/current_level_shape"
+            android:paddingTop="@dimen/card_padding"
             android:orientation="vertical" >
 
             <TextView
@@ -101,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/jack"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
                 android:textSize="17sp" />
 
             <LinearLayout
@@ -113,22 +94,12 @@
 
                 <FrameLayout
                     android:id="@+id/jack_clubs"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/jack_diamonds"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
             </LinearLayout>
 
@@ -141,22 +112,12 @@
 
                 <FrameLayout
                     android:id="@+id/jack_spades"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/jack_hearts"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
             </LinearLayout>
         </LinearLayout>
@@ -167,6 +128,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/locked_level_shape"
+            android:paddingTop="@dimen/card_padding"
             android:orientation="vertical" >
 
             <TextView
@@ -175,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/queen"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
                 android:textSize="17sp" />
 
             <LinearLayout
@@ -187,22 +149,12 @@
 
                 <FrameLayout
                     android:id="@+id/queen_clubs"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/queen_diamonds"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
             </LinearLayout>
 
@@ -215,22 +167,12 @@
 
                 <FrameLayout
                     android:id="@+id/queen_spades"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/queen_hearts"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
             </LinearLayout>
         </LinearLayout>
@@ -241,6 +183,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/locked_level_shape"
+            android:paddingTop="@dimen/card_padding"
             android:orientation="vertical" >
 
             <TextView
@@ -249,7 +192,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/king"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
                 android:textSize="17sp" />
 
             <LinearLayout
@@ -261,22 +204,12 @@
 
                 <FrameLayout
                     android:id="@+id/king_clubs"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/king_diamonds"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
             </LinearLayout>
 
@@ -289,22 +222,12 @@
 
                 <FrameLayout
                     android:id="@+id/king_spades"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/king_hearts"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
             </LinearLayout>
         </LinearLayout>
@@ -315,6 +238,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/locked_level_shape"
+            android:paddingTop="@dimen/card_padding"
             android:orientation="vertical" >
 
             <TextView
@@ -323,7 +247,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/ace"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
                 android:textSize="17sp" />
 
             <LinearLayout
@@ -335,22 +259,12 @@
 
                 <FrameLayout
                     android:id="@+id/ace_clubs"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/ace_diamonds"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
             </LinearLayout>
 
@@ -363,22 +277,12 @@
 
                 <FrameLayout
                     android:id="@+id/ace_spades"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/ace_hearts"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
             </LinearLayout>
         </LinearLayout>
@@ -389,6 +293,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/bottom_row_shape"
+            android:paddingTop="@dimen/card_padding"
             android:orientation="vertical" >
 
             <TextView
@@ -397,7 +302,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/pile"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
                 android:textSize="17sp" />
 
             <LinearLayout
@@ -409,22 +314,12 @@
 
                 <FrameLayout
                     android:id="@+id/pile_clubs"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/pile_diamonds"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
             </LinearLayout>
 
@@ -437,22 +332,12 @@
 
                 <FrameLayout
                     android:id="@+id/pile_spades"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/pile_hearts"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    style="@style/frameStyle">
                 </FrameLayout>
             </LinearLayout>
         </LinearLayout>
@@ -471,6 +356,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/bottom_row_shape"
+            android:paddingTop="@dimen/card_padding"
             android:orientation="vertical" >
 
             <TextView
@@ -479,7 +365,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/discard"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
                 android:textSize="17sp" />
 
             <FrameLayout
@@ -487,7 +373,7 @@
                 android:layout_width="45dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_weight="3"
+                android:layout_weight="1"
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
                 android:paddingStart="2dp"
@@ -497,77 +383,97 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="4">
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginEnd="@dimen/card_padding"
+                android:layout_marginStart="@dimen/card_padding"
+                android:layout_marginBottom="@dimen/card_padding">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="@string/c"
-                    android:textSize="17sp" />
 
-                <TextView
-                    android:id="@+id/clubsText"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="@string/clubs"
+                        android:textColor="@color/black"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/clubsText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/_8"
+                        android:textColor="@color/white"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="@string/diamond"
+                        android:textColor="@color/red"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/diamondsText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/_8"
+                        android:textColor="@color/white"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/_8"
-                    android:textSize="17sp" />
+                    android:layout_weight="1">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="@string/d"
-                    android:textSize="17sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:textColor="@color/black"
+                        android:text="@string/spade"
+                        android:textSize="17sp" />
 
-                <TextView
-                    android:id="@+id/diamondsText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/_8"
-                    android:textSize="17sp" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/spadesText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/_8"
+                        android:textColor="@color/white"
+                        android:textSize="17sp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="4">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:textColor="@color/red"
+                        android:text="@string/heart"
+                        android:textSize="17sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="@string/s"
-                    android:textSize="17sp" />
+                    <TextView
+                        android:id="@+id/heartsText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/_8"
+                        android:textColor="@color/white"
+                        android:textSize="17sp" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/spadesText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/_8"
-                    android:textSize="17sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="@string/h"
-                    android:textSize="17sp" />
-
-                <TextView
-                    android:id="@+id/heartsText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/_8"
-                    android:textSize="17sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -576,7 +482,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/bottom_row_shape"
+            android:background="@drawable/black_shape"
+            android:paddingTop="@dimen/card_padding"
             android:orientation="vertical" >
 
             <TextView
@@ -585,7 +492,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/black"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
                 android:textSize="17sp" />
 
             <FrameLayout
@@ -607,7 +514,7 @@
                 android:gravity="center_horizontal"
                 android:layout_gravity="center"
                 android:text="@string/press_to_discard"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
                 android:textSize="13sp"
                 android:visibility="invisible"
                 android:layout_weight="1"/>
@@ -618,7 +525,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/bottom_row_shape"
+            android:background="@drawable/red_shape"
+            android:paddingTop="@dimen/card_padding"
             android:orientation="vertical" >
 
             <TextView
@@ -627,7 +535,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/red"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
                 android:textSize="17sp" />
 
             <FrameLayout
@@ -661,6 +569,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/bottom_row_shape"
+            android:paddingTop="@dimen/card_padding"
             android:orientation="vertical" >
 
             <TextView
@@ -669,7 +578,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/deck"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
                 android:textSize="17sp" />
 
             <FrameLayout
@@ -702,7 +611,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_alignParentTop="true"
                     android:text="@string/press_to_draw"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textAppearance="?android:attr/textAppearanceLargeInverse"
                     android:textSize="13sp"
                     />
 
@@ -714,7 +623,7 @@
                     android:text="@string/_52"
                     android:layout_centerHorizontal="true"
                     android:layout_alignParentBottom="true"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textAppearance="?android:attr/textAppearanceLargeInverse"
                     android:textSize="15sp"/>
             </RelativeLayout>
 
@@ -726,6 +635,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/bottom_row_shape"
+            android:paddingTop="@dimen/card_padding"
             android:orientation="vertical" >
 
             <TextView
@@ -734,7 +644,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/score"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
                 android:textSize="17sp" />
 
             <LinearLayout
@@ -748,6 +658,7 @@
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="@string/scoreColon"
+                    android:textColor="@color/white"
                     android:textSize="13sp" />
 
                 <TextView
@@ -756,6 +667,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="@string/_0"
+                    android:textColor="@color/white"
                     android:textSize="13sp" />
             </LinearLayout>
 
@@ -769,6 +681,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="end"
+                    android:textColor="@color/white"
                     android:text="@string/pileColon"
                     android:textSize="13sp" />
 
@@ -777,6 +690,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:textColor="@color/white"
                     android:text="@string/_0"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -790,6 +704,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:textColor="@color/white"
                     android:gravity="end"
                     android:text="@string/level"
                     android:textSize="13sp" />
@@ -800,6 +715,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="@string/jack"
+                    android:textColor="@color/white"
                     android:textSize="13sp" />
             </LinearLayout>
 

@@ -54,11 +54,11 @@
     <string name="top_card_access">Top Card</string>
     <string name="pile">Pile</string>
     <string name="discard">Discard</string>
-    <string name="c">C:</string>
+    <string name="clubs">\u2663</string>
     <string name="_8">8</string>
-    <string name="d">D:</string>
-    <string name="s">S:</string>
-    <string name="h">H:</string>
+    <string name="diamond">\u2666</string>
+    <string name="spade">\u2660</string>
+    <string name="heart">\u2665</string>
     <string name="black">Black</string>
     <string name="press_to_discard">Press to Discard</string>
     <string name="red">Red</string>

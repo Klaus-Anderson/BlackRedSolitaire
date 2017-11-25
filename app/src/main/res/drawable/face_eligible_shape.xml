@@ -7,9 +7,9 @@
         android:color="#FF0000" />
 
     <corners
-        android:bottomLeftRadius="7dp"
-        android:bottomRightRadius="7dp"
-        android:topLeftRadius="7dp"
-        android:topRightRadius="7dp" />
+        android:bottomLeftRadius="@dimen/eligible_card_radius"
+        android:bottomRightRadius="@dimen/eligible_card_radius"
+        android:topLeftRadius="@dimen/eligible_card_radius"
+        android:topRightRadius="@dimen/eligible_card_radius" />
 
 </shape>

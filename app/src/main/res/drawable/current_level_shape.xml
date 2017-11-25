@@ -7,12 +7,12 @@
         android:color="#FFFFFF" />
 
     <solid
-        android:color="#4CAF50" />
+        android:color="#2e7d32" />
 
     <corners
-        android:bottomLeftRadius="7dp"
-        android:bottomRightRadius="7dp"
-        android:topLeftRadius="7dp"
-        android:topRightRadius="7dp" />
+        android:bottomLeftRadius="@dimen/card_radius"
+        android:bottomRightRadius="@dimen/card_radius"
+        android:topLeftRadius="@dimen/card_radius"
+        android:topRightRadius="@dimen/card_radius" />
 
 </shape>

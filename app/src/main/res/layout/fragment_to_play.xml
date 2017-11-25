@@ -1,10 +1,11 @@
 <RelativeLayout
+    android:id="@+id/toPlayFragmentLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.angus.gaming.blackredsolitaire.ToPlayFragment"
-    android:background="@drawable/current_level_shape">
+    android:background="@drawable/bottom_row_shape">
 
     <TextView
         android:id="@+id/title_textview"
