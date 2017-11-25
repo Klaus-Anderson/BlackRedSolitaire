@@ -27,7 +27,7 @@ import static com.angus.gaming.blackredsolitaire.Card.DIAMOND_SUIT;
 import static com.angus.gaming.blackredsolitaire.Card.HEART_SUIT;
 import static com.angus.gaming.blackredsolitaire.Card.SPADE_SUIT;
 
-public class GameActivity extends Activity implements ToPlayFragment.OnValuesSetListener {
+public class GameActivity extends Activity {
     @BindView(R.id.deckFrame)
     FrameLayout deckFrame;
     @BindView(R.id.redFrame)
@@ -142,7 +142,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
     private List<Integer> eligibleIndexes;
     private Boolean hasDrawn;
     private int level, pileTotal, scoreTotal, brokenLevel = -1;
-    private ToPlayFragment toPlayFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,8 +155,6 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         colorCards = new ArrayList<>();
         colorCards.add(Card.COLOR_BLACK, null);
         colorCards.add(Card.COLOR_RED, null);
-
-        toPlayFragment = new ToPlayFragment();
 
         colorFrames = new ArrayList<>();
         colorFrames.add(COLOR_BLACK, blackFrame);
@@ -389,11 +386,7 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
     }
 
     @OnClick(R.id.toPlayButton)
-    void onToPlayClick(){
-        getFragmentManager().beginTransaction()
-                            .add(R.id.container, toPlayFragment)
-                            .addToBackStack("aFrag").commit();
-    }
+    void onToPlayClick(){ }
 
     @OnClick(R.id.newGameButton)
     void onNewGameClick(){
@@ -546,16 +539,4 @@ public class GameActivity extends Activity implements ToPlayFragment.OnValuesSet
         }
         this.hasDrawn = hasDrawn;
     }
-
-    @Override
-    public void onValuesSet() {}
-
-    @Override
-    public void finishFragment() {
-        getFragmentManager().beginTransaction().remove(toPlayFragment).commit();}
-
-    @Override
-    public void fragmentManager() {}
-
-
 }

@@ -8,16 +8,42 @@
     <string name="king">King</string>
     <string name="ace">Ace</string>
     <string name="howToPlay">How to Play BR Solitaire</string>
-    <string name="gameObjective">The objective of the game is to collect as many points as possible before you run out of cards.</string>
-    <string name="cardDraw">Press on the deck to draw a card. If the card drawn is a face card or a 10, it will go to its respective pool automatically. If the card is any other number card, it will go to the black or red pool based on its color.</string>
-    <string name="colorPools">The black and red pools can only contain one card at a time, so if you draw a red number card and there is already a card in the red pool, you must choose one to discard.</string>
-    <string name="scoringPoints">To score points, you must have a full pile containing one face card of each suit based on the current level, starting with Jack. Points are not scored until a pile is cleared.</string>
-    <string name="collectingPiles">To put a face card into a pile, you must have the following cards on the board: the face card you want to put into the pile, a number card that matches the suit as the face card, and another number card of the opposing color. Once these are all on board, press the face card to move the cards into the pile. The sum of the number cards used to collect the face card is put towards your pile total.</string>
-    <string name="tensAreWild">10s act as wild cards. When it is appropriate, press on a 10 to use it as substitution for a face card of the same suit as the 10. Otherwise, press on a 10 to move it into its respective color pool.</string>
-    <string name="expiredFaces">Once its level has been passed, a face card can no longer be used to collect piles. However, if its levels has been passed a face card can be pressed on to be moved into its respective color pool and used as number card of its on suit and of value 10.</string>
+    <string name="hintOne">The objective of the game is to score as many points as possible before
+        the deck runs out of cards.</string>
+    <string name="hintTwo">Press on the deck to draw a card. If the card drawn is a face card
+        (10s are face cards),it will automatically go to its “Place”.
+        If the card drawn is any other card it will automatically go to the Black or Red
+        “Place” based on its color.</string>
+    <string name="hintThree">The Black and Red “Places” can only contain one card at a time.
+        For example, if a Red number card is drawn and there is already a card in the Red “Place”,
+        you must either discard the drawn card or discard the card in the Red “Place”.</string>
+    <string name="hintFour">To score points, the “Pile” must contain one face card of each suit
+        (one club, one diamond, one spade, and one heart) based on the current level,
+        starting with Jack. Points are not scoRed until a level is completed.
+        Having a complete “Pile” will move you to next level.</string>
+    <string name="hintFive">To “Collect” a face card into the “Pile”, you must have the following
+        cards on the board: the face card you want to “Collect” into the “Pile”, a number card that
+        matches the suit of the face card in one of the color “Places”, and another number card of
+        the opposing color in the other color “Place”. Once all of these cards are on the board,
+        press the face card to “collect” it and move that card onto the pile. The sum of the number
+        cards used to “Collect” the face card is put towards your “Pile” total. Face cards that can
+        be “Collected” are surrounded with a Red border.</string>
+    <string name="hintSix">Once a level has been completed the face cards from that level become
+        “Wild”. “Wild” face cards can be “Collected” instead of the current level’s face cards.
+        “Wild” face cards which can be “Collected” are surrounded with a red border. “Wild”
+        face cards have the same prerequisites as the current level face cards to be collected onto
+        the pile. 10s start the game as “Wild”.</string>
+    <string name="hintSeven">“Wild” face cards can also be used as number cards. To use a “Wild”
+        face card as a number card, press on that card and it will move to it’s respective color
+        “Place”. “Wild” face cards that can be used as number cards will be surrounded with a yellow
+        border. Pressing a “Wild” face card will only move it to it’s respective color “Place” if
+        that “Wild” face card cannot “Collected”.</string>
+    <string name="hintEight">If you wish to skip the level you are currently on, press the “BREAK”
+        button. Skipping a level will “break” the face cards of that level. You can only use the
+        “BREAK” button once per game.</string>
+    <string name="hintNine">Once a level has been “Broken”, the face cards from that level cannot be
+        “Collected”. The face cards from the “Broken” level cannot be used as “Wild” face cards.</string>
     <string name="back">Back</string>
-    <string name="action_settings">Action Settings</string>
-    <string name="banner_ad_unit_id">ca-app-pub-8708235330552145/5577007312</string>
     <string name="top_card_access">Top Card</string>
     <string name="pile">Pile</string>
     <string name="discard">Discard</string>
@@ -38,7 +64,7 @@
     <string name="press_here_for_game_over">Press Here for Game Over</string>
     <string name="new_game">New Game</string>
     <string name="how_to_play">How to Play</string>
-    <string name="god_Tier">God-Tier</string>
+    <string name="god_Tier">Finished</string>
     <string name="scoreColon">Score:</string>
     <string name="breakString">break</string>
     <string name="press_to_draw">Press deck to draw</string>
