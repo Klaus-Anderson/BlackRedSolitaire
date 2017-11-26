@@ -15,30 +15,24 @@
         If the card drawn is any other card it will automatically go to the Black or Red
         “Place” based on its color.</string>
     <string name="hintThree">The Black and Red “Places” can only contain one card at a time.
-        For example, if a Red number card is drawn and there is already a card in the Red “Place”,
-        you must either discard the drawn card or discard the card in the Red “Place”.</string>
+        For example, if a Black number card is drawn and there is already a card in the Black “Place”,
+        you must either discard the drawn card or discard the card in the Black “Place”.</string>
     <string name="hintFour">To score points, the “Pile” must contain one face card of each suit
         (one club, one diamond, one spade, and one heart) based on the current level,
-        starting with Jack. Points are not scoRed until a level is completed.
+        starting with Jack. Points are not scored until a level is completed.
         Having a complete “Pile” will move you to next level.</string>
     <string name="hintFive">To “Collect” a face card into the “Pile”, you must have the following
-        cards on the board (example shown above):\n
-        The face card you want to “Collect” into the “Pile”,\n
-        A number card that matches the suit of the face card in one of the color “Places”,\n
-        and another number card of the opposing color in the other color “Place”.\a
+        cards on the board (example shown above): The face card you want to “Collect” into the “Pile”,
+        A number card that matches the suit of the face card in one of the color “Places”,
+        and another number card of the opposing color in the other color “Place”.
         Once all of these cards are on the board, press the face card to “collect” it and
         move that card onto the pile. Face cards that can be “Collected” are surrounded with a red border.</string>
-    <string name="rulesFive">
-        The face card you want to “Collect” into the “Pile”,\n
-        A number card that matches the suit of the face card in one of the color “Places”,\n
-        and another number card of the opposing color in the other color “Place”.\n
-    </string>
     <string name="hintSix">
         The sum of the number cards used to “Collect” a face card is put towards your “Pile” total.
         Once a level has been completed the face cards from that level become “Wild”. “Wild” face
         cards can be “Collected” instead of the current level’s face cards. “Wild” face cards which
         can be “Collected” are surrounded with a red border. “Wild” face cards have the same
-        prerequisites as the current level face cards to be collected ontothe pile. 10s start the
+        prerequisites as the current level face cards to be collected onto the pile. 10s start the
         game as “Wild”.</string>
     <string name="hintSeven">“Wild” face cards can also be used as number cards. To use a “Wild”
         face card as a number card, press on that card and it will move to it’s respective color
@@ -71,7 +65,7 @@
     <string name="press_here_for_game_over">Press Here for Game Over</string>
     <string name="new_game">New Game</string>
     <string name="how_to_play">How to Play</string>
-    <string name="god_Tier">Finished</string>
+    <string name="god_Tier">Done</string>
     <string name="scoreColon">Score:</string>
     <string name="breakString">break</string>
     <string name="press_to_draw">Press deck to draw</string>

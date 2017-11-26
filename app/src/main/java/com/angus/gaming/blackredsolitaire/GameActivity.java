@@ -325,7 +325,10 @@ public class GameActivity extends Activity {
                 }
                 deck.pop();
                 cardsLeftText.setText(String.valueOf(deck.size()));
-                checkIfFaceIsEligible(frameIndex);
+                if(level<5)
+                    checkIfFaceIsEligible(frameIndex);
+                else
+                    moveToFrame.setClickable(false);
                 setHasDrawn(false);
             } else {
                 remainingCards.get(deck.peek().getSuit()).setText(
@@ -414,14 +417,23 @@ public class GameActivity extends Activity {
     }
 
     private void findEligibleFaces(){
-        for(Integer i : eligibleIndexes){
-            faceFrames.get(i).setBackground(null);
-        }
-        eligibleIndexes.clear();
+        if(level<5) {
+            for (Integer i : eligibleIndexes) {
+                faceFrames.get(i).setBackground(null);
+            }
+            eligibleIndexes.clear();
 
-        for (int i = 0; i < 4 * ( level + 1 ); i++) {
-            checkIfFaceIsEligible(i);
+            for (int i = 0; i < 4 * ( level + 1 ); i++) {
+                checkIfFaceIsEligible(i);
+            }
+        } else {
+            for (Integer i : eligibleIndexes) {
+                faceFrames.get(i).setBackground(null);
+                faceFrames.get(i).setClickable(false);
+            }
+            eligibleIndexes.clear();
         }
+
     }
     private void increaseLevel(boolean isBroken) {
         if (level == 1) {
@@ -472,8 +484,7 @@ public class GameActivity extends Activity {
             }
         }
         level++;
-        if(level>4)
-            findEligibleFaces();
+        findEligibleFaces();
     }
 
     private boolean isFrameCardSet(FrameLayout frame) {
@@ -505,6 +516,7 @@ public class GameActivity extends Activity {
         if (deck.size() == 0) {
             topCard.setVisibility(View.INVISIBLE);
             deckFrame.setClickable(false);
+            deckText.setVisibility(View.INVISIBLE);
         }
     }
 

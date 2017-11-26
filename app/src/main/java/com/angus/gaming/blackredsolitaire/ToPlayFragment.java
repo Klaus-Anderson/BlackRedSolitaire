@@ -67,45 +67,62 @@ public class ToPlayFragment extends Fragment {
     }
 
     private void onButtonClick(){
-        //@Todo: put in images for hints
         switch (hintNumber) {
             case 1:
                 hintTextview.setText(R.string.hintOne);
                 previousButton.setVisibility(View.INVISIBLE);
                 toPlayFragmentLayout.setBackgroundResource(R.drawable.bottom_row_shape);
+                hintImageview.setImageDrawable(getResources().getDrawable(
+                        R.drawable.hint_one,null));
                 break;
             case 2:
                 hintTextview.setText(R.string.hintTwo);
                 previousButton.setVisibility(View.VISIBLE);
                 toPlayFragmentLayout.setBackgroundResource(R.drawable.locked_level_shape);
+                hintImageview.setImageDrawable(
+                        getResources().getDrawable(R.drawable.hint_two, null));
                 break;
             case 3:
                 hintTextview.setText(R.string.hintThree);
                 toPlayFragmentLayout.setBackgroundResource(R.drawable.bottom_row_shape);
+                hintImageview.setImageDrawable(getResources().getDrawable(
+                        R.drawable.hint_three, null));
                 break;
             case 4:
                 hintTextview.setText(R.string.hintFour);
-                toPlayFragmentLayout.setBackgroundResource(R.drawable.current_level_shape);
+                toPlayFragmentLayout.setBackgroundResource(R.drawable.bottom_row_shape);
+                hintImageview.setImageDrawable(getResources().getDrawable(
+                        R.drawable.hint_four, null));
                 break;
             case 5:
                 hintTextview.setText(R.string.hintFive);
                 toPlayFragmentLayout.setBackgroundResource(R.drawable.current_level_shape);
+                hintImageview.setImageDrawable(getResources().getDrawable(
+                        R.drawable.hint_five, null));
                 break;
             case 6:
                 hintTextview.setText(R.string.hintSix);
                 toPlayFragmentLayout.setBackgroundResource(R.drawable.face_number_shape);
+                hintImageview.setImageDrawable(getResources().getDrawable(
+                        R.drawable.hint_six));
                 break;
             case 7:
                 hintTextview.setText(R.string.hintSeven);
                 toPlayFragmentLayout.setBackgroundResource(R.drawable.face_number_shape);
+                hintImageview.setImageDrawable(getResources().getDrawable(
+                        R.drawable.hint_seven, null));
                 break;
             case 8:
                 hintTextview.setText(R.string.hintEight);
                 nextButton.setVisibility(View.VISIBLE);
+                hintImageview.setImageDrawable(getResources().getDrawable(
+                        R.drawable.hint_eight, null));
                 break;
             case 9:
                 hintTextview.setText(R.string.hintNine);
                 nextButton.setVisibility(View.GONE);
+                hintImageview.setImageDrawable(getResources().getDrawable(
+                        R.drawable.hint_nine, null));
                 break;
         }
     }
