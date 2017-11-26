@@ -387,7 +387,9 @@ public class GameActivity extends Activity {
 
     @OnClick(R.id.toPlayButton)
     void onToPlayClick(){
-        getFragmentManager().beginTransaction().add(R.id.container, new ToPlayFragment(), ToPlayFragment.class.getSimpleName()).commit();
+        getFragmentManager().beginTransaction()
+                            .add(R.id.container, new ToPlayFragment(), ToPlayFragment.class.getSimpleName())
+                            .addToBackStack(ToPlayFragment.class.getSimpleName()).commit();
     }
 
     @OnClick(R.id.newGameButton)
@@ -470,7 +472,8 @@ public class GameActivity extends Activity {
             }
         }
         level++;
-        findEligibleFaces();
+        if(level>4)
+            findEligibleFaces();
     }
 
     private boolean isFrameCardSet(FrameLayout frame) {
@@ -531,5 +534,12 @@ public class GameActivity extends Activity {
             deckText.setText(R.string.press_to_draw);
         }
         this.hasDrawn = hasDrawn;
+    }
+
+    @Override
+    public void onBackPressed(){
+        if (getFragmentManager().getBackStackEntryCount() > 0)
+            getFragmentManager().popBackStackImmediate();
+        else super.onBackPressed();
     }
 }
