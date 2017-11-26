@@ -14,7 +14,7 @@
     <style name="cardLayoutStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_weight">1"</item>
+        <item name="android:layout_weight">1</item>
         <item name="android:paddingTop">@dimen/card_padding</item>
         <item name="android:orientation">vertical</item>
     </style>
