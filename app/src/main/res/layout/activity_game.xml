@@ -14,12 +14,8 @@
 
         <LinearLayout
             android:id="@+id/tens"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/face_number_shape"
-            android:paddingTop="@dimen/card_padding"
-            android:orientation="vertical" >
+            style="@style/cardLayoutStyle"
+            android:background="@drawable/face_number_shape" >
 
             <TextView
                 android:id="@+id/textView10"
@@ -69,12 +65,8 @@
 
         <LinearLayout
             android:id="@+id/jacks"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/current_level_shape"
-            android:paddingTop="@dimen/card_padding"
-            android:orientation="vertical" >
+            style="@style/cardLayoutStyle"
+            android:background="@drawable/current_level_shape">
 
             <TextView
                 android:id="@+id/textViewJ"
@@ -124,12 +116,8 @@
 
         <LinearLayout
             android:id="@+id/queens"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/locked_level_shape"
-            android:paddingTop="@dimen/card_padding"
-            android:orientation="vertical" >
+            style="@style/cardLayoutStyle"
+            android:background="@drawable/locked_level_shape" >
 
             <TextView
                 android:id="@+id/textViewQ"
@@ -179,12 +167,9 @@
 
         <LinearLayout
             android:id="@+id/kings"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            style="@style/cardLayoutStyle"
             android:background="@drawable/locked_level_shape"
-            android:paddingTop="@dimen/card_padding"
-            android:orientation="vertical" >
+             >
 
             <TextView
                 android:id="@+id/textViewK"
@@ -234,12 +219,8 @@
 
         <LinearLayout
             android:id="@+id/aces"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/locked_level_shape"
-            android:paddingTop="@dimen/card_padding"
-            android:orientation="vertical" >
+            style="@style/cardLayoutStyle"
+            android:background="@drawable/locked_level_shape">
 
             <TextView
                 android:id="@+id/textViewA"
@@ -289,12 +270,8 @@
 
         <LinearLayout
             android:id="@+id/pile"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/bottom_row_shape"
-            android:paddingTop="@dimen/card_padding"
-            android:orientation="vertical" >
+            style="@style/cardLayoutStyle"
+            android:background="@drawable/bottom_row_shape" >
 
             <TextView
                 android:id="@+id/textViewPile"
@@ -352,12 +329,8 @@
 
         <LinearLayout
             android:id="@+id/discard"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/bottom_row_shape"
-            android:paddingTop="@dimen/card_padding"
-            android:orientation="vertical" >
+            style="@style/cardLayoutStyle"
+            android:background="@drawable/bottom_row_shape" >
 
             <TextView
                 android:id="@+id/textViewDiscard"
@@ -479,12 +452,8 @@
 
         <LinearLayout
             android:id="@+id/black"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/black_shape"
-            android:paddingTop="@dimen/card_padding"
-            android:orientation="vertical" >
+            style="@style/cardLayoutStyle"
+            android:background="@drawable/black_shape" >
 
             <TextView
                 android:id="@+id/textViewBlack"
@@ -522,12 +491,8 @@
 
         <LinearLayout
             android:id="@+id/red"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/red_shape"
-            android:paddingTop="@dimen/card_padding"
-            android:orientation="vertical" >
+            style="@style/cardLayoutStyle"
+            android:background="@drawable/red_shape" >
 
             <TextView
                 android:id="@+id/textViewRed"
@@ -565,12 +530,8 @@
 
         <LinearLayout
             android:id="@+id/deck"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/bottom_row_shape"
-            android:paddingTop="@dimen/card_padding"
-            android:orientation="vertical" >
+            style="@style/cardLayoutStyle"
+            android:background="@drawable/bottom_row_shape" >
 
             <TextView
                 android:id="@+id/textViewDeck"
@@ -632,12 +593,8 @@
 
         <LinearLayout
             android:id="@+id/score"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/bottom_row_shape"
-            android:paddingTop="@dimen/card_padding"
-            android:orientation="vertical" >
+            style="@style/cardLayoutStyle"
+            android:background="@drawable/bottom_row_shape" >
 
             <TextView
                 android:id="@+id/textViewScore"
@@ -739,36 +696,18 @@
             android:orientation="vertical" >
             <Button
                 android:id="@+id/newGameButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/new_game"
-                android:textSize="15sp"
-                android:background="@drawable/game_button_shape"
-                android:padding="@dimen/card_padding"
-                android:textColor="@color/white"
-                android:layout_weight="1"/>
+                style="@style/gameButtonStyle"
+                android:text="@string/new_game"/>
 
             <Button
                 android:id="@+id/toPlayButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/how_to_play"
-                android:textSize="15sp"
-                android:background="@drawable/game_button_shape"
-                android:padding="@dimen/card_padding"
-                android:textColor="@color/white"
-                android:layout_weight="1"/>
+                style="@style/gameButtonStyle"
+                android:text="@string/how_to_play"/>
 
             <Button
                 android:id="@+id/high_scores_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/high_scores"
-                android:textSize="15sp"
-                android:background="@drawable/game_button_shape"
-                android:padding="@dimen/card_padding"
-                android:textColor="@color/white"
-                android:layout_weight="1"/>
+                style="@style/gameButtonStyle"
+                android:text="@string/high_scores"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
