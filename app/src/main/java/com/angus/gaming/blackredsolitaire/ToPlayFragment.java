@@ -1,13 +1,13 @@
 package com.angus.gaming.blackredsolitaire;
 
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -32,7 +32,7 @@ public class ToPlayFragment extends Fragment {
     Button nextButton;
 
     @BindView(R.id.toPlayFragmentLayout)
-    LinearLayout toPlayFragmentLayout;
+    RelativeLayout toPlayFragmentLayout;
 
     private int hintNumber = 1;
 
@@ -72,7 +72,7 @@ public class ToPlayFragment extends Fragment {
             case 1:
                 hintTextview.setText(R.string.hintOne);
                 previousButton.setVisibility(View.INVISIBLE);
-                toPlayFragmentLayout.setBackgroundResource(R.drawable.current_level_shape);
+                toPlayFragmentLayout.setBackgroundResource(R.drawable.bottom_row_shape);
                 break;
             case 2:
                 hintTextview.setText(R.string.hintTwo);
@@ -89,12 +89,15 @@ public class ToPlayFragment extends Fragment {
                 break;
             case 5:
                 hintTextview.setText(R.string.hintFive);
+                toPlayFragmentLayout.setBackgroundResource(R.drawable.current_level_shape);
                 break;
             case 6:
                 hintTextview.setText(R.string.hintSix);
+                toPlayFragmentLayout.setBackgroundResource(R.drawable.face_number_shape);
                 break;
             case 7:
                 hintTextview.setText(R.string.hintSeven);
+                toPlayFragmentLayout.setBackgroundResource(R.drawable.face_number_shape);
                 break;
             case 8:
                 hintTextview.setText(R.string.hintEight);
