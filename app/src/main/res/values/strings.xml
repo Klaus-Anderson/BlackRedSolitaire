@@ -77,5 +77,6 @@
     <string name="press_to_draw">Press deck to draw</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
+    <string name="high_scores">High Scores</string>
 
 </resources>

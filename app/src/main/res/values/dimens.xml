@@ -6,4 +6,5 @@
     <dimen name="card_padding">5dp</dimen>
     <dimen name="frame_padding">2dp</dimen>
     <dimen name="eligible_card_radius">2dp</dimen>
+    <dimen name="button_radius">100dp</dimen>
 </resources>

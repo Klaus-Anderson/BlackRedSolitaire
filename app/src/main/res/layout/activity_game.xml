@@ -406,18 +406,17 @@
 
                     <TextView
                         android:id="@+id/clubsText"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:gravity="end"
                         android:text="@string/_8"
                         android:textColor="@color/white"
                         android:textSize="17sp" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="end"
+                        android:gravity="start"
                         android:text="@string/diamond"
                         android:textColor="@color/red"
                         android:textSize="17sp" />
@@ -427,6 +426,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:gravity="start"
                         android:text="@string/_8"
                         android:textColor="@color/white"
                         android:textSize="17sp" />
@@ -448,18 +448,17 @@
 
                     <TextView
                         android:id="@+id/spadesText"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:text="@string/_8"
+                        android:gravity="end"
                         android:textColor="@color/white"
                         android:textSize="17sp" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="end"
+                        android:gravity="start"
                         android:textColor="@color/red"
                         android:text="@string/heart"
                         android:textSize="17sp" />
@@ -470,6 +469,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="@string/_8"
+                        android:gravity="start"
                         android:textColor="@color/white"
                         android:textSize="17sp" />
                 </LinearLayout>
@@ -623,6 +623,7 @@
                     android:text="@string/_52"
                     android:layout_centerHorizontal="true"
                     android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/card_padding"
                     android:textAppearance="?android:attr/textAppearanceLargeInverse"
                     android:textSize="15sp"/>
             </RelativeLayout>
@@ -725,6 +726,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/breakString"
                 android:textSize="13sp"
+                android:background="@drawable/break_button_shape"
+                android:textColor="@color/white"
                 android:layout_weight="3"/>
         </LinearLayout>
 
@@ -733,7 +736,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/bottom_row_shape"
             android:orientation="vertical" >
             <Button
                 android:id="@+id/newGameButton"
@@ -741,6 +743,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/new_game"
                 android:textSize="15sp"
+                android:background="@drawable/game_button_shape"
+                android:padding="@dimen/card_padding"
+                android:textColor="@color/white"
                 android:layout_weight="1"/>
 
             <Button
@@ -749,6 +754,20 @@
                 android:layout_height="wrap_content"
                 android:text="@string/how_to_play"
                 android:textSize="15sp"
+                android:background="@drawable/game_button_shape"
+                android:padding="@dimen/card_padding"
+                android:textColor="@color/white"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/high_scores_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/high_scores"
+                android:textSize="15sp"
+                android:background="@drawable/game_button_shape"
+                android:padding="@dimen/card_padding"
+                android:textColor="@color/white"
                 android:layout_weight="1"/>
         </LinearLayout>
     </LinearLayout>
