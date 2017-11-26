@@ -417,10 +417,8 @@ public class GameActivity extends Activity {
         }
         eligibleIndexes.clear();
 
-        if(colorCards.get(COLOR_RED) != null && colorCards.get(COLOR_BLACK) != null) {
-            for (int i = 0; i < 4 * ( level + 1 ); i++) {
-                checkIfFaceIsEligible(i);
-            }
+        for (int i = 0; i < 4 * ( level + 1 ); i++) {
+            checkIfFaceIsEligible(i);
         }
     }
     private void increaseLevel(boolean isBroken) {
