@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.angus.gaming.blackredsolitaire.ToPlayFragment"
+    tools:context="com.angus.gaming.blackredsolitaire.view.ToPlayFragment"
     android:background="@drawable/bottom_row_shape">
 
     <LinearLayout
