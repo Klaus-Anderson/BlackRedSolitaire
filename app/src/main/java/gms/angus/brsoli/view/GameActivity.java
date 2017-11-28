@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +14,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.LeaderboardsClient;
 import com.google.android.gms.games.PageDirection;
+import com.google.android.gms.games.Player;
 import com.google.android.gms.games.leaderboard.LeaderboardScore;
 import com.google.android.gms.games.leaderboard.LeaderboardScoreBuffer;
 import com.google.android.gms.games.leaderboard.LeaderboardVariant;
@@ -46,7 +54,7 @@ import static gms.angus.brsoli.model.Card.HEART_SUIT;
 import static gms.angus.brsoli.model.Card.SPADE_SUIT;
 
 
-public class GameActivity extends Activity {
+public class GameActivity extends Activity implements GoogleApiClient.ConnectionCallbacks {
     @BindView(R.id.deckFrame)
     FrameLayout deckFrame;
     @BindView(R.id.redFrame)
@@ -160,6 +168,7 @@ public class GameActivity extends Activity {
 
     private final int RC_SIGN_IN = 111111;
     private GoogleSignInClient signInClient;
+    private GoogleApiClient apiClient;
 
     private Stack<Card> deck;
     private List<FrameLayout> colorFrames, pileFrames, faceFrames;
@@ -181,9 +190,12 @@ public class GameActivity extends Activity {
 
         finishedCheck = false;
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN)
                 .build();
-        signInClient = GoogleSignIn.getClient(this, gso);
+        apiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .addConnectionCallbacks(this)
+                .build();
 
         deck = new Stack<>();
 
@@ -328,26 +340,6 @@ public class GameActivity extends Activity {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        if (GoogleSignIn.getLastSignedInAccount(this) != null) {
-            getLeaderBoardInfo();
-        } else {
-            signInClient.silentSignIn().addOnCompleteListener(
-                    this, task -> {
-                        if (task.isSuccessful()) {
-                            // The signed in account is stored in the task's result.
-                            GoogleSignInAccount signedInAccount = task.getResult();
-                        } else {
-                            // Player will need to sign-in explicitly using via UI
-                            Intent intent = signInClient.getSignInIntent();
-                            startActivityForResult(intent, RC_SIGN_IN);
-                        }
-                    });
-        }
-    }
-
-    @Override
     public void onDestroy() {
         if(GoogleSignIn.getLastSignedInAccount(this)!=null) {
             if (scoreTotal >= 75) {
@@ -366,7 +358,7 @@ public class GameActivity extends Activity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try{
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-
+                getLeaderBoardInfo(account);
             } catch (ApiException e) {
                 // The ApiException status code indicates the detailed failure reason.
                 // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -485,9 +477,9 @@ public class GameActivity extends Activity {
         finish();
     }
 
-    private void getLeaderBoardInfo() {
+    private void getLeaderBoardInfo(GoogleSignInAccount account) {
         LeaderboardsClient leaderboardsClient =
-                Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this));
+                Games.getLeaderboardsClient(this, account);
 
         leaderboardsClient.loadCurrentPlayerLeaderboardScore(
                 getString(R.string.totalScore_board_id),
@@ -726,5 +718,27 @@ public class GameActivity extends Activity {
         if (getFragmentManager().getBackStackEntryCount() > 0)
             getFragmentManager().popBackStackImmediate();
         else super.onBackPressed();
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        if (apiClient.isConnected()) {
+            Auth.GoogleSignInApi.silentSignIn(apiClient).setResultCallback(
+                    result -> {
+                        if(result.getSignInAccount()!=null){
+                            getLeaderBoardInfo(result.getSignInAccount());
+                        } else {
+                            // Player will need to sign-in explicitly using via UI
+                            Intent intent = signInClient.getSignInIntent();
+                            startActivityForResult(intent, RC_SIGN_IN);
+                        }
+                    });
+        }
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
     }
 }

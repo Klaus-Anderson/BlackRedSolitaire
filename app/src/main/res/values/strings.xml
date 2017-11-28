@@ -72,9 +72,9 @@
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="high_scores">High Scores</string>
-    <string name="highScore_board_id">CgkI6KTTl_sPEAIQAQ</string>
-    <string name="totalScore_board_id">CgkI6KTTl_sPEAIQDw</string>
-    <string name="numOfGame_board_id">CgkI6KTTl_sPEAIQEA</string>
+    <string name="highScore_board_id">CgkIoMr2sJQREAIQEA</string>
+    <string name="totalScore_board_id">CgkIoMr2sJQREAIQDg</string>
+    <string name="numOfGame_board_id">CgkIoMr2sJQREAIQDw</string>
     <string name="average_high_score">Rank:</string>
 
     <string name="app_id">589586867488</string>
