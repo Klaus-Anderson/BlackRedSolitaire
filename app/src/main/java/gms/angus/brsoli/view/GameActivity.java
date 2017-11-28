@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -19,18 +18,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Result;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.LeaderboardsClient;
 import com.google.android.gms.games.PageDirection;
-import com.google.android.gms.games.Player;
 import com.google.android.gms.games.leaderboard.LeaderboardScore;
 import com.google.android.gms.games.leaderboard.LeaderboardScoreBuffer;
 import com.google.android.gms.games.leaderboard.LeaderboardVariant;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
@@ -169,6 +165,7 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
     private final int RC_SIGN_IN = 111111;
     private GoogleSignInClient signInClient;
     private GoogleApiClient apiClient;
+    protected GoogleSignInAccount userAccount;
 
     private Stack<Card> deck;
     private List<FrameLayout> colorFrames, pileFrames, faceFrames;
@@ -196,6 +193,7 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .addConnectionCallbacks(this)
                 .build();
+        apiClient.connect();
 
         deck = new Stack<>();
 
@@ -346,6 +344,18 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                 LeaderboardsClient leaderboardsClient =
                         Games.getLeaderboardsClient(
                                 this, GoogleSignIn.getLastSignedInAccount(this));
+                if (totalScore == -1){
+                    totalScore++;
+                }
+                if(numOfGames== -1) {
+                    numOfGames++;
+                }
+                leaderboardsClient.submitScore(
+                        getString(R.string.totalScore_board_id), totalScore + scoreTotal);
+                leaderboardsClient.submitScore(
+                        getString(R.string.numOfGame_board_id), numOfGames + 1);
+                leaderboardsClient.submitScore(
+                        getString(R.string.highScore_board_id), scoreTotal);
             }
         }
         super.onDestroy();
@@ -357,8 +367,8 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try{
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                getLeaderBoardInfo(account);
+                GoogleSignInAccount userAccount = task.getResult(ApiException.class);
+                getLeaderBoardInfo(userAccount);
             } catch (ApiException e) {
                 // The ApiException status code indicates the detailed failure reason.
                 // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -477,6 +487,14 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         finish();
     }
 
+    @OnClick(R.id.high_scores_button)
+    void onHighScoresClick(){
+        getFragmentManager().beginTransaction()
+                            .add(R.id.container, new HighScoreFragment(), HighScoreFragment.class.getSimpleName())
+                            .addToBackStack(HighScoreFragment.class.getSimpleName()).commit();
+
+    }
+
     private void getLeaderBoardInfo(GoogleSignInAccount account) {
         LeaderboardsClient leaderboardsClient =
                 Games.getLeaderboardsClient(this, account);
@@ -486,10 +504,17 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                 LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC)
                           .addOnSuccessListener(
                                   leaderboardScoreAnnotatedData -> {
-                                      totalScore =
-                                              leaderboardScoreAnnotatedData.get().getRawScore();
-                                      getPlayerRanking(leaderboardsClient,
-                                                       getString(R.string.totalScore_board_id));
+                                      if(leaderboardScoreAnnotatedData.get()!=null) {
+                                          totalScore =
+                                                  leaderboardScoreAnnotatedData.get().getRawScore();
+                                          if(numOfGames!=-1) {
+                                              getPlayerRanking(leaderboardsClient,
+                                                               getString(
+                                                                       R.string.totalScore_board_id));
+                                          }
+                                      } else {
+                                          rankRow.setVisibility(View.GONE);
+                                      }
                                   })
                           .addOnFailureListener(
                                   e -> Log.e(GameActivity.class.getSimpleName(), e.getMessage(),
@@ -500,10 +525,18 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                 LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC)
                           .addOnSuccessListener(
                                   leaderboardScoreAnnotatedData -> {
-                                      numOfGames =
-                                              leaderboardScoreAnnotatedData.get().getRawScore();
-                                      getPlayerRanking(leaderboardsClient,
-                                                       getString(R.string.numOfGame_board_id));
+                                      if(leaderboardScoreAnnotatedData.get()!=null) {
+                                          numOfGames =
+                                                  leaderboardScoreAnnotatedData.get().getRawScore();
+                                          if(totalScore!=-1) {
+                                              getPlayerRanking(leaderboardsClient,
+                                                               getString(
+                                                                       R.string.numOfGame_board_id));
+
+                                          }
+                                      } else {
+                                          rankRow.setVisibility(View.GONE);
+                                      }
                                   })
                           .addOnFailureListener(
                                   e -> Log.e(GameActivity.class.getSimpleName(), e.getMessage(),
@@ -529,7 +562,13 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
             LeaderboardsClient leaderboardsClient,
             String leaderboardID, LeaderboardScoreBuffer buffer) {
         int i = 0;
-        while(buffer.get(i) != null) {
+        boolean shouldLoop = true;
+        try {
+            buffer.get(i);
+        } catch (IllegalStateException e){
+            shouldLoop = false;
+        }
+        while(shouldLoop) {
             LeaderboardScore score = buffer.get(i);
             if(getString(R.string.totalScore_board_id).equals(leaderboardID)) {
                 totalLeaderboardScoreMap
@@ -540,6 +579,11 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                         .put(score.getScoreHolderDisplayName(), score.getRawScore());
             }
             i++;
+            try {
+                buffer.get(i);
+            } catch (IllegalStateException e){
+                shouldLoop = false;
+            }
         }
         if(i == 26) {
             leaderboardsClient.loadMoreScores(buffer, 25, PageDirection.NEXT)
@@ -550,7 +594,6 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                         getMoreScores(leaderboardsClient, leaderboardID, newBuffer);
                     }).addOnFailureListener(
                             e-> Log.e(GameActivity.class.getSimpleName(),e.getMessage(),e));
-            getMoreScores(leaderboardsClient, leaderboardID, buffer);
         } else if(finishedCheck){
             sortPlayersByRanking();
         } else {
@@ -725,11 +768,12 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         if (apiClient.isConnected()) {
             Auth.GoogleSignInApi.silentSignIn(apiClient).setResultCallback(
                     result -> {
-                        if(result.getSignInAccount()!=null){
-                            getLeaderBoardInfo(result.getSignInAccount());
+                        if(result.isSuccess()){
+                            userAccount = result.getSignInAccount();
+                            getLeaderBoardInfo(userAccount);
                         } else {
                             // Player will need to sign-in explicitly using via UI
-                            Intent intent = signInClient.getSignInIntent();
+                            Intent intent = Auth.GoogleSignInApi.getSignInIntent(apiClient);
                             startActivityForResult(intent, RC_SIGN_IN);
                         }
                     });

@@ -78,4 +78,8 @@
     <string name="average_high_score">Rank:</string>
 
     <string name="app_id">589586867488</string>
+    <string name="high_score">High Score</string>
+    <string name="total_score">Total Score</string>
+    <string name="number_of_games">Number of Games</string>
+    <string name="average_game_pro_rank">Average Game (pro rank)</string>
 </resources>

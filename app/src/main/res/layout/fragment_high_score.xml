@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/black">
+
+    <Button
+        android:id="@+id/high_score"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large.Inverse"
+        android:text="@string/high_score"
+        android:background="@drawable/bottom_row_shape"/>
+    <Button
+        android:id="@+id/total_score"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large.Inverse"
+        android:text="@string/total_score"
+        android:background="@drawable/current_level_shape"/>
+    <Button
+        android:id="@+id/number_of_games"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large.Inverse"
+        android:text="@string/number_of_games"
+        android:background="@drawable/face_number_shape"/>
+    <Button
+        android:id="@+id/average_game_pro_rank"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large.Inverse"
+        android:text="@string/average_game_pro_rank"
+        android:background="@drawable/red_shape"/>
+
+</LinearLayout>
