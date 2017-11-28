@@ -1,6 +1,8 @@
 package gms.angus.brsoli.view;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -16,7 +18,6 @@ import android.widget.TextView;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -26,7 +27,6 @@ import com.google.android.gms.games.PageDirection;
 import com.google.android.gms.games.leaderboard.LeaderboardScore;
 import com.google.android.gms.games.leaderboard.LeaderboardScoreBuffer;
 import com.google.android.gms.games.leaderboard.LeaderboardVariant;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
@@ -163,9 +163,9 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
     ImageView topCard;
 
     private final int RC_SIGN_IN = 111111;
-    private GoogleSignInClient signInClient;
     private GoogleApiClient apiClient;
     protected GoogleSignInAccount userAccount;
+    private ProgressDialog progress;
 
     private Stack<Card> deck;
     private List<FrameLayout> colorFrames, pileFrames, faceFrames;
@@ -194,6 +194,7 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                 .addConnectionCallbacks(this)
                 .build();
         apiClient.connect();
+        showLoadingDialog();
 
         deck = new Stack<>();
 
@@ -374,6 +375,7 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                 // The ApiException status code indicates the detailed failure reason.
                 // Please refer to the GoogleSignInStatusCodes class reference for more information.
                 Log.w(GameActivity.class.getSimpleName(), "signInResult:failed code=" + e.getStatusCode());
+                hideLoadingDialog();
             }
         }
     }
@@ -511,10 +513,17 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
 
     @OnClick(R.id.high_scores_button)
     void onHighScoresClick(){
-        getFragmentManager().beginTransaction()
-                            .add(R.id.container, new HighScoreFragment(), HighScoreFragment.class.getSimpleName())
-                            .addToBackStack(HighScoreFragment.class.getSimpleName()).commit();
-
+        if(numOfGames >= 10) {
+            getFragmentManager().beginTransaction()
+                                .add(R.id.container, new HighScoreFragment(),
+                                     HighScoreFragment.class.getSimpleName())
+                                .addToBackStack(HighScoreFragment.class.getSimpleName()).commit();
+        } else {
+            new AlertDialog.Builder(this)
+                    .setMessage("Play 10 games to unlock High Scores!\nNumber of games played: " +
+                                        (numOfGames == -1 ? 0 : numOfGames))
+                    .setCancelable(true).show();
+        }
     }
 
     private void getLeaderBoardInfo(GoogleSignInAccount account) {
@@ -533,14 +542,21 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                                               getPlayerRanking(leaderboardsClient,
                                                                getString(
                                                                        R.string.totalScore_board_id));
+                                              getPlayerRanking(leaderboardsClient,
+                                                               getString(
+                                                                       R.string.numOfGame_board_id));
                                           }
                                       } else {
                                           rankRow.setVisibility(View.GONE);
+                                          hideLoadingDialog();
                                       }
                                   })
                           .addOnFailureListener(
-                                  e -> Log.e(GameActivity.class.getSimpleName(), e.getMessage(),
-                                             e));
+                                  e -> {
+                                      Log.e(GameActivity.class.getSimpleName(), e.getMessage(),
+                                            e);
+                                      hideLoadingDialog();
+                                  });
 
         leaderboardsClient.loadCurrentPlayerLeaderboardScore(
                 getString(R.string.numOfGame_board_id),
@@ -554,15 +570,21 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                                               getPlayerRanking(leaderboardsClient,
                                                                getString(
                                                                        R.string.numOfGame_board_id));
-
+                                              getPlayerRanking(leaderboardsClient,
+                                                               getString(
+                                                                       R.string.totalScore_board_id));
                                           }
                                       } else {
                                           rankRow.setVisibility(View.GONE);
+                                          hideLoadingDialog();
                                       }
                                   })
                           .addOnFailureListener(
-                                  e -> Log.e(GameActivity.class.getSimpleName(), e.getMessage(),
-                                             e));
+                                  e -> {
+                                      Log.e(GameActivity.class.getSimpleName(), e.getMessage(),
+                                            e);
+                                      hideLoadingDialog();
+                                  });
     }
 
     private void getPlayerRanking(
@@ -628,8 +650,11 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
             String scoreHolderDisplayName = entry.getKey();
             long totalScore = entry.getValue();
             long totalGames = gamesLeaderboardScoreMap.get(scoreHolderDisplayName);
-            rankingLeaderboardScoreMap.put(scoreHolderDisplayName, totalScore / totalGames);
+            if(totalGames>9) {
+                rankingLeaderboardScoreMap.put(scoreHolderDisplayName, totalScore / totalGames);
+            }
         }
+        hideLoadingDialog();
     }
 
     private void checkIfFaceIsEligible(int frameIndex) {
@@ -746,7 +771,9 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         if (deck.size() == 0) {
             topCard.setVisibility(View.INVISIBLE);
             deckFrame.setClickable(false);
-            deckText.setVisibility(View.INVISIBLE);
+            if(scoreTotal>=75) {
+                deckText.setText("Press New Game or close app to submit your score");
+            }
         }
     }
 
@@ -806,5 +833,19 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
     @Override
     public void onConnectionSuspended(int i) {
 
+        hideLoadingDialog();
     }
+
+    private void showLoadingDialog(){
+        progress = new ProgressDialog(this);
+        progress.setTitle("Loading");
+        progress.setMessage("Wait while loading...");
+        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+        progress.show();
+    }
+
+    private void hideLoadingDialog() {
+        progress.hide();
+    }
+
 }
