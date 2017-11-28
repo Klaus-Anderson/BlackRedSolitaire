@@ -356,6 +356,7 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                         getString(R.string.numOfGame_board_id), numOfGames + 1);
                 leaderboardsClient.submitScore(
                         getString(R.string.highScore_board_id), scoreTotal);
+                scoreTotal = 0;
             }
         }
         super.onDestroy();
@@ -482,6 +483,27 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
 
     @OnClick(R.id.newGameButton)
     void onNewGameClick(){
+        if(GoogleSignIn.getLastSignedInAccount(this)!=null) {
+            if (scoreTotal >= 75) {
+                LeaderboardsClient leaderboardsClient =
+                        Games.getLeaderboardsClient(
+                                this, GoogleSignIn.getLastSignedInAccount(this));
+                if (totalScore == -1){
+                    totalScore++;
+                }
+                if(numOfGames== -1) {
+                    numOfGames++;
+                }
+                leaderboardsClient.submitScore(
+                        getString(R.string.totalScore_board_id), totalScore + scoreTotal);
+                leaderboardsClient.submitScore(
+                        getString(R.string.numOfGame_board_id), numOfGames + 1);
+                leaderboardsClient.submitScore(
+                        getString(R.string.highScore_board_id), scoreTotal);
+                scoreTotal = 0;
+            }
+        }
+
         Intent i = new Intent(GameActivity.this, GameActivity.class);
         startActivity(i);
         finish();
