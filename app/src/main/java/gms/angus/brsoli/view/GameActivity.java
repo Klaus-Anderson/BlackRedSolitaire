@@ -827,7 +827,6 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                         }
                     });
         }
-
     }
 
     @Override
