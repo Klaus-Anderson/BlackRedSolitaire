@@ -1,4 +1,4 @@
-package gms.angus.brsolitaire.view;
+package gms.angus.brsoli.view;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import gms.angus.brsolitaire.R;
+import gms.angus.brsoli.R;
 
 /**
  * A simple {@link Fragment} subclass.

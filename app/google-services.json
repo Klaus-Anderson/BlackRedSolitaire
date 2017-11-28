@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1011553074335",
+    "project_id": "black-red-solitaire-19519941"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011553074335:android:46e3694cab9ee224",
+        "android_client_info": {
+          "package_name": "gms.angus.brsoli"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1011553074335-opai1serh25a9c2jp51mi0pgmqhoh3e9.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1011553074335-5d8hrdi2f7a07sdo1l4dqkl3lg4gfjbl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "gms.angus.brsoli",
+            "certificate_hash": "ba84950561ec98983f07b4f72ec6d378910b7a9a"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBx4i63AldrSFkUXz-moupqRdYwcoMyQhQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

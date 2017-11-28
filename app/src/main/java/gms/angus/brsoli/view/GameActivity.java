@@ -1,4 +1,4 @@
-package gms.angus.brsolitaire.view;
+package gms.angus.brsoli.view;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -35,15 +35,15 @@ import java.util.Stack;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import gms.angus.brsolitaire.R;
-import gms.angus.brsolitaire.model.Card;
+import gms.angus.brsoli.R;
+import gms.angus.brsoli.model.Card;
 
-import static gms.angus.brsolitaire.model.Card.CLUB_SUIT;
-import static gms.angus.brsolitaire.model.Card.COLOR_BLACK;
-import static gms.angus.brsolitaire.model.Card.COLOR_RED;
-import static gms.angus.brsolitaire.model.Card.DIAMOND_SUIT;
-import static gms.angus.brsolitaire.model.Card.HEART_SUIT;
-import static gms.angus.brsolitaire.model.Card.SPADE_SUIT;
+import static gms.angus.brsoli.model.Card.CLUB_SUIT;
+import static gms.angus.brsoli.model.Card.COLOR_BLACK;
+import static gms.angus.brsoli.model.Card.COLOR_RED;
+import static gms.angus.brsoli.model.Card.DIAMOND_SUIT;
+import static gms.angus.brsoli.model.Card.HEART_SUIT;
+import static gms.angus.brsoli.model.Card.SPADE_SUIT;
 
 
 public class GameActivity extends Activity {
