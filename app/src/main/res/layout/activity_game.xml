@@ -486,6 +486,7 @@
                 android:textAppearance="?android:attr/textAppearanceLargeInverse"
                 android:textSize="13sp"
                 android:visibility="invisible"
+                android:layout_margin="@dimen/card_padding"
                 android:layout_weight="1"/>
         </LinearLayout>
 
@@ -524,6 +525,7 @@
                 android:text="@string/press_to_discard"
                 android:textAppearance="?android:attr/textAppearanceLargeInverse"
                 android:textSize="13sp"
+                android:layout_margin="@dimen/card_padding"
                 android:visibility="invisible"
                 android:layout_weight="1"/>
         </LinearLayout>
@@ -573,6 +575,8 @@
                     android:layout_alignParentTop="true"
                     android:text="@string/press_to_draw"
                     android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                    android:layout_margin="@dimen/card_padding"
+
                     android:textSize="13sp"
                     />
 
