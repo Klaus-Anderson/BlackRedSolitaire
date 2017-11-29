@@ -9,7 +9,7 @@
     <string name="ace">Ace</string>
     <string name="howToPlay">How to Play BR Solitaire</string>
     <string name="hintOne">The objective of the game is to score as many points as possible before
-        the deck runs out of cards.</string>
+        the deck runs out of cards. Scores less than 75 points are not submitted to High Scores.</string>
     <string name="hintTwo">Press on the deck to draw a card. If the card drawn is a face card
         (10s are face cards),it will automatically go to its “Place”.
         If the card drawn is any other card it will automatically go to the Black or Red
@@ -72,14 +72,28 @@
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="high_scores">High Scores</string>
+    <string name="average_high_score">Rank:</string>
+
     <string name="highScore_board_id">CgkIoMr2sJQREAIQEA</string>
     <string name="totalScore_board_id">CgkIoMr2sJQREAIQDg</string>
     <string name="numOfGame_board_id">CgkIoMr2sJQREAIQDw</string>
-    <string name="average_high_score">Rank:</string>
-
     <string name="app_id">589586867488</string>
+    <string name="achievement_75_points">CgkIoMr2sJQREAIQAg</string>
+    <string name="achievement_100_points">CgkIoMr2sJQREAIQAw</string>
+    <string name="achievement_150_points">CgkIoMr2sJQREAIQBA</string>
+    <string name="achievement_200_points">CgkIoMr2sJQREAIQBQ</string>
+    <string name="achievement_300_points">CgkIoMr2sJQREAIQBg</string>
+    <string name="achievement_improbable">CgkIoMr2sJQREAIQBw</string>
+    <string name="achievement_jacks">CgkIoMr2sJQREAIQCA</string>
+    <string name="achievement_queens">CgkIoMr2sJQREAIQCQ</string>
+    <string name="achievement_kings">CgkIoMr2sJQREAIQCg</string>
+    <string name="achievement_aces">CgkIoMr2sJQREAIQCw</string>
+    <string name="achievement_break">CgkIoMr2sJQREAIQDA</string>
+    <string name="achievement_well_played">CgkIoMr2sJQREAIQDQ</string>
+
     <string name="high_score">High Score</string>
     <string name="total_score">Total Score</string>
     <string name="number_of_games">Number of Games</string>
     <string name="average_game_pro_rank">Average Game (pro rank)</string>
+    <string name="achievements">Achievements</string>
 </resources>
