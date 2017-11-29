@@ -1,6 +1,7 @@
 package gms.angus.brsoli.view;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.games.Games;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -58,6 +60,14 @@ public class HighScoreFragment extends Fragment {
 
     @OnClick(R.id.average_game_pro_rank)
     void onAvgScoreClick(){
+    }
+
+    @OnClick(R.id.achievements)
+    void onAchievementsClick(){
+        Games.getAchievementsClient(getActivity(), getUserAccount())
+             .getAchievementsIntent()
+             .addOnSuccessListener(
+                     intent -> startActivityForResult(intent, 0));
     }
 
     private GoogleSignInAccount getUserAccount() {

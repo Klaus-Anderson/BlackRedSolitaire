@@ -21,6 +21,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.games.AchievementsClient;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.LeaderboardsClient;
 import com.google.android.gms.games.PageDirection;
@@ -305,6 +306,21 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                                 isFrameCardSet(pile_spades) && isFrameCardSet(pile_hearts)) {
                             scoreTotal = scoreTotal +
                                     pileTotal * (level - (brokenLevel != -1 ? 1 : 0));
+                            if(scoreTotal >= 75){
+                                unlockAchievement(getString(R.string.achievement_75_points));
+                                if(scoreTotal >= 100) {
+                                    unlockAchievement(getString(R.string.achievement_100_points));
+                                    if(scoreTotal >= 150){
+                                        unlockAchievement(getString(R.string.achievement_150_points));
+                                        if(scoreTotal >= 200){
+                                            unlockAchievement(getString(R.string.achievement_200_points));
+                                            if(scoreTotal >= 300){
+                                                unlockAchievement(getString(R.string.achievement_300_points));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                             scoreText.setText(String.valueOf(scoreTotal));
                             pileTotal = 0;
                             pileText.setText(String.valueOf(pileTotal));
@@ -340,15 +356,20 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
 
     @Override
     public void onDestroy() {
+        submitScore();
+        super.onDestroy();
+    }
+
+    private void submitScore() {
         if(GoogleSignIn.getLastSignedInAccount(this)!=null) {
             if (scoreTotal >= 75) {
                 LeaderboardsClient leaderboardsClient =
                         Games.getLeaderboardsClient(
                                 this, GoogleSignIn.getLastSignedInAccount(this));
-                if (totalScore == -1){
+                if (totalScore == -1) {
                     totalScore++;
                 }
-                if(numOfGames== -1) {
+                if (numOfGames == -1) {
                     numOfGames++;
                 }
                 leaderboardsClient.submitScore(
@@ -360,7 +381,6 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                 scoreTotal = 0;
             }
         }
-        super.onDestroy();
     }
 
     @Override
@@ -474,6 +494,7 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         }
         brokenLevel = level;
         increaseLevel(true);
+        unlockAchievement(getString(R.string.achievement_break));
     }
 
     @OnClick(R.id.toPlayButton)
@@ -485,26 +506,8 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
 
     @OnClick(R.id.newGameButton)
     void onNewGameClick(){
-        if(GoogleSignIn.getLastSignedInAccount(this)!=null) {
-            if (scoreTotal >= 75) {
-                LeaderboardsClient leaderboardsClient =
-                        Games.getLeaderboardsClient(
-                                this, GoogleSignIn.getLastSignedInAccount(this));
-                if (totalScore == -1){
-                    totalScore++;
-                }
-                if(numOfGames== -1) {
-                    numOfGames++;
-                }
-                leaderboardsClient.submitScore(
-                        getString(R.string.totalScore_board_id), totalScore + scoreTotal);
-                leaderboardsClient.submitScore(
-                        getString(R.string.numOfGame_board_id), numOfGames + 1);
-                leaderboardsClient.submitScore(
-                        getString(R.string.highScore_board_id), scoreTotal);
-                scoreTotal = 0;
-            }
-        }
+
+        submitScore();
 
         Intent i = new Intent(GameActivity.this, GameActivity.class);
         startActivity(i);
@@ -657,6 +660,13 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         hideLoadingDialog();
     }
 
+    private void unlockAchievement(String achievementString) {
+        if(GoogleSignIn.getLastSignedInAccount(this)!=null) {
+            Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                 .unlock(achievementString);
+        }
+    }
+
     private void checkIfFaceIsEligible(int frameIndex) {
         if(faceFrames.get(frameIndex) != null && faceFrames.get(frameIndex).getChildCount() != 0 &&
                 faceFrames.get(frameIndex).isClickable()) {
@@ -695,6 +705,7 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
             levelText.setText(R.string.queen);
             if(!isBroken) {
                 jacksLayout.setBackground(getResources().getDrawable(R.drawable.face_number_shape));
+                unlockAchievement(getString(R.string.achievement_jacks));
             } else {
                 jacksLayout.setBackground(getResources().getDrawable(R.drawable.broken_shape));
             }
@@ -704,6 +715,7 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
             levelText.setText(R.string.king);
             if(!isBroken) {
                 queensLayout.setBackground(getResources().getDrawable(R.drawable.face_number_shape));
+                unlockAchievement(getString(R.string.achievement_queens));
             } else {
                 queensLayout.setBackground(getResources().getDrawable(R.drawable.broken_shape));
             }
@@ -714,6 +726,7 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
             levelText.setText(R.string.ace);
             if(!isBroken) {
                 kingsLayout.setBackground(getResources().getDrawable(R.drawable.face_number_shape));
+                unlockAchievement(getString(R.string.achievement_kings));
             } else {
                 kingsLayout.setBackground(getResources().getDrawable(R.drawable.broken_shape));
             }
@@ -723,11 +736,16 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
             levelText.setText(R.string.god_Tier);
             if(!isBroken) {
                 acesLayout.setBackground(getResources().getDrawable(R.drawable.face_number_shape));
+                unlockAchievement(getString(R.string.achievement_aces));
+                if(brokenLevel != -1){
+                    unlockAchievement(getString(R.string.achievement_improbable));
+                }
             } else {
                 acesLayout.setBackground(getResources().getDrawable(R.drawable.broken_shape));
             }
         }
         if(isBroken) {
+            int frameCount = 0;
             for (int i = level * 4; i < level * 4 + 4; i++){
                 if(faceFrames.get(i).getChildCount() != 0 &&
                         pileFrames.get(i % 4).getChildCount() == 0) {
@@ -736,6 +754,12 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                     face_down.setImageResource(R.drawable.card_back);
                     faceFrames.get(i).addView(face_down);
                 }
+                if(pileFrames.get(i % 4).getChildCount()==0){
+                    frameCount++;
+                }
+            }
+            if (frameCount==3){
+                unlockAchievement(getString(R.string.achievement_well_played));
             }
         }
         level++;
@@ -771,9 +795,8 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         if (deck.size() == 0) {
             topCard.setVisibility(View.INVISIBLE);
             deckFrame.setClickable(false);
-            if(scoreTotal>=75) {
-                deckText.setText("Press New Game or close app to submit your score");
-            }
+            deckFrame.setVisibility(View.GONE);
+            deckText.setText("Press New Game or close app to submit your score");
         }
     }
 
@@ -831,7 +854,6 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
 
     @Override
     public void onConnectionSuspended(int i) {
-
         hideLoadingDialog();
     }
 
