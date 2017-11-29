@@ -32,6 +32,7 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import gms.angus.brsoli.R;
 import gms.angus.brsoli.model.Card;
+import gms.angus.brsoli.model.RankedPlayer;
 
 import static gms.angus.brsoli.model.Card.CLUB_SUIT;
 import static gms.angus.brsoli.model.Card.COLOR_BLACK;
@@ -173,8 +175,9 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
     private List<TextView> remainingCards;
     private List<Card> colorCards;
     private List<Integer> eligibleIndexes;
-    private Map<String, Long> totalLeaderboardScoreMap = new HashMap<>(),
-            gamesLeaderboardScoreMap = new HashMap<>(), rankingLeaderboardScoreMap = new HashMap<>();
+    private Map<String, Long> totalLeaderboardScoreMap = new HashMap<>();
+    private Map<String, Long> gamesLeaderboardScoreMap = new HashMap<>();
+    List<RankedPlayer> rankingLeaderboardScoreList = new ArrayList<>();
     private Boolean hasDrawn, finishedCheck;
     private int level, pileTotal, scoreTotal, brokenLevel = -1;
     private long totalScore = -1, numOfGames = -1;
@@ -389,7 +392,7 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try{
-                GoogleSignInAccount userAccount = task.getResult(ApiException.class);
+                userAccount = task.getResult(ApiException.class);
                 getLeaderBoardInfo(userAccount);
             } catch (ApiException e) {
                 // The ApiException status code indicates the detailed failure reason.
@@ -654,9 +657,12 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
             long totalScore = entry.getValue();
             long totalGames = gamesLeaderboardScoreMap.get(scoreHolderDisplayName);
             if(totalGames>9) {
-                rankingLeaderboardScoreMap.put(scoreHolderDisplayName, totalScore / totalGames);
+                rankingLeaderboardScoreList.add(
+                        new RankedPlayer(scoreHolderDisplayName, totalScore / totalGames));
             }
         }
+        Collections.sort(rankingLeaderboardScoreList,
+                         (o1, o2) -> (int)(o1.getAvgGame()*10000 - o2.getAvgGame()*10000));
         hideLoadingDialog();
     }
 

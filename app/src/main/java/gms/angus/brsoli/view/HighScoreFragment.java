@@ -1,7 +1,6 @@
 package gms.angus.brsoli.view;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +8,13 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.games.Games;
-import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import gms.angus.brsoli.R;
+import gms.angus.brsoli.model.RankedPlayer;
 
 /**
  * Created by Harry Cliff on 11/28/17.
@@ -60,6 +61,10 @@ public class HighScoreFragment extends Fragment {
 
     @OnClick(R.id.average_game_pro_rank)
     void onAvgScoreClick(){
+        getActivity().getFragmentManager().beginTransaction()
+                            .replace(R.id.container, new ProScoreFragment(),
+                                 ProScoreFragment.class.getSimpleName())
+                            .addToBackStack(ToPlayFragment.class.getSimpleName()).commit();
     }
 
     @OnClick(R.id.achievements)
@@ -72,5 +77,9 @@ public class HighScoreFragment extends Fragment {
 
     private GoogleSignInAccount getUserAccount() {
         return ((GameActivity)getActivity()).userAccount;
+    }
+
+    private List<RankedPlayer> getRankedList(){
+        return ((GameActivity)getActivity()).rankingLeaderboardScoreList;
     }
 }
