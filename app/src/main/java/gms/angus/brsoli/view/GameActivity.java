@@ -726,8 +726,8 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
             }
             eligibleIndexes.clear();
         }
-
     }
+
     private void increaseLevel(boolean isBroken) {
         if (level == 1) {
             levelText.setText(R.string.queen);
