@@ -192,6 +192,7 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         finishedCheck = false;
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN)
+                .requestEmail()
                 .build();
         apiClient = new GoogleApiClient.Builder(this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
@@ -365,23 +366,44 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
 
     private void submitScore() {
         if(GoogleSignIn.getLastSignedInAccount(this)!=null) {
-            if (scoreTotal >= 75) {
+            if (scoreTotal >= 20) {
                 LeaderboardsClient leaderboardsClient =
                         Games.getLeaderboardsClient(
                                 this, GoogleSignIn.getLastSignedInAccount(this));
+                leaderboardsClient.loadCurrentPlayerLeaderboardScore(getString(R.string.highScore_board_id),
+                        LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC)
+                        .addOnSuccessListener(leaderboardScoreAnnotatedData -> {
+                            leaderboardScoreAnnotatedData.get().getRawScore();
+                        });
                 if (totalScore == -1) {
                     totalScore++;
+                    leaderboardsClient.submitScore(
+                            getString(R.string.totalScore_board_id), totalScore + scoreTotal);
+                } else {
+                    leaderboardsClient.loadCurrentPlayerLeaderboardScore(getString(R.string.totalScore_board_id),
+                            LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC)
+                            .addOnSuccessListener(leaderboardScoreAnnotatedData -> {
+                                totalScore = leaderboardScoreAnnotatedData.get().getRawScore();
+                                leaderboardsClient.submitScore(
+                                        getString(R.string.totalScore_board_id), totalScore + scoreTotal);
+                            });
                 }
                 if (numOfGames == -1) {
                     numOfGames++;
+                    leaderboardsClient.submitScore(
+                            getString(R.string.numOfGame_board_id), numOfGames + 1);
+                } else {
+                    leaderboardsClient.loadCurrentPlayerLeaderboardScore(getString(R.string.numOfGame_board_id),
+                            LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC)
+                            .addOnSuccessListener(leaderboardScoreAnnotatedData -> {
+                                numOfGames = leaderboardScoreAnnotatedData.get().getRawScore();
+                                leaderboardsClient.submitScore(
+                                        getString(R.string.totalScore_board_id), numOfGames + 1);
+                            });
                 }
-                leaderboardsClient.submitScore(
-                        getString(R.string.totalScore_board_id), totalScore + scoreTotal);
-                leaderboardsClient.submitScore(
-                        getString(R.string.numOfGame_board_id), numOfGames + 1);
+
                 leaderboardsClient.submitScore(
                         getString(R.string.highScore_board_id), scoreTotal);
-                scoreTotal = 0;
             }
         }
     }

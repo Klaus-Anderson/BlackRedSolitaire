@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "1011553074335",
-    "project_id": "black-red-solitaire-19519941"
+    "project_number": "589586867488",
+    "project_id": "black-red-soli-86427677"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1011553074335:android:46e3694cab9ee224",
+        "mobilesdk_app_id": "1:589586867488:android:4d5c62102e7a663c",
         "android_client_info": {
           "package_name": "gms.angus.brsoli"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1011553074335-opai1serh25a9c2jp51mi0pgmqhoh3e9.apps.googleusercontent.com",
+          "client_id": "589586867488-ie7r4aglh9479hp8dfdos9s7q6d565dp.apps.googleusercontent.com",
           "client_type": 3
         },
         {
-          "client_id": "1011553074335-5d8hrdi2f7a07sdo1l4dqkl3lg4gfjbl.apps.googleusercontent.com",
+          "client_id": "589586867488-hrn3d384pektvj286vq930qevdoh2m4v.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "gms.angus.brsoli",
-            "certificate_hash": "ba84950561ec98983f07b4f72ec6d378910b7a9a"
+            "certificate_hash": "5ca2e68247206e6562eda486151b220e2f746b58"
           }
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBx4i63AldrSFkUXz-moupqRdYwcoMyQhQ"
+          "current_key": "AIzaSyB8p2vb8p2Bsy_1lX3p5OVx2l8Sqf8GhU4"
         }
       ],
       "services": {
