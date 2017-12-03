@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.google.android.gms.games.PageDirection;
 import com.google.android.gms.games.leaderboard.LeaderboardScore;
 import com.google.android.gms.games.leaderboard.LeaderboardScoreBuffer;
 import com.google.android.gms.games.leaderboard.LeaderboardVariant;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
@@ -226,18 +228,18 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         faceFrames.add(4 + DIAMOND_SUIT, jack_diamonds);
         faceFrames.add(4 + SPADE_SUIT, jack_spades);
         faceFrames.add(4 + HEART_SUIT, jack_hearts);
-        faceFrames.add(2*4 + CLUB_SUIT, queen_clubs);
-        faceFrames.add(2*4 + DIAMOND_SUIT, queen_diamonds);
-        faceFrames.add(2*4 + SPADE_SUIT, queen_spades);
-        faceFrames.add(2*4 + HEART_SUIT, queen_hearts);
-        faceFrames.add(3*4 + CLUB_SUIT, king_clubs);
-        faceFrames.add(3*4 + DIAMOND_SUIT, king_diamonds);
-        faceFrames.add(3*4 + SPADE_SUIT, king_spades);
-        faceFrames.add(3*4 + HEART_SUIT, king_hearts);
-        faceFrames.add(4*4 + CLUB_SUIT, ace_clubs);
-        faceFrames.add(4*4 + DIAMOND_SUIT, ace_diamonds);
-        faceFrames.add(4*4 + SPADE_SUIT, ace_spades);
-        faceFrames.add(4*4 + HEART_SUIT, ace_hearts);
+        faceFrames.add(2 * 4 + CLUB_SUIT, queen_clubs);
+        faceFrames.add(2 * 4 + DIAMOND_SUIT, queen_diamonds);
+        faceFrames.add(2 * 4 + SPADE_SUIT, queen_spades);
+        faceFrames.add(2 * 4 + HEART_SUIT, queen_hearts);
+        faceFrames.add(3 * 4 + CLUB_SUIT, king_clubs);
+        faceFrames.add(3 * 4 + DIAMOND_SUIT, king_diamonds);
+        faceFrames.add(3 * 4 + SPADE_SUIT, king_spades);
+        faceFrames.add(3 * 4 + HEART_SUIT, king_hearts);
+        faceFrames.add(4 * 4 + CLUB_SUIT, ace_clubs);
+        faceFrames.add(4 * 4 + DIAMOND_SUIT, ace_diamonds);
+        faceFrames.add(4 * 4 + SPADE_SUIT, ace_spades);
+        faceFrames.add(4 * 4 + HEART_SUIT, ace_hearts);
 
         remainingCards = new ArrayList<>();
         remainingCards.add(clubsText);
@@ -259,16 +261,16 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         }
         Collections.shuffle(deck);
 
-        for(int i = 0; i<colorFrames.size(); i++){
+        for (int i = 0; i < colorFrames.size(); i++) {
             int finalI = i;
             colorFrames.get(i).setOnClickListener(v -> {
                 // colorFrames.get(0) == blackFrame
                 // colorFrames.get(1) == redFrame
-                if(hasDrawn){
+                if (hasDrawn) {
                     FrameLayout frame = (FrameLayout) v;
-                    if(finalI == COLOR_BLACK && deck.peek().isBlack()){
+                    if (finalI == COLOR_BLACK && deck.peek().isBlack()) {
                         colorFrameDiscardClick(frame);
-                    } else if(finalI ==1 && deck.peek().isRed()){
+                    } else if (finalI == 1 && deck.peek().isRed()) {
                         colorFrameDiscardClick(frame);
                     }
                 }
@@ -276,21 +278,21 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
             });
         }
 
-        for(int i = 0; i<faceFrames.size(); i++){
+        for (int i = 0; i < faceFrames.size(); i++) {
             int index = i;
             faceFrames.get(i).setOnClickListener(v -> {
-                if(!hasDrawn) {
+                if (!hasDrawn) {
                     int localizedIndex = index;
                     int suit = localizedIndex % 4;
                     FrameLayout faceFrame = (FrameLayout) v;
                     FrameLayout pileFrame = pileFrames.get(suit);
                     Card sameColorCard = colorCards.get(suit % 2);
-                    Card otherColorCard = colorCards.get((suit+1) % 2);
+                    Card otherColorCard = colorCards.get((suit + 1) % 2);
 
                     // use Face Card as Face Card
                     if (sameColorCard != null && sameColorCard.getSuit() == suit
-                            && otherColorCard != null && !isFrameCardSet(pileFrame)
-                            && (localizedIndex < 4 || localizedIndex/4 <= level)) {
+                            && otherColorCard != null && faceFrame.getChildAt(0) != null
+                            && !isFrameCardSet(pileFrame) && (localizedIndex < 4 || localizedIndex / 4 <= level)) {
                         ImageView dummy = (ImageView) faceFrame.getChildAt(0);
                         faceFrame.removeView(dummy);
                         pileFrame.addView(dummy);
@@ -310,15 +312,16 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                                 isFrameCardSet(pile_spades) && isFrameCardSet(pile_hearts)) {
                             scoreTotal = scoreTotal +
                                     pileTotal * (level - (brokenLevel != -1 ? 1 : 0));
-                            if(scoreTotal >= 75){
+                            submitScore();
+                            if (scoreTotal >= 75) {
                                 unlockAchievement(getString(R.string.achievement_75_points));
-                                if(scoreTotal >= 100) {
+                                if (scoreTotal >= 100) {
                                     unlockAchievement(getString(R.string.achievement_100_points));
-                                    if(scoreTotal >= 150){
+                                    if (scoreTotal >= 150) {
                                         unlockAchievement(getString(R.string.achievement_150_points));
-                                        if(scoreTotal >= 200){
+                                        if (scoreTotal >= 200) {
                                             unlockAchievement(getString(R.string.achievement_200_points));
-                                            if(scoreTotal >= 300){
+                                            if (scoreTotal >= 300) {
                                                 unlockAchievement(getString(R.string.achievement_300_points));
                                             }
                                         }
@@ -339,7 +342,7 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                     }
                     // use Face Card as number Card
                     else if (isFrameCardSet(faceFrame)
-                            && (localizedIndex < 4 || localizedIndex/4 < level)) {
+                            && (localizedIndex < 4 || localizedIndex / 4 < level)) {
                         FrameLayout colorFrame = colorFrames.get(localizedIndex % 2);
                         ImageView dummy = (ImageView) colorFrame.getChildAt(0);
                         if (dummy != null) {
@@ -358,14 +361,8 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         }
     }
 
-    @Override
-    public void onDestroy() {
-        submitScore();
-        super.onDestroy();
-    }
-
     private void submitScore() {
-        if(GoogleSignIn.getLastSignedInAccount(this)!=null) {
+        if (GoogleSignIn.getLastSignedInAccount(this) != null) {
             if (scoreTotal >= 20) {
                 LeaderboardsClient leaderboardsClient =
                         Games.getLeaderboardsClient(
@@ -373,37 +370,41 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                 leaderboardsClient.loadCurrentPlayerLeaderboardScore(getString(R.string.highScore_board_id),
                         LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC)
                         .addOnSuccessListener(leaderboardScoreAnnotatedData -> {
-                            leaderboardScoreAnnotatedData.get().getRawScore();
+                            Thread thread = new Thread(() -> {
+                                //code to do the HTTP request
+                                leaderboardsClient.submitScoreImmediate(
+                                        getString(R.string.highScore_board_id), scoreTotal);
+                            });
+                            thread.start();
                         });
-                if (totalScore == -1) {
-                    totalScore++;
-                    leaderboardsClient.submitScore(
-                            getString(R.string.totalScore_board_id), totalScore + scoreTotal);
-                } else {
-                    leaderboardsClient.loadCurrentPlayerLeaderboardScore(getString(R.string.totalScore_board_id),
-                            LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC)
-                            .addOnSuccessListener(leaderboardScoreAnnotatedData -> {
+
+                leaderboardsClient.loadCurrentPlayerLeaderboardScore(getString(R.string.totalScore_board_id),
+                        LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC)
+                        .addOnSuccessListener(leaderboardScoreAnnotatedData -> {
+                            if (totalScore == -1) {
                                 totalScore = leaderboardScoreAnnotatedData.get().getRawScore();
-                                leaderboardsClient.submitScore(
+                            }
+                            Thread thread = new Thread(() -> {
+                                //code to do the HTTP request
+                                leaderboardsClient.submitScoreImmediate(
                                         getString(R.string.totalScore_board_id), totalScore + scoreTotal);
                             });
-                }
-                if (numOfGames == -1) {
-                    numOfGames++;
-                    leaderboardsClient.submitScore(
-                            getString(R.string.numOfGame_board_id), numOfGames + 1);
-                } else {
-                    leaderboardsClient.loadCurrentPlayerLeaderboardScore(getString(R.string.numOfGame_board_id),
-                            LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC)
-                            .addOnSuccessListener(leaderboardScoreAnnotatedData -> {
-                                numOfGames = leaderboardScoreAnnotatedData.get().getRawScore();
-                                leaderboardsClient.submitScore(
-                                        getString(R.string.totalScore_board_id), numOfGames + 1);
-                            });
-                }
+                            thread.start();
 
-                leaderboardsClient.submitScore(
-                        getString(R.string.highScore_board_id), scoreTotal);
+                        });
+                leaderboardsClient.loadCurrentPlayerLeaderboardScore(getString(R.string.numOfGame_board_id),
+                        LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC)
+                        .addOnSuccessListener(leaderboardScoreAnnotatedData -> {
+                            if (numOfGames == -1) {
+                                numOfGames = leaderboardScoreAnnotatedData.get().getRawScore();
+                            }
+                            Thread thread = new Thread(() -> {
+                                //code to do the HTTP request
+                                leaderboardsClient.submitScoreImmediate(
+                                        getString(R.string.numOfGame_board_id), numOfGames + 1);
+                            });
+                            thread.start();
+                        });
             }
         }
     }
@@ -413,20 +414,19 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try{
+            try {
                 userAccount = task.getResult(ApiException.class);
-                getLeaderBoardInfo(userAccount);
             } catch (ApiException e) {
                 // The ApiException status code indicates the detailed failure reason.
                 // Please refer to the GoogleSignInStatusCodes class reference for more information.
                 Log.w(GameActivity.class.getSimpleName(), "signInResult:failed code=" + e.getStatusCode());
-                hideLoadingDialog();
             }
+            hideLoadingDialog();
         }
     }
 
     @OnClick(R.id.deckFrame)
-    void onDeckClick(View v){
+    void onDeckClick(View v) {
         if (deck.size() != 0 && !hasDrawn) {
             setHasDrawn(true);
 
@@ -444,8 +444,8 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
 
-            if (deck.peek().getValue() >= Card.TEN_VALUE ) {
-                int frameIndex = ( deck.peek().getValue() - 10 ) * 4
+            if (deck.peek().getValue() >= Card.TEN_VALUE) {
+                int frameIndex = (deck.peek().getValue() - 10) * 4
                         + deck.peek().getSuit();
                 FrameLayout moveToFrame = faceFrames.get(frameIndex);
                 if (deck.peek().getValue() != 10 + brokenLevel) {
@@ -458,7 +458,7 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                 }
                 deck.pop();
                 cardsLeftText.setText(String.valueOf(deck.size()));
-                if(level<5)
+                if (level < 5)
                     checkIfFaceIsEligible(frameIndex);
                 else
                     moveToFrame.setClickable(false);
@@ -508,14 +508,14 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
     }
 
     @OnClick(R.id.breakButton)
-    void onBreakClick(View view){
+    void onBreakClick(View view) {
         view.setClickable(false);
         view.setVisibility(View.INVISIBLE);
-        for(int i = 0; i < 4; i++) {
-            int index = ( level * 4 ) + i;
-            FrameLayout frame = faceFrames.get(( level * 4 ) + i);
+        for (int i = 0; i < 4; i++) {
+            int index = (level * 4) + i;
+            FrameLayout frame = faceFrames.get((level * 4) + i);
             frame.setClickable(false);
-            faceFrames.set(index,frame);
+            faceFrames.set(index, frame);
         }
         brokenLevel = level;
         increaseLevel(true);
@@ -523,112 +523,71 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
     }
 
     @OnClick(R.id.toPlayButton)
-    void onToPlayClick(){
+    void onToPlayClick() {
         getFragmentManager().beginTransaction()
-                            .add(R.id.container, new ToPlayFragment(), ToPlayFragment.class.getSimpleName())
-                            .addToBackStack(ToPlayFragment.class.getSimpleName()).commit();
+                .add(R.id.container, new ToPlayFragment(), ToPlayFragment.class.getSimpleName())
+                .addToBackStack(ToPlayFragment.class.getSimpleName()).commit();
     }
 
     @OnClick(R.id.newGameButton)
-    void onNewGameClick(){
-
-        submitScore();
-
+    void onNewGameClick() {
         Intent i = new Intent(GameActivity.this, GameActivity.class);
         startActivity(i);
         finish();
     }
 
     @OnClick(R.id.high_scores_button)
-    void onHighScoresClick(){
-        if(numOfGames >= 10) {
-            getFragmentManager().beginTransaction()
-                                .add(R.id.container, new HighScoreFragment(),
-                                     HighScoreFragment.class.getSimpleName())
-                                .addToBackStack(HighScoreFragment.class.getSimpleName()).commit();
-        } else {
+    void onHighScoresClick() {
+        showLoadingDialog();
+        LeaderboardsClient leaderboardsClient =
+                Games.getLeaderboardsClient(this, userAccount);
+
+        leaderboardsClient.loadCurrentPlayerLeaderboardScore(getString(R.string.numOfGame_board_id),
+                LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC)
+                .addOnSuccessListener(leaderboardScoreAnnotatedData -> {
+                    if (leaderboardScoreAnnotatedData.get().getRawScore() >= 10) {
+                        getPlayerRanking(leaderboardsClient,
+                                getString(
+                                        R.string.numOfGame_board_id));
+                        getPlayerRanking(leaderboardsClient,
+                                getString(
+                                        R.string.totalScore_board_id));
+
+                    } else {
+                        hideLoadingDialog();
+                        new AlertDialog.Builder(this)
+                                .setMessage("Play 10 games to unlock High Scores!\nNumber of games played: " +
+                                        (numOfGames == -1 ? 0 : numOfGames))
+                                .setCancelable(true).show();
+                    }
+                }).addOnFailureListener(e -> {
+            hideLoadingDialog();
             new AlertDialog.Builder(this)
                     .setMessage("Play 10 games to unlock High Scores!\nNumber of games played: " +
-                                        (numOfGames == -1 ? 0 : numOfGames))
+                            (numOfGames == -1 ? 0 : numOfGames))
                     .setCancelable(true).show();
-        }
+        });
     }
 
-    private void getLeaderBoardInfo(GoogleSignInAccount account) {
-        LeaderboardsClient leaderboardsClient =
-                Games.getLeaderboardsClient(this, account);
-
-        leaderboardsClient.loadCurrentPlayerLeaderboardScore(
-                getString(R.string.totalScore_board_id),
-                LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC)
-                          .addOnSuccessListener(
-                                  leaderboardScoreAnnotatedData -> {
-                                      if(leaderboardScoreAnnotatedData.get()!=null) {
-                                          totalScore =
-                                                  leaderboardScoreAnnotatedData.get().getRawScore();
-                                          if(numOfGames!=-1) {
-                                              getPlayerRanking(leaderboardsClient,
-                                                               getString(
-                                                                       R.string.totalScore_board_id));
-                                              getPlayerRanking(leaderboardsClient,
-                                                               getString(
-                                                                       R.string.numOfGame_board_id));
-                                          }
-                                      } else {
-                                          rankRow.setVisibility(View.GONE);
-                                          hideLoadingDialog();
-                                      }
-                                  })
-                          .addOnFailureListener(
-                                  e -> {
-                                      Log.e(GameActivity.class.getSimpleName(), e.getMessage(),
-                                            e);
-                                      hideLoadingDialog();
-                                  });
-
-        leaderboardsClient.loadCurrentPlayerLeaderboardScore(
-                getString(R.string.numOfGame_board_id),
-                LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC)
-                          .addOnSuccessListener(
-                                  leaderboardScoreAnnotatedData -> {
-                                      if(leaderboardScoreAnnotatedData.get()!=null) {
-                                          numOfGames =
-                                                  leaderboardScoreAnnotatedData.get().getRawScore();
-                                          if(totalScore!=-1) {
-                                              getPlayerRanking(leaderboardsClient,
-                                                               getString(
-                                                                       R.string.numOfGame_board_id));
-                                              getPlayerRanking(leaderboardsClient,
-                                                               getString(
-                                                                       R.string.totalScore_board_id));
-                                          }
-                                      } else {
-                                          rankRow.setVisibility(View.GONE);
-                                          hideLoadingDialog();
-                                      }
-                                  })
-                          .addOnFailureListener(
-                                  e -> {
-                                      Log.e(GameActivity.class.getSimpleName(), e.getMessage(),
-                                            e);
-                                      hideLoadingDialog();
-                                  });
-    }
 
     private void getPlayerRanking(
             LeaderboardsClient leaderboardsClient, String leaderboardID) {
-        if(numOfGames != -1 && totalScore != -1){
-            leaderboardsClient.loadTopScores(
-                    leaderboardID,LeaderboardVariant.TIME_SPAN_WEEKLY,
-                    LeaderboardVariant.COLLECTION_PUBLIC, 25).addOnSuccessListener(
-                    leaderboardScoresAnnotatedData -> {
-                        LeaderboardScoreBuffer buffer =
-                                leaderboardScoresAnnotatedData.get().getScores();
-                        getMoreScores(leaderboardsClient, leaderboardID, buffer);
-                    }).addOnFailureListener(e->
-                            Log.e(GameActivity.class.getSimpleName(),e.getMessage(),e));
-            }
-        }
+        leaderboardsClient.loadTopScores(
+                leaderboardID, LeaderboardVariant.TIME_SPAN_WEEKLY,
+                LeaderboardVariant.COLLECTION_PUBLIC, 25).addOnSuccessListener(
+                leaderboardScoresAnnotatedData -> {
+                    LeaderboardScoreBuffer buffer =
+                            leaderboardScoresAnnotatedData.get().getScores();
+                    getMoreScores(leaderboardsClient, leaderboardID, buffer);
+                }).addOnFailureListener(e -> {
+            Log.e(GameActivity.class.getSimpleName(), e.getMessage(), e);
+            hideLoadingDialog();
+            new AlertDialog.Builder(this)
+                    .setMessage("Play 10 games to unlock High Scores!\nNumber of games played: " +
+                            (numOfGames == -1 ? 0 : numOfGames))
+                    .setCancelable(true).show();
+        });
+    }
 
     private void getMoreScores(
             LeaderboardsClient leaderboardsClient,
@@ -637,36 +596,35 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         boolean shouldLoop = true;
         try {
             buffer.get(i);
-        } catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             shouldLoop = false;
         }
-        while(shouldLoop) {
+        while (shouldLoop) {
             LeaderboardScore score = buffer.get(i);
-            if(getString(R.string.totalScore_board_id).equals(leaderboardID)) {
+            if (getString(R.string.totalScore_board_id).equals(leaderboardID)) {
                 totalLeaderboardScoreMap
                         .put(score.getScoreHolderDisplayName(), score.getRawScore());
-            }
-            else {
+            } else {
                 gamesLeaderboardScoreMap
                         .put(score.getScoreHolderDisplayName(), score.getRawScore());
             }
             i++;
             try {
                 buffer.get(i);
-            } catch (IllegalStateException e){
+            } catch (IllegalStateException e) {
                 shouldLoop = false;
             }
         }
-        if(i == 26) {
+        if (i == 26) {
             leaderboardsClient.loadMoreScores(buffer, 25, PageDirection.NEXT)
-                              .addOnSuccessListener(
-                    leaderboardScoresAnnotatedData -> {
-                        LeaderboardScoreBuffer newBuffer =
-                                leaderboardScoresAnnotatedData.get().getScores();
-                        getMoreScores(leaderboardsClient, leaderboardID, newBuffer);
-                    }).addOnFailureListener(
-                            e-> Log.e(GameActivity.class.getSimpleName(),e.getMessage(),e));
-        } else if(finishedCheck){
+                    .addOnSuccessListener(
+                            leaderboardScoresAnnotatedData -> {
+                                LeaderboardScoreBuffer newBuffer =
+                                        leaderboardScoresAnnotatedData.get().getScores();
+                                getMoreScores(leaderboardsClient, leaderboardID, newBuffer);
+                            }).addOnFailureListener(
+                    e -> Log.e(GameActivity.class.getSimpleName(), e.getMessage(), e));
+        } else if (finishedCheck) {
             sortPlayersByRanking();
         } else {
             finishedCheck = true;
@@ -674,32 +632,38 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
     }
 
     private void sortPlayersByRanking() {
-        for(Map.Entry<String, Long> entry : totalLeaderboardScoreMap.entrySet()){
+        for (Map.Entry<String, Long> entry : totalLeaderboardScoreMap.entrySet()) {
             String scoreHolderDisplayName = entry.getKey();
             long totalScore = entry.getValue();
             long totalGames = gamesLeaderboardScoreMap.get(scoreHolderDisplayName);
-            if(totalGames>9) {
+            if (totalGames > 9) {
                 rankingLeaderboardScoreList.add(
                         new RankedPlayer(scoreHolderDisplayName, totalScore / totalGames));
             }
         }
         Collections.sort(rankingLeaderboardScoreList,
-                         (o1, o2) -> (int)(o1.getAvgGame()*10000 - o2.getAvgGame()*10000));
+                (o1, o2) -> (int) (o1.getAvgGame() * 10000 - o2.getAvgGame() * 10000));
+
+        getFragmentManager().beginTransaction()
+                .add(R.id.container, new HighScoreFragment(),
+                        HighScoreFragment.class.getSimpleName())
+                .addToBackStack(HighScoreFragment.class.getSimpleName()).commit();
+
         hideLoadingDialog();
     }
 
     private void unlockAchievement(String achievementString) {
-        if(GoogleSignIn.getLastSignedInAccount(this)!=null) {
+        if (GoogleSignIn.getLastSignedInAccount(this) != null) {
             Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                 .unlock(achievementString);
+                    .unlock(achievementString);
         }
     }
 
     private void checkIfFaceIsEligible(int frameIndex) {
-        if(faceFrames.get(frameIndex) != null && faceFrames.get(frameIndex).getChildCount() != 0 &&
+        if (faceFrames.get(frameIndex) != null && faceFrames.get(frameIndex).getChildCount() != 0 &&
                 faceFrames.get(frameIndex).isClickable()) {
             if (colorCards.get(COLOR_BLACK) != null && colorCards.get(COLOR_RED) != null &&
-                    frameIndex / 4 <= level && ( frameIndex % 4 == colorCards.get(frameIndex % 2).getSuit() ) &&
+                    frameIndex / 4 <= level && (frameIndex % 4 == colorCards.get(frameIndex % 2).getSuit()) &&
                     pileFrames.get(frameIndex % 4).getChildCount() == 0) {
                 eligibleIndexes.add(frameIndex);
                 faceFrames.get(frameIndex).setBackgroundResource(R.drawable.face_eligible_shape);
@@ -709,14 +673,14 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         }
     }
 
-    private void findEligibleFaces(){
-        if(level<5) {
+    private void findEligibleFaces() {
+        if (level < 5) {
             for (Integer i : eligibleIndexes) {
                 faceFrames.get(i).setBackground(null);
             }
             eligibleIndexes.clear();
 
-            for (int i = 0; i < 4 * ( level + 1 ); i++) {
+            for (int i = 0; i < 4 * (level + 1); i++) {
                 checkIfFaceIsEligible(i);
             }
         } else {
@@ -731,17 +695,16 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
     private void increaseLevel(boolean isBroken) {
         if (level == 1) {
             levelText.setText(R.string.queen);
-            if(!isBroken) {
+            if (!isBroken) {
                 jacksLayout.setBackground(getResources().getDrawable(R.drawable.face_number_shape));
                 unlockAchievement(getString(R.string.achievement_jacks));
             } else {
                 jacksLayout.setBackground(getResources().getDrawable(R.drawable.broken_shape));
             }
             queensLayout.setBackground(getResources().getDrawable(R.drawable.current_level_shape));
-        }
-        else if (level == 2) {
+        } else if (level == 2) {
             levelText.setText(R.string.king);
-            if(!isBroken) {
+            if (!isBroken) {
                 queensLayout.setBackground(getResources().getDrawable(R.drawable.face_number_shape));
                 unlockAchievement(getString(R.string.achievement_queens));
             } else {
@@ -749,44 +712,42 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
             }
             kingsLayout.setBackground(getResources().getDrawable(R.drawable.current_level_shape));
 
-        }
-        else if (level == 3) {
+        } else if (level == 3) {
             levelText.setText(R.string.ace);
-            if(!isBroken) {
+            if (!isBroken) {
                 kingsLayout.setBackground(getResources().getDrawable(R.drawable.face_number_shape));
                 unlockAchievement(getString(R.string.achievement_kings));
             } else {
                 kingsLayout.setBackground(getResources().getDrawable(R.drawable.broken_shape));
             }
             acesLayout.setBackground(getResources().getDrawable(R.drawable.current_level_shape));
-        }
-        else if (level == 4) {
+        } else if (level == 4) {
             levelText.setText(R.string.god_Tier);
-            if(!isBroken) {
+            if (!isBroken) {
                 acesLayout.setBackground(getResources().getDrawable(R.drawable.face_number_shape));
                 unlockAchievement(getString(R.string.achievement_aces));
-                if(brokenLevel != -1){
+                if (brokenLevel != -1) {
                     unlockAchievement(getString(R.string.achievement_improbable));
                 }
             } else {
                 acesLayout.setBackground(getResources().getDrawable(R.drawable.broken_shape));
             }
         }
-        if(isBroken) {
+        if (isBroken) {
             int frameCount = 0;
-            for (int i = level * 4; i < level * 4 + 4; i++){
-                if(faceFrames.get(i).getChildCount() != 0 &&
+            for (int i = level * 4; i < level * 4 + 4; i++) {
+                if (faceFrames.get(i).getChildCount() != 0 &&
                         pileFrames.get(i % 4).getChildCount() == 0) {
                     faceFrames.get(i).removeAllViews();
                     ImageView face_down = new ImageView(this);
                     face_down.setImageResource(R.drawable.card_back);
                     faceFrames.get(i).addView(face_down);
                 }
-                if(pileFrames.get(i % 4).getChildCount()==0){
+                if (pileFrames.get(i % 4).getChildCount() == 0) {
                     frameCount++;
                 }
             }
-            if (frameCount==3){
+            if (frameCount == 3) {
                 unlockAchievement(getString(R.string.achievement_well_played));
             }
         }
@@ -807,7 +768,7 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         colorFrame.addView(dummy);
         redDiscardText.setVisibility(View.INVISIBLE);
         blackDiscardText.setVisibility(View.INVISIBLE);
-        if(deck.peek().isBlack()) {
+        if (deck.peek().isBlack()) {
             colorCards.set(COLOR_BLACK, deck.pop());
             cardsLeftText.setText(String.valueOf(deck.size()));
         } else {
@@ -832,7 +793,7 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         frame.setClickable(false);
         frame.setBackground(getResources().getDrawable(R.drawable.face_cover_shape));
         ImageView suitImage = new ImageView(getApplicationContext());
-        if(suit == CLUB_SUIT)
+        if (suit == CLUB_SUIT)
             suitImage.setImageResource(R.drawable.club);
         else if (suit == DIAMOND_SUIT)
             suitImage.setImageResource(R.drawable.diamond);
@@ -848,7 +809,7 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
     }
 
     private void setHasDrawn(boolean hasDrawn) {
-        if(hasDrawn){
+        if (hasDrawn) {
             deckText.setText(R.string.press_to_discard);
         } else {
             deckText.setText(R.string.press_to_draw);
@@ -857,7 +818,7 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         if (getFragmentManager().getBackStackEntryCount() > 0)
             getFragmentManager().popBackStackImmediate();
         else super.onBackPressed();
@@ -868,9 +829,9 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         if (apiClient.isConnected()) {
             Auth.GoogleSignInApi.silentSignIn(apiClient).setResultCallback(
                     result -> {
-                        if(result.isSuccess()){
+                        if (result.isSuccess()) {
                             userAccount = result.getSignInAccount();
-                            getLeaderBoardInfo(userAccount);
+                            hideLoadingDialog();
                         } else {
                             // Player will need to sign-in explicitly using via UI
                             Intent intent = Auth.GoogleSignInApi.getSignInIntent(apiClient);
@@ -885,7 +846,7 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         hideLoadingDialog();
     }
 
-    private void showLoadingDialog(){
+    private void showLoadingDialog() {
         progress = new ProgressDialog(this);
         progress.setTitle("Loading");
         progress.setMessage("Wait while loading...");
