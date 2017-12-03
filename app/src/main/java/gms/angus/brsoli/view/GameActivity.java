@@ -6,9 +6,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -22,19 +22,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.games.AchievementsClient;
+import com.google.android.gms.games.AnnotatedData;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.LeaderboardsClient;
 import com.google.android.gms.games.PageDirection;
 import com.google.android.gms.games.leaderboard.LeaderboardScore;
 import com.google.android.gms.games.leaderboard.LeaderboardScoreBuffer;
 import com.google.android.gms.games.leaderboard.LeaderboardVariant;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +44,11 @@ import butterknife.OnClick;
 import gms.angus.brsoli.R;
 import gms.angus.brsoli.model.Card;
 import gms.angus.brsoli.model.RankedPlayer;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 
 import static gms.angus.brsoli.model.Card.CLUB_SUIT;
 import static gms.angus.brsoli.model.Card.COLOR_BLACK;
@@ -177,12 +180,11 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
     private List<TextView> remainingCards;
     private List<Card> colorCards;
     private List<Integer> eligibleIndexes;
-    private Map<String, Long> totalLeaderboardScoreMap = new HashMap<>();
-    private Map<String, Long> gamesLeaderboardScoreMap = new HashMap<>();
-    List<RankedPlayer> rankingLeaderboardScoreList = new ArrayList<>();
-    private Boolean hasDrawn, finishedCheck;
+    private Boolean hasDrawn;
     private int level, pileTotal, scoreTotal, brokenLevel = -1;
     private long totalScore = -1, numOfGames = -1;
+
+    private final CompositeDisposable disposables = new CompositeDisposable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,8 +192,6 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_game);
         ButterKnife.bind(this);
-
-        finishedCheck = false;
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN)
                 .requestEmail()
@@ -542,17 +542,93 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         LeaderboardsClient leaderboardsClient =
                 Games.getLeaderboardsClient(this, userAccount);
 
+
         leaderboardsClient.loadCurrentPlayerLeaderboardScore(getString(R.string.numOfGame_board_id),
                 LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC)
-                .addOnSuccessListener(leaderboardScoreAnnotatedData -> {
+                .addOnSuccessListener((AnnotatedData<LeaderboardScore> leaderboardScoreAnnotatedData) -> {
                     if (leaderboardScoreAnnotatedData.get().getRawScore() >= 10) {
-                        getPlayerRanking(leaderboardsClient,
-                                getString(
-                                        R.string.numOfGame_board_id));
-                        getPlayerRanking(leaderboardsClient,
-                                getString(
-                                        R.string.totalScore_board_id));
+                        Observable<Observable<Pair<Map<String, Long>, String>>> numOfGamesAnnotatedObservable =
+                                getPlayerRanking(leaderboardsClient,
+                                        getString(R.string.numOfGame_board_id));
+                        Observable<Observable<Pair<Map<String, Long>, String>>> totalScoreAnnotatedObservable =
+                                getPlayerRanking(leaderboardsClient,
+                                        getString(
+                                                R.string.totalScore_board_id));
 
+                        Observable<Observable<List<RankedPlayer>>> obs = Observable.zip(numOfGamesAnnotatedObservable, totalScoreAnnotatedObservable,
+                                (observable1, observable2) -> Observable.zip(observable1, observable2,
+                                        (pair1, pair2) -> {
+                                            List<RankedPlayer> rankingLeaderboardScoreList = new ArrayList<>();
+                                            for (Map.Entry<String, Long> entry : pair1.first.entrySet()) {
+                                                String scoreHolderDisplayName = entry.getKey();
+                                                long totalScore;
+                                                long totalGames;
+                                                if (pair1.second.equals(getString(R.string.numOfGame_board_id))) {
+                                                    totalGames = entry.getValue();
+                                                    totalScore = pair2.first.get(scoreHolderDisplayName);
+                                                } else {
+                                                    totalScore = entry.getValue();
+                                                    totalGames = pair2.first.get(scoreHolderDisplayName);
+                                                }
+                                                if (totalGames > 9) {
+                                                    rankingLeaderboardScoreList.add(
+                                                            new RankedPlayer(scoreHolderDisplayName, totalScore / totalGames));
+                                                }
+                                            }
+                                            return rankingLeaderboardScoreList;
+                                        })
+                        );
+
+                        disposables.add(obs
+                                // Run on a background thread
+                                .subscribeOn(Schedulers.io())
+                                // Be notified on the main thread
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribeWith(new DisposableObserver<Observable<List<RankedPlayer>>>() {
+                                    @Override
+                                    public void onNext(Observable<List<RankedPlayer>> listObservable) {
+                                        disposables.add(
+                                                listObservable
+                                                        // Run on a background thread
+                                                        .subscribeOn(Schedulers.io())
+                                                        // Be notified on the main thread
+                                                        .observeOn(AndroidSchedulers.mainThread())
+                                                        .subscribeWith(new DisposableObserver<List<RankedPlayer>>() {
+                                                            @Override
+                                                            public void onNext(List<RankedPlayer> rankedPlayers) {
+                                                                Collections.sort(rankedPlayers,
+                                                                        (o1, o2) -> (int) (o1.getAvgGame() * 10000 - o2.getAvgGame() * 10000));
+
+                                                                getFragmentManager().beginTransaction()
+                                                                        .add(R.id.container, new HighScoreFragment(),
+                                                                                HighScoreFragment.class.getSimpleName())
+                                                                        .addToBackStack(HighScoreFragment.class.getSimpleName()).commit();
+
+                                                                hideLoadingDialog();
+                                                            }
+
+                                                            @Override
+                                                            public void onError(Throwable e) {
+
+                                                            }
+
+                                                            @Override
+                                                            public void onComplete() {
+
+                                                            }
+                                                        }));
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onComplete() {
+
+                                    }
+                                }));
                     } else {
                         hideLoadingDialog();
                         new AlertDialog.Builder(this)
@@ -569,88 +645,63 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
         });
     }
 
-
-    private void getPlayerRanking(
+    private Observable<Observable<Pair<Map<String, Long>, String>>> getPlayerRanking(
             LeaderboardsClient leaderboardsClient, String leaderboardID) {
-        leaderboardsClient.loadTopScores(
-                leaderboardID, LeaderboardVariant.TIME_SPAN_WEEKLY,
-                LeaderboardVariant.COLLECTION_PUBLIC, 25).addOnSuccessListener(
-                leaderboardScoresAnnotatedData -> {
-                    LeaderboardScoreBuffer buffer =
-                            leaderboardScoresAnnotatedData.get().getScores();
-                    getMoreScores(leaderboardsClient, leaderboardID, buffer);
-                }).addOnFailureListener(e -> {
-            Log.e(GameActivity.class.getSimpleName(), e.getMessage(), e);
-            hideLoadingDialog();
-            new AlertDialog.Builder(this)
-                    .setMessage("Play 10 games to unlock High Scores!\nNumber of games played: " +
-                            (numOfGames == -1 ? 0 : numOfGames))
-                    .setCancelable(true).show();
+        return Observable.create(observableEmitter -> {
+            leaderboardsClient.loadTopScores(
+                    leaderboardID, LeaderboardVariant.TIME_SPAN_ALL_TIME,
+                    LeaderboardVariant.COLLECTION_PUBLIC, 25).addOnSuccessListener(
+                    leaderboardScoresAnnotatedData ->
+                            observableEmitter.onNext(getMoreScores(leaderboardsClient, leaderboardID,
+                                    leaderboardScoresAnnotatedData.get().getScores(), new HashMap<>())))
+                    .addOnFailureListener(e -> {
+                        observableEmitter.onError(e);
+                        Log.e(GameActivity.class.getSimpleName(), e.getMessage(), e);
+                        hideLoadingDialog();
+                        new AlertDialog.Builder(this)
+                                .setMessage("Play 10 games to unlock High Scores!\nNumber of games played: " +
+                                        (numOfGames == -1 ? 0 : numOfGames))
+                                .setCancelable(true).show();
+                    });
         });
     }
 
-    private void getMoreScores(
+    private Observable<Pair<Map<String, Long>, String>> getMoreScores(
             LeaderboardsClient leaderboardsClient,
-            String leaderboardID, LeaderboardScoreBuffer buffer) {
-        int i = 0;
-        boolean shouldLoop = true;
-        try {
-            buffer.get(i);
-        } catch (IllegalStateException e) {
-            shouldLoop = false;
-        }
-        while (shouldLoop) {
-            LeaderboardScore score = buffer.get(i);
-            if (getString(R.string.totalScore_board_id).equals(leaderboardID)) {
-                totalLeaderboardScoreMap
-                        .put(score.getScoreHolderDisplayName(), score.getRawScore());
-            } else {
-                gamesLeaderboardScoreMap
-                        .put(score.getScoreHolderDisplayName(), score.getRawScore());
-            }
-            i++;
+            String leaderboardID, LeaderboardScoreBuffer buffer, Map<String, Long> leaderboardMap) {
+        return Observable.create(observableEmitter -> {
+            int i = 0;
+            boolean shouldLoop = true;
             try {
                 buffer.get(i);
             } catch (IllegalStateException e) {
                 shouldLoop = false;
             }
-        }
-        if (i == 26) {
-            leaderboardsClient.loadMoreScores(buffer, 25, PageDirection.NEXT)
-                    .addOnSuccessListener(
-                            leaderboardScoresAnnotatedData -> {
-                                LeaderboardScoreBuffer newBuffer =
-                                        leaderboardScoresAnnotatedData.get().getScores();
-                                getMoreScores(leaderboardsClient, leaderboardID, newBuffer);
-                            }).addOnFailureListener(
-                    e -> Log.e(GameActivity.class.getSimpleName(), e.getMessage(), e));
-        } else if (finishedCheck) {
-            sortPlayersByRanking();
-        } else {
-            finishedCheck = true;
-        }
-    }
-
-    private void sortPlayersByRanking() {
-        for (Map.Entry<String, Long> entry : totalLeaderboardScoreMap.entrySet()) {
-            String scoreHolderDisplayName = entry.getKey();
-            long totalScore = entry.getValue();
-            long totalGames = gamesLeaderboardScoreMap.get(scoreHolderDisplayName);
-            if (totalGames > 9) {
-                rankingLeaderboardScoreList.add(
-                        new RankedPlayer(scoreHolderDisplayName, totalScore / totalGames));
+            while (shouldLoop) {
+                LeaderboardScore score = buffer.get(i);
+                leaderboardMap.put(score.getScoreHolderDisplayName(), score.getRawScore());
+                i++;
+                try {
+                    buffer.get(i);
+                } catch (IllegalStateException e) {
+                    shouldLoop = false;
+                }
             }
-        }
-        Collections.sort(rankingLeaderboardScoreList,
-                (o1, o2) -> (int) (o1.getAvgGame() * 10000 - o2.getAvgGame() * 10000));
-
-        getFragmentManager().beginTransaction()
-                .add(R.id.container, new HighScoreFragment(),
-                        HighScoreFragment.class.getSimpleName())
-                .addToBackStack(HighScoreFragment.class.getSimpleName()).commit();
-
-        hideLoadingDialog();
+            if (i == 26) {
+                leaderboardsClient.loadMoreScores(buffer, 25, PageDirection.NEXT)
+                        .addOnSuccessListener(
+                                leaderboardScoresAnnotatedData -> {
+                                    LeaderboardScoreBuffer newBuffer =
+                                            leaderboardScoresAnnotatedData.get().getScores();
+                                    getMoreScores(leaderboardsClient, leaderboardID, newBuffer, leaderboardMap);
+                                }).addOnFailureListener(
+                        e -> Log.e(GameActivity.class.getSimpleName(), e.getMessage(), e));
+            } else {
+                observableEmitter.onNext(Pair.create(leaderboardMap, leaderboardID));
+            }
+        });
     }
+
 
     private void unlockAchievement(String achievementString) {
         if (GoogleSignIn.getLastSignedInAccount(this) != null) {
