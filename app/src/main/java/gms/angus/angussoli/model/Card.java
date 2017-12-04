@@ -1,4 +1,4 @@
-package gms.angus.brsoli.model;
+package gms.angus.angussoli.model;
 
 import java.util.HashMap;
 

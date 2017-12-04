@@ -8,20 +8,36 @@
       "client_info": {
         "mobilesdk_app_id": "1:589586867488:android:4d5c62102e7a663c",
         "android_client_info": {
-          "package_name": "gms.angus.brsoli"
+          "package_name": "gms.angus.angussoli"
         }
       },
       "oauth_client": [
         {
-          "client_id": "589586867488-ie7r4aglh9479hp8dfdos9s7q6d565dp.apps.googleusercontent.com",
+          "client_id": "589586867488-pf1im2futmcqlpudm893m61hbl9ohd92.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "gms.angus.angussoli",
+            "certificate_hash": "07652496eeb43b2e46f8f39adae46ac6aa09a5ef"
+          }
+        },
+        {
+          "client_id": "589586867488-n6r0oenp0b27ig09p46lnb2ljuools8u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "gms.angus.angussoli",
+            "certificate_hash": "5ca2e68247206e6562eda486151b220e2f746b58"
+          }
+        },
+        {
+          "client_id": "589586867488-jp2e9mf6seklrus2lehk9dr6husl29ec.apps.googleusercontent.com",
           "client_type": 3
         },
         {
-          "client_id": "589586867488-hrn3d384pektvj286vq930qevdoh2m4v.apps.googleusercontent.com",
+          "client_id": "589586867488-ff65hl4inj9tvch3hkjdg1ptb6b6e3ak.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "gms.angus.brsoli",
-            "certificate_hash": "5ca2e68247206e6562eda486151b220e2f746b58"
+            "package_name": "gms.angus.angussoli",
+            "certificate_hash": "cbad46b3508640e3afbafb8c6bd7a264eb81ef00"
           }
         }
       ],

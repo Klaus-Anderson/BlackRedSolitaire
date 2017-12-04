@@ -1,4 +1,4 @@
-package gms.angus.brsoli.view;
+package gms.angus.angussoli.view;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -17,8 +17,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import gms.angus.brsoli.R;
-import gms.angus.brsoli.model.RankedPlayer;
+import gms.angus.angussoli.R;
+import gms.angus.angussoli.model.RankedPlayer;
 
 /**
  * Created by Harry Cliff on 11/29/17.

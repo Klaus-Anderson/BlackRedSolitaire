@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">BR Solitaire</string>
+    <string name="app_name">Angus Solitaire</string>
     <string name="ten">10</string>
     <string name="jack">Jack</string>
     <string name="queen">Queen</string>
     <string name="king">King</string>
     <string name="ace">Ace</string>
-    <string name="howToPlay">How to Play BR Solitaire</string>
+    <string name="howToPlay">How to Play Angus Solitaire</string>
     <string name="hintOne">The objective of the game is to score as many points as possible before
         the deck runs out of cards. Scores less than 75 points are not submitted to High Scores.</string>
     <string name="hintTwo">Press on the deck to draw a card. If the card drawn is a face card
