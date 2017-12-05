@@ -79,7 +79,5 @@ public class HighScoreFragment extends Fragment {
         return ((GameActivity)getActivity()).userAccount;
     }
 
-    private List<RankedPlayer> getRankedList(){
-        return ((GameActivity)getActivity()).rankingLeaderboardScoreList;
-    }
+
 }

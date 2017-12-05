@@ -41,8 +41,8 @@ public class ProScoreFragment extends Fragment {
         return view;
     }
 
-    private GoogleSignInAccount getUserAccount() {
-        return ((GameActivity)getActivity()).userAccount;
+    private String getUserDisplayName() {
+        return ((GameActivity)getActivity()).displayName;
     }
 
     private List<RankedPlayer> getRankedList(){
@@ -66,7 +66,7 @@ public class ProScoreFragment extends Fragment {
             holder.playerAverage.setText(numberFormat.format(
                     getRankedList().get(position).getAvgGame())+"");
 
-            if(getRankedList().get(position).getUserName().equals(getUserAccount().getDisplayName())){
+            if(getRankedList().get(position).getUserName().equals(getUserDisplayName())){
                 holder.wrapper.setBackgroundResource(R.drawable.current_level_shape);
             }
         }

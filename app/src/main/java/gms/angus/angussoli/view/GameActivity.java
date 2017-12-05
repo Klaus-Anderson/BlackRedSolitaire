@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.Pair;
@@ -29,6 +30,7 @@ import com.google.android.gms.games.PageDirection;
 import com.google.android.gms.games.leaderboard.LeaderboardScore;
 import com.google.android.gms.games.leaderboard.LeaderboardScoreBuffer;
 import com.google.android.gms.games.leaderboard.LeaderboardVariant;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
@@ -183,6 +185,7 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
     List<RankedPlayer> rankingLeaderboardScoreList;
     private Boolean hasDrawn;
     private int level, pileTotal, scoreTotal, brokenLevel = -1;
+    protected String displayName;
     private long totalScore = -1, numOfGames = -1;
 
     private final CompositeDisposable disposables = new CompositeDisposable();
@@ -363,49 +366,49 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
     }
 
     private void submitScore() {
-        if (GoogleSignIn.getLastSignedInAccount(this) != null) {
+        if (userAccount != null) {
             if (scoreTotal >= 20) {
                 LeaderboardsClient leaderboardsClient =
                         Games.getLeaderboardsClient(
-                                this, GoogleSignIn.getLastSignedInAccount(this));
-                leaderboardsClient.loadCurrentPlayerLeaderboardScore(getString(R.string.highScore_board_id),
-                        LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC)
-                        .addOnSuccessListener(leaderboardScoreAnnotatedData -> {
-                            Thread thread = new Thread(() -> {
-                                //code to do the HTTP request
-                                leaderboardsClient.submitScoreImmediate(
-                                        getString(R.string.highScore_board_id), scoreTotal);
-                            });
-                            thread.start();
-                        });
+                                this, userAccount);
+                leaderboardsClient.submitScoreImmediate(
+                        getString(R.string.highScore_board_id), scoreTotal);
 
                 leaderboardsClient.loadCurrentPlayerLeaderboardScore(getString(R.string.totalScore_board_id),
                         LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC)
                         .addOnSuccessListener(leaderboardScoreAnnotatedData -> {
-                            if (totalScore == -1) {
-                                totalScore = leaderboardScoreAnnotatedData.get().getRawScore();
+                            if(leaderboardScoreAnnotatedData.get() != null) {
+                                if (totalScore == -1) {
+                                    totalScore = leaderboardScoreAnnotatedData.get().getRawScore();
+                                }
+                            } else {
+                                totalScore = 0;
                             }
-                            Thread thread = new Thread(() -> {
-                                //code to do the HTTP request
-                                leaderboardsClient.submitScoreImmediate(
-                                        getString(R.string.totalScore_board_id), totalScore + scoreTotal);
-                            });
-                            thread.start();
-
+                            leaderboardsClient.submitScoreImmediate(
+                                    getString(R.string.totalScore_board_id), totalScore + scoreTotal);
+                        }).addOnFailureListener(e -> {
+                    totalScore = 0;
+                    leaderboardsClient.submitScoreImmediate(
+                            getString(R.string.totalScore_board_id), totalScore + scoreTotal);
                         });
+
                 leaderboardsClient.loadCurrentPlayerLeaderboardScore(getString(R.string.numOfGame_board_id),
                         LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC)
                         .addOnSuccessListener(leaderboardScoreAnnotatedData -> {
-                            if (numOfGames == -1) {
-                                numOfGames = leaderboardScoreAnnotatedData.get().getRawScore();
+                            if(leaderboardScoreAnnotatedData.get() != null) {
+                                if (numOfGames == -1) {
+                                    numOfGames = leaderboardScoreAnnotatedData.get().getRawScore();
+                                }
+                            } else {
+                                numOfGames = 0;
                             }
-                            Thread thread = new Thread(() -> {
-                                //code to do the HTTP request
-                                leaderboardsClient.submitScoreImmediate(
-                                        getString(R.string.numOfGame_board_id), numOfGames + 1);
-                            });
-                            thread.start();
-                        });
+                            leaderboardsClient.submitScoreImmediate(
+                                    getString(R.string.numOfGame_board_id), numOfGames + 1);
+                        }).addOnFailureListener(e -> {
+                    numOfGames = 0;
+                    leaderboardsClient.submitScoreImmediate(
+                            getString(R.string.totalScore_board_id), numOfGames + 1);
+                });
             }
         }
     }
@@ -544,11 +547,12 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
             LeaderboardsClient leaderboardsClient =
                     Games.getLeaderboardsClient(this, userAccount);
 
-
             leaderboardsClient.loadCurrentPlayerLeaderboardScore(getString(R.string.numOfGame_board_id),
                     LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC)
                     .addOnSuccessListener((AnnotatedData<LeaderboardScore> leaderboardScoreAnnotatedData) -> {
-                        if (leaderboardScoreAnnotatedData.get().getRawScore() >= 10) {
+                        if (leaderboardScoreAnnotatedData.get() != null &&
+                                leaderboardScoreAnnotatedData.get().getRawScore() >= 10) {
+                            displayName = leaderboardScoreAnnotatedData.get().getScoreHolder().getDisplayName();
                             Observable<Observable<Pair<Map<String, Long>, String>>> numOfGamesAnnotatedObservable =
                                     getPlayerRanking(leaderboardsClient,
                                             getString(R.string.numOfGame_board_id));
@@ -557,7 +561,8 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                                             getString(
                                                     R.string.totalScore_board_id));
 
-                            Observable<Observable<List<RankedPlayer>>> obs = Observable.zip(numOfGamesAnnotatedObservable, totalScoreAnnotatedObservable,
+                            Observable<Observable<List<RankedPlayer>>> obs = Observable.zip(
+                                    numOfGamesAnnotatedObservable, totalScoreAnnotatedObservable,
                                     (observable1, observable2) -> Observable.zip(observable1, observable2,
                                             (pair1, pair2) -> {
                                                 rankingLeaderboardScoreList = new ArrayList<>();
@@ -599,7 +604,7 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                                                                 @Override
                                                                 public void onNext(List<RankedPlayer> rankedPlayers) {
                                                                     Collections.sort(rankedPlayers,
-                                                                            (o1, o2) -> (int) (o1.getAvgGame() * 10000 - o2.getAvgGame() * 10000));
+                                                                            (o1, o2) -> (int) (o2.getAvgGame() * 10000 - o1.getAvgGame() * 10000));
 
                                                                     getFragmentManager().beginTransaction()
                                                                             .add(R.id.container, new HighScoreFragment(),
@@ -635,14 +640,14 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                             hideLoadingDialog();
                             new AlertDialog.Builder(this)
                                     .setMessage("Play 10 games to unlock High Scores!\nNumber of games played: " +
-                                            (numOfGames == -1 ? 0 : numOfGames))
+                                            (leaderboardScoreAnnotatedData.get() != null ?
+                                                    leaderboardScoreAnnotatedData.get().getRawScore() : 0))
                                     .setCancelable(true).show();
                         }
                     }).addOnFailureListener(e -> {
                 hideLoadingDialog();
                 new AlertDialog.Builder(this)
-                        .setMessage("Play 10 games to unlock High Scores!\nNumber of games played: " +
-                                (numOfGames == -1 ? 0 : numOfGames))
+                        .setMessage(e.getMessage()+"\ncause:"+e.getCause())
                         .setCancelable(true).show();
             });
         }
@@ -659,12 +664,6 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
                                     leaderboardScoresAnnotatedData.get().getScores(), new HashMap<>())))
                     .addOnFailureListener(e -> {
                         observableEmitter.onError(e);
-                        Log.e(GameActivity.class.getSimpleName(), e.getMessage(), e);
-                        hideLoadingDialog();
-                        new AlertDialog.Builder(this)
-                                .setMessage("Play 10 games to unlock High Scores!\nNumber of games played: " +
-                                        (numOfGames == -1 ? 0 : numOfGames))
-                                .setCancelable(true).show();
                     });
         });
     }
