@@ -1,0 +1,743 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/container"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/black"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/tens"
+            style="@style/cardLayoutStyle"
+            android:background="@drawable/face_number_shape" >
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/ten"
+                android:textAppearance="?android:attr/textAppearanceInverse"
+                android:textSize="17sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
+                android:gravity="center_horizontal"
+                android:layout_weight="1">
+
+                <FrameLayout
+                    android:id="@+id/ten_clubs"
+                    style="@style/frameStyle">
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/ten_diamonds"
+                    style="@style/frameStyle">
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
+                android:gravity="center_horizontal"
+                android:layout_weight="1">
+
+                <FrameLayout
+                    android:id="@+id/ten_spades"
+                    style="@style/frameStyle">
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/ten_hearts"
+                    style="@style/frameStyle">
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/jacks"
+            style="@style/cardLayoutStyle"
+            android:background="@drawable/current_level_shape">
+
+            <TextView
+                android:id="@+id/textViewJ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/jack"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                android:textSize="17sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
+                android:gravity="center_horizontal"
+                android:layout_weight="1">
+
+                <FrameLayout
+                    android:id="@+id/jack_clubs"
+                    style="@style/frameStyle">
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/jack_diamonds"
+                    style="@style/frameStyle">
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
+                android:gravity="center_horizontal"
+                android:layout_weight="1">
+
+                <FrameLayout
+                    android:id="@+id/jack_spades"
+                    style="@style/frameStyle">
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/jack_hearts"
+                    style="@style/frameStyle">
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/queens"
+            style="@style/cardLayoutStyle"
+            android:background="@drawable/locked_level_shape" >
+
+            <TextView
+                android:id="@+id/textViewQ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/queen"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                android:textSize="17sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
+                android:gravity="center_horizontal"
+                android:layout_weight="1">
+
+                <FrameLayout
+                    android:id="@+id/queen_clubs"
+                    style="@style/frameStyle">
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/queen_diamonds"
+                    style="@style/frameStyle">
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
+                android:gravity="center_horizontal"
+                android:layout_weight="1">
+
+                <FrameLayout
+                    android:id="@+id/queen_spades"
+                    style="@style/frameStyle">
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/queen_hearts"
+                    style="@style/frameStyle">
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/kings"
+            style="@style/cardLayoutStyle"
+            android:background="@drawable/locked_level_shape"
+             >
+
+            <TextView
+                android:id="@+id/textViewK"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/king"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                android:textSize="17sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
+                android:gravity="center_horizontal"
+                android:layout_weight="1">
+
+                <FrameLayout
+                    android:id="@+id/king_clubs"
+                    style="@style/frameStyle">
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/king_diamonds"
+                    style="@style/frameStyle">
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
+                android:gravity="center_horizontal"
+                android:layout_weight="1">
+
+                <FrameLayout
+                    android:id="@+id/king_spades"
+                    style="@style/frameStyle">
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/king_hearts"
+                    style="@style/frameStyle">
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/aces"
+            style="@style/cardLayoutStyle"
+            android:background="@drawable/locked_level_shape">
+
+            <TextView
+                android:id="@+id/textViewA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/ace"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                android:textSize="17sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
+                android:gravity="center_horizontal"
+                android:layout_weight="1">
+
+                <FrameLayout
+                    android:id="@+id/ace_clubs"
+                    style="@style/frameStyle">
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/ace_diamonds"
+                    style="@style/frameStyle">
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
+                android:gravity="center_horizontal"
+                android:layout_weight="1">
+
+                <FrameLayout
+                    android:id="@+id/ace_spades"
+                    style="@style/frameStyle">
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/ace_hearts"
+                    style="@style/frameStyle">
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/pile"
+            style="@style/cardLayoutStyle"
+            android:background="@drawable/bottom_row_shape" >
+
+            <TextView
+                android:id="@+id/textViewPile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/pile"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                android:textSize="17sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
+                android:gravity="center_horizontal"
+                android:layout_weight="1">
+
+                <FrameLayout
+                    android:id="@+id/pile_clubs"
+                    style="@style/frameStyle">
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/pile_diamonds"
+                    style="@style/frameStyle">
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
+                android:gravity="center_horizontal"
+                android:layout_weight="1">
+
+                <FrameLayout
+                    android:id="@+id/pile_spades"
+                    style="@style/frameStyle">
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/pile_hearts"
+                    style="@style/frameStyle">
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:baselineAligned="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/discard"
+            style="@style/cardLayoutStyle"
+            android:background="@drawable/bottom_row_shape" >
+
+            <TextView
+                android:id="@+id/textViewDiscard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/discard"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                android:textSize="17sp" />
+
+            <FrameLayout
+                android:id="@+id/discardFrame"
+                android:layout_width="45dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp">
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginEnd="@dimen/card_padding"
+                android:layout_marginStart="@dimen/card_padding"
+                android:layout_marginBottom="@dimen/card_padding">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="@string/clubs"
+                        android:textColor="@color/black"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/clubsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="end"
+                        android:text="@string/_8"
+                        android:textColor="@color/white"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="start"
+                        android:text="@string/diamond"
+                        android:textColor="@color/red"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/diamondsText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:text="@string/_8"
+                        android:textColor="@color/white"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:textColor="@color/black"
+                        android:text="@string/spade"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/spadesText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/_8"
+                        android:gravity="end"
+                        android:textColor="@color/white"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="start"
+                        android:textColor="@color/red"
+                        android:text="@string/heart"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/heartsText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/_8"
+                        android:gravity="start"
+                        android:textColor="@color/white"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/black"
+            style="@style/cardLayoutStyle"
+            android:background="@drawable/black_shape" >
+
+            <TextView
+                android:id="@+id/textViewBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/black"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                android:textSize="17sp" />
+
+            <FrameLayout
+                android:id="@+id/blackFrame"
+                android:layout_width="45dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp">
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/blackDiscardText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center"
+                android:text="@string/press_to_discard"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                android:textSize="13sp"
+                android:visibility="invisible"
+                android:layout_margin="@dimen/card_padding"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/red"
+            style="@style/cardLayoutStyle"
+            android:background="@drawable/red_shape" >
+
+            <TextView
+                android:id="@+id/textViewRed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/red"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                android:textSize="17sp" />
+
+            <FrameLayout
+                android:id="@+id/redFrame"
+                android:layout_width="45dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp">
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/redDiscardText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center"
+                android:text="@string/press_to_discard"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                android:textSize="13sp"
+                android:layout_margin="@dimen/card_padding"
+                android:visibility="invisible"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/deck"
+            style="@style/cardLayoutStyle"
+            android:background="@drawable/bottom_row_shape" >
+
+            <TextView
+                android:id="@+id/textViewDeck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/deck"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                android:textSize="17sp" />
+
+            <FrameLayout
+                android:id="@+id/deckFrame"
+                android:layout_width="45dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp">
+
+                <ImageView
+                    android:id="@+id/topCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/card_back"
+                    android:contentDescription="@string/top_card_access"/>
+            </FrameLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/deckText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="@string/press_to_draw"
+                    android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                    android:layout_margin="@dimen/card_padding"
+
+                    android:textSize="13sp"
+                    />
+
+                <TextView
+                    android:id="@+id/cardsLeftText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/_52"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/card_padding"
+                    android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                    android:textSize="15sp"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/score"
+            style="@style/cardLayoutStyle"
+            android:background="@drawable/bottom_row_shape" >
+
+            <TextView
+                android:id="@+id/textViewScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/score"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                android:textSize="17sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/scoreColon"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/scoreText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/_0"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textColor="@color/white"
+                    android:text="@string/pileColon"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/pileText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:text="@string/_0"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:gravity="end"
+                    android:text="@string/level"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/levelText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/jack"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rank_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:gravity="end"
+                    android:text="@string/rankColon"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/averageText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/jack"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/breakButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/breakString"
+                android:textSize="13sp"
+                android:background="@drawable/break_button_shape"
+                android:textColor="@color/white"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+            <Button
+                android:id="@+id/newGameButton"
+                style="@style/gameButtonStyle"
+                android:text="@string/new_game"/>
+
+            <Button
+                android:id="@+id/toPlayButton"
+                style="@style/gameButtonStyle"
+                android:text="@string/how_to_play"/>
+
+            <Button
+                android:id="@+id/high_scores_button"
+                style="@style/gameButtonStyle"
+                android:text="@string/high_scores"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
