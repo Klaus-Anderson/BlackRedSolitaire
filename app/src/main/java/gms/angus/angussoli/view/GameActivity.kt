@@ -1,49 +1,25 @@
 package gms.angus.angussoli.view
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.util.Log
-import android.util.Pair
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import butterknife.ButterKnife
 import butterknife.OnClick
-import com.google.android.gms.auth.api.Auth
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.auth.api.signin.GoogleSignInResult
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.games.AnnotatedData
-import com.google.android.gms.games.Games
-import com.google.android.gms.games.LeaderboardsClient
-import com.google.android.gms.games.LeaderboardsClient.LeaderboardScores
-import com.google.android.gms.games.PageDirection
-import com.google.android.gms.games.leaderboard.LeaderboardScore
-import com.google.android.gms.games.leaderboard.LeaderboardScoreBuffer
-import com.google.android.gms.games.leaderboard.LeaderboardVariant
 import gms.angus.angussoli.R
 import gms.angus.angussoli.model.Card
 import gms.angus.angussoli.model.RankedPlayer
-import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.BiFunction
-import io.reactivex.observers.DisposableObserver
-import io.reactivex.schedulers.Schedulers
 import java.util.*
 
-class GameActivity : Activity() {
+class GameActivity : AppCompatActivity(R.layout.activity_game) {
 
     lateinit var deckFrame: FrameLayout
     lateinit var redFrame: FrameLayout
@@ -126,18 +102,6 @@ class GameActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        setContentView(R.layout.activity_game)
-        ButterKnife.bind(this)
-//        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN)
-//            .requestEmail()
-//            .build()
-//        apiClient = GoogleApiClient.Builder(this)
-//            .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-//            .addConnectionCallbacks(this)
-//            .build()
-//        apiClient.connect()
-//        showLoadingDialog()
-        deck = Stack()
         blackFrame = findViewById(R.id.blackFrame)
         redFrame = findViewById(R.id.redFrame)
         colorCards.add(Card.COLOR_BLACK, null)
@@ -171,113 +135,6 @@ class GameActivity : Activity() {
         remainingCards.add(diamondsText)
         remainingCards.add(spadesText)
         remainingCards.add(heartsText)
-        setHasDrawn(false)
-        pileTotal = 0
-        scoreTotal = 0
-        level = 1
-        eligibleIndexes = ArrayList()
-        for (i in 0..3) {
-            for (j in 2..14) {
-                deck.push(Card(j, i))
-            }
-        }
-        Collections.shuffle(deck)
-        for (i in colorFrames.indices) {
-            colorFrames.get(i).setOnClickListener { v: View ->
-                // colorFrames.get(0) == blackFrame
-                // colorFrames.get(1) == redFrame
-                if (hasDrawn) {
-                    val frame = v as FrameLayout
-                    if (i == Card.COLOR_BLACK && deck.peek().isBlack) {
-                        colorFrameDiscardClick(frame)
-                    } else if (i == 1 && deck.peek().isRed) {
-                        colorFrameDiscardClick(frame)
-                    }
-                }
-                emptyDeckCheck()
-            }
-        }
-        for (i in faceFrames.indices) {
-            faceFrames.get(i)
-                .setOnClickListener { v: View ->
-                    if (!hasDrawn) {
-                        val suit = i % 4
-                        val faceFrame = v as FrameLayout
-                        val pileFrame = pileFrames.get(suit)
-                        val sameColorCard = colorCards.get(suit % 2)
-                        val otherColorCard = colorCards.get((suit + 1) % 2)
-
-                        // use Face Card as Face Card
-                        if (sameColorCard != null && sameColorCard.suit == suit && otherColorCard != null && faceFrame.getChildAt(
-                                0
-                            ) != null && !isFrameCardSet(pileFrame) && (i < 4 || i / 4 <= level)
-                        ) {
-                            val dummy = faceFrame.getChildAt(0) as ImageView
-                            faceFrame.removeView(dummy)
-                            pileFrame.addView(dummy)
-                            blackFrame.removeAllViews()
-                            redFrame.removeAllViews()
-                            pileTotal = pileTotal + colorCards.get(Card.COLOR_BLACK)!!.value +
-                                    colorCards.get(Card.COLOR_RED)!!.value
-                            pileText.text = pileTotal.toString()
-                            colorCards.set(Card.COLOR_BLACK, null)
-                            colorCards.set(Card.COLOR_RED, null)
-
-                            // pile check
-                            if (isFrameCardSet(pile_clubs) && isFrameCardSet(pile_diamonds) &&
-                                isFrameCardSet(pile_spades) && isFrameCardSet(pile_hearts)
-                            ) {
-                                scoreTotal = scoreTotal +
-                                        pileTotal * (level - if (brokenLevel != -1) 1 else 0)
-//                                submitScore()
-//                                if (scoreTotal >= 75) {
-//                                    unlockAchievement(getString(R.string.achievement_75_points))
-//                                    if (scoreTotal >= 100) {
-//                                        unlockAchievement(getString(R.string.achievement_100_points))
-//                                        if (scoreTotal >= 150) {
-//                                            unlockAchievement(getString(R.string.achievement_150_points))
-//                                            if (scoreTotal >= 200) {
-//                                                unlockAchievement(getString(R.string.achievement_200_points))
-//                                                if (scoreTotal >= 300) {
-//                                                    unlockAchievement(getString(R.string.achievement_300_points))
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-//                                }
-                                scoreText.text = scoreTotal.toString()
-                                pileTotal = 0
-                                pileText.text = pileTotal.toString()
-                                pile_clubs.removeAllViews()
-                                pile_spades.removeAllViews()
-                                pile_hearts.removeAllViews()
-                                pile_diamonds.removeAllViews()
-                                increaseLevel(false)
-                            }
-                            findEligibleFaces()
-                            setUsedFaceCard(faceFrame, suit, i)
-                        } else if (isFrameCardSet(faceFrame)
-                            && (i < 4 || i / 4 < level)
-                        ) {
-                            val colorFrame = colorFrames.get(i % 2)
-                            var dummy = colorFrame.getChildAt(0) as ImageView
-                            if (dummy != null) {
-                                colorFrame.removeView(dummy)
-                                discardFrame.addView(dummy)
-                            }
-                            dummy = faceFrame.getChildAt(0) as ImageView
-                            faceFrame.removeView(dummy)
-                            colorFrame.addView(dummy)
-                            colorCards.set(
-                                suit % 2,
-                                Card(Card.TEN_VALUE, suit)
-                            )
-                            findEligibleFaces()
-                            setUsedFaceCard(faceFrame, suit, i)
-                        }
-                    }
-                }
-        }
     }
 
 //    private fun submitScore() {
@@ -349,109 +206,6 @@ class GameActivity : Activity() {
 //            hideLoadingDialog()
 //        }
 //    }
-
-    @OnClick(R.id.deckFrame)
-    fun onDeckClick(v: View?) {
-        if (deck.size != 0 && !hasDrawn) {
-            setHasDrawn(true)
-            var newCount: Int
-            newCount = (remainingCards[deck.peek().suit].text.toString() + "").toInt() - 1
-            val drawnCard = ImageView(this@GameActivity)
-            val drawableName = deck.peek().imageName
-            val drawableId = resources.getIdentifier(
-                drawableName, "drawable", packageName
-            )
-            drawnCard.setImageResource(drawableId)
-            drawnCard.layoutParams = FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-            if (deck.peek().value >= Card.TEN_VALUE) {
-                val frameIndex = ((deck.peek().value - 10) * 4
-                        + deck.peek().suit)
-                val moveToFrame = faceFrames[frameIndex]
-                if (deck.peek().value != 10 + brokenLevel) {
-                    moveToFrame.addView(drawnCard)
-                    moveToFrame.isClickable = true
-                } else {
-                    val face_down = ImageView(this)
-                    face_down.setImageResource(R.drawable.card_back)
-                    moveToFrame.addView(face_down)
-                }
-                deck.pop()
-                cardsLeftText.text = deck.size.toString()
-                if (level < 5) checkIfFaceIsEligible(frameIndex) else moveToFrame.isClickable = false
-                setHasDrawn(false)
-            } else {
-                remainingCards[deck.peek().suit].text = newCount.toString()
-                newCount = (cardsLeftText.text.toString() + "").toInt() - 1
-                cardsLeftText.text = newCount.toString()
-                if (deck.peek().isBlack) {
-                    if (colorCards[Card.COLOR_BLACK] == null) {
-                        blackFrame.addView(drawnCard)
-                        colorCards[Card.COLOR_BLACK] = deck.pop()
-                        cardsLeftText.text = deck.size.toString()
-                        setHasDrawn(false)
-                        findEligibleFaces()
-                    } else {
-                        deckFrame.addView(drawnCard)
-                        blackDiscardText.visibility = View.VISIBLE
-                    }
-                } else {
-                    if (colorCards[Card.COLOR_RED] == null) {
-                        redFrame.addView(drawnCard)
-                        colorCards[Card.COLOR_RED] = deck.pop()
-                        cardsLeftText.text = deck.size.toString()
-                        setHasDrawn(false)
-                        findEligibleFaces()
-                    } else {
-                        deckFrame.addView(drawnCard)
-                        redDiscardText.visibility = View.VISIBLE
-                    }
-                }
-            }
-        } else if (deck.size != 0 && hasDrawn) {
-            val dummy = deckFrame.getChildAt(1) as ImageView
-            deckFrame.removeView(dummy)
-            discardFrame.addView(dummy)
-            redDiscardText.visibility = View.INVISIBLE
-            blackDiscardText.visibility = View.INVISIBLE
-            deck.pop()
-            cardsLeftText.text = deck.size.toString()
-            setHasDrawn(false)
-            findEligibleFaces()
-        }
-        emptyDeckCheck()
-    }
-
-    @OnClick(R.id.breakButton)
-    fun onBreakClick(view: View) {
-        view.isClickable = false
-        view.visibility = View.INVISIBLE
-        for (i in 0..3) {
-            val index = level * 4 + i
-            val frame = faceFrames[level * 4 + i]
-            frame.isClickable = false
-            faceFrames[index] = frame
-        }
-        brokenLevel = level
-        increaseLevel(true)
-//        unlockAchievement(getString(R.string.achievement_break))
-    }
-
-    @OnClick(R.id.toPlayButton)
-    fun onToPlayClick() {
-        fragmentManager.beginTransaction()
-            .add(R.id.container, ToPlayFragment(), ToPlayFragment::class.java.simpleName)
-            .addToBackStack(ToPlayFragment::class.java.simpleName).commit()
-    }
-
-    @OnClick(R.id.newGameButton)
-    fun onNewGameClick() {
-        val i = Intent(this@GameActivity, GameActivity::class.java)
-        startActivity(i)
-        finish()
-    }
 
 //    @OnClick(R.id.high_scores_button)
 //    fun onHighScoresClick() {
@@ -622,38 +376,7 @@ class GameActivity : Activity() {
 //        }
 //    }
 
-    private fun checkIfFaceIsEligible(frameIndex: Int) {
-        if (faceFrames[frameIndex] != null && faceFrames[frameIndex].childCount != 0 &&
-            faceFrames[frameIndex].isClickable
-        ) {
-            if (colorCards[Card.COLOR_BLACK] != null && colorCards[Card.COLOR_RED] != null && frameIndex / 4 <= level &&
-                frameIndex % 4 == colorCards[frameIndex % 2]!!.suit &&
-                pileFrames[frameIndex % 4].childCount == 0) {
-                eligibleIndexes.add(frameIndex)
-                faceFrames[frameIndex].setBackgroundResource(R.drawable.face_eligible_shape)
-            } else if (frameIndex / 4 < level && frameIndex / 4 != brokenLevel) {
-                faceFrames[frameIndex].setBackgroundResource(R.drawable.number_eligible_shape)
-            }
-        }
-    }
 
-    private fun findEligibleFaces() {
-        if (level < 5) {
-            for (i in eligibleIndexes) {
-                faceFrames[i].background = null
-            }
-            eligibleIndexes.clear()
-            for (i in 0 until 4 * (level + 1)) {
-                checkIfFaceIsEligible(i)
-            }
-        } else {
-            for (i in eligibleIndexes) {
-                faceFrames[i].background = null
-                faceFrames[i].isClickable = false
-            }
-            eligibleIndexes.clear()
-        }
-    }
 
     private fun increaseLevel(isBroken: Boolean) {
         if (level == 1) {
