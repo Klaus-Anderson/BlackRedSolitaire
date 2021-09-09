@@ -1,17 +1,17 @@
 package gms.angus.angussoli.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import gms.angus.angussoli.R
 import gms.angus.angussoli.databinding.FragmentGameBinding
+import gms.angus.angussoli.databinding.PoolLayoutBinding
+import gms.angus.angussoli.model.CardSuit
+import gms.angus.angussoli.model.CardValue
+import gms.angus.angussoli.model.FaceCardState
 import gms.angus.angussoli.viewmodel.GameViewModel
 
 class GameFragment : Fragment(R.layout.fragment_game) {
@@ -20,6 +20,201 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        FragmentGameBinding.bind(view).viewModel = gameViewModel
+        val binding = FragmentGameBinding.bind(view)
+        gameViewModel.tenPoolLiveData.observe(viewLifecycleOwner) { poolMap ->
+            poolMap.forEach { mapEntry ->
+                setFaceCard(binding.tensPool, mapEntry, CardValue.TEN)
+            }
+        }
+        gameViewModel.jackPoolLiveData.observe(viewLifecycleOwner) { poolMap ->
+            poolMap.forEach { mapEntry ->
+                setFaceCard(binding.jacksPool, mapEntry, CardValue.JACK)
+            }
+        }
+        gameViewModel.queenPoolLiveData.observe(viewLifecycleOwner) { poolMap ->
+            poolMap.forEach { mapEntry ->
+                setFaceCard(binding.queensPool, mapEntry, CardValue.QUEEN)
+            }
+        }
+        gameViewModel.kingPoolLiveData.observe(viewLifecycleOwner) { poolMap ->
+            poolMap.forEach { mapEntry ->
+                setFaceCard(binding.kingsPool, mapEntry, CardValue.KING)
+            }
+        }
+        gameViewModel.acePoolLiveData.observe(viewLifecycleOwner) { poolMap ->
+            poolMap.forEach { mapEntry ->
+                setFaceCard(binding.acesPool, mapEntry, CardValue.ACE)
+            }
+        }
+        gameViewModel.collectedCardsLiveData.observe(viewLifecycleOwner) { poolMap ->
+            poolMap.forEach {
+                binding.pilePool.run {
+                    when (it.key) {
+                        CardSuit.CLUB -> poolClubs
+                        CardSuit.DIAMOND -> poolDiamonds
+                        CardSuit.SPADE -> poolSpades
+                        CardSuit.HEART -> poolHearts
+                    }
+                }.run {
+                    it.value?.let {
+                        if(childCount ==0){
+                            addView(ImageView(context).apply {
+                                setImageResource(getDrawableResourceId(it.cardValue, it.cardSuit))
+                            })
+                        }
+                    } ?: removeAllViews()
+                }
+            }
+        }
+    }
+
+    private fun setFaceCard(
+        binding: PoolLayoutBinding,
+        mapEntry: Map.Entry<CardSuit, FaceCardState>,
+        cardValue: CardValue
+    ) {
+        binding.let {
+            when (mapEntry.key) {
+                CardSuit.SPADE -> it.poolSpades
+                CardSuit.CLUB -> it.poolClubs
+                CardSuit.DIAMOND -> it.poolDiamonds
+                CardSuit.HEART -> it.poolHearts
+            }
+        }.run {
+            when (mapEntry.value) {
+                FaceCardState.NOT_DRAWN -> removeAllViews()
+                FaceCardState.NOT_USABLE -> addFaceCardIfNecessary(mapEntry.key, cardValue, this)
+                FaceCardState.USABLE_AS_FACE -> run {
+                    addFaceCardIfNecessary(mapEntry.key, cardValue, this)
+                    setBackgroundResource(R.drawable.face_eligible_shape)
+                }
+                FaceCardState.USABLE_AS_COLOR -> run {
+                    addFaceCardIfNecessary(mapEntry.key, cardValue, this)
+                    setBackgroundResource(R.drawable.number_eligible_shape)
+                }
+                FaceCardState.BROKEN -> run {
+                    if (childCount == 0) {
+                        addView(ImageView(context).apply {
+                            setImageResource(R.drawable.card_back)
+                        })
+                    }
+                }
+                FaceCardState.USED -> setAsUsed(mapEntry.key, this)
+            }
+        }
+    }
+
+    private fun setAsUsed(cardSuit: CardSuit, frameLayout: FrameLayout) {
+        frameLayout.run {
+            removeAllViews()
+            setBackgroundResource(R.drawable.face_cover_shape)
+            addView(ImageView(context).apply {
+                setImageResource(
+                    when (cardSuit) {
+                        CardSuit.SPADE -> R.drawable.spades
+                        CardSuit.CLUB -> R.drawable.club
+                        CardSuit.DIAMOND -> R.drawable.diamond
+                        CardSuit.HEART -> R.drawable.heart
+                    }
+                )
+            })
+        }
+    }
+
+    private fun addFaceCardIfNecessary(
+        cardSuit: CardSuit,
+        cardValue: CardValue,
+        frameLayout: FrameLayout
+    ) {
+        (frameLayout.childCount == 0).let {
+            if (it) {
+                frameLayout.addView(ImageView(context).apply {
+                    setImageResource(getDrawableResourceId(cardValue, cardSuit))
+                })
+            }
+        }
+    }
+}
+
+private fun getDrawableResourceId(cardValue: CardValue, cardSuit: CardSuit): Int {
+    return when (cardValue) {
+        CardValue.TWO -> when (cardSuit) {
+            CardSuit.CLUB -> R.drawable.two_clubs
+            CardSuit.DIAMOND -> R.drawable.two_diamonds
+            CardSuit.SPADE -> R.drawable.two_spades
+            CardSuit.HEART -> R.drawable.two_hearts
+        }
+        CardValue.THREE -> when (cardSuit) {
+            CardSuit.CLUB -> R.drawable.three_clubs
+            CardSuit.DIAMOND -> R.drawable.three_diamonds
+            CardSuit.SPADE -> R.drawable.three_spades
+            CardSuit.HEART -> R.drawable.three_hearts
+        }
+        CardValue.FOUR -> when (cardSuit) {
+            CardSuit.CLUB -> R.drawable.four_clubs
+            CardSuit.DIAMOND -> R.drawable.four_diamonds
+            CardSuit.SPADE -> R.drawable.four_spades
+            CardSuit.HEART -> R.drawable.four_hearts
+        }
+        CardValue.FIVE -> when (cardSuit) {
+            CardSuit.CLUB -> R.drawable.five_clubs
+            CardSuit.DIAMOND -> R.drawable.five_diamonds
+            CardSuit.SPADE -> R.drawable.five_spades
+            CardSuit.HEART -> R.drawable.five_hearts
+        }
+        CardValue.SIX -> when (cardSuit) {
+            CardSuit.CLUB -> R.drawable.six_clubs
+            CardSuit.DIAMOND -> R.drawable.six_diamonds
+            CardSuit.SPADE -> R.drawable.six_spades
+            CardSuit.HEART -> R.drawable.six_hearts
+        }
+        CardValue.SEVEN -> when (cardSuit) {
+            CardSuit.CLUB -> R.drawable.seven_clubs
+            CardSuit.DIAMOND -> R.drawable.seven_diamonds
+            CardSuit.SPADE -> R.drawable.seven_spades
+            CardSuit.HEART -> R.drawable.seven_hearts
+        }
+        CardValue.EIGHT -> when (cardSuit) {
+            CardSuit.CLUB -> R.drawable.eight_clubs
+            CardSuit.DIAMOND -> R.drawable.eight_diamonds
+            CardSuit.SPADE -> R.drawable.eight_spades
+            CardSuit.HEART -> R.drawable.eight_hearts
+        }
+        CardValue.NINE -> when (cardSuit) {
+            CardSuit.CLUB -> R.drawable.nine_clubs
+            CardSuit.DIAMOND -> R.drawable.nine_diamonds
+            CardSuit.SPADE -> R.drawable.nine_spades
+            CardSuit.HEART -> R.drawable.nine_hearts
+        }
+        CardValue.TEN -> when (cardSuit) {
+            CardSuit.CLUB -> R.drawable.ten_clubs
+            CardSuit.DIAMOND -> R.drawable.ten_diamonds
+            CardSuit.SPADE -> R.drawable.ten_spades
+            CardSuit.HEART -> R.drawable.ten_hearts
+        }
+        CardValue.JACK -> when (cardSuit) {
+            CardSuit.CLUB -> R.drawable.jack_clubs
+            CardSuit.DIAMOND -> R.drawable.jack_diamonds
+            CardSuit.SPADE -> R.drawable.jack_spades
+            CardSuit.HEART -> R.drawable.jack_hearts
+        }
+        CardValue.QUEEN -> when (cardSuit) {
+            CardSuit.CLUB -> R.drawable.queen_clubs
+            CardSuit.DIAMOND -> R.drawable.queen_diamonds
+            CardSuit.SPADE -> R.drawable.queen_spades
+            CardSuit.HEART -> R.drawable.queen_hearts
+        }
+        CardValue.KING -> when (cardSuit) {
+            CardSuit.CLUB -> R.drawable.king_clubs
+            CardSuit.DIAMOND -> R.drawable.king_diamonds
+            CardSuit.SPADE -> R.drawable.king_spades
+            CardSuit.HEART -> R.drawable.king_hearts
+        }
+        CardValue.ACE -> when (cardSuit) {
+            CardSuit.CLUB -> R.drawable.ace_clubs
+            CardSuit.DIAMOND -> R.drawable.ace_diamonds
+            CardSuit.SPADE -> R.drawable.ace_spades
+            CardSuit.HEART -> R.drawable.ace_hearts
+        }
     }
 }

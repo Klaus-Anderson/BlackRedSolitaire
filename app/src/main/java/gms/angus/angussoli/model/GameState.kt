@@ -2,35 +2,26 @@ package gms.angus.angussoli.model
 
 object GameState {
     val deck = ArrayDeque<Card>()
+    val discardedCards = ArrayDeque<Card>()
 
     val levels = listOf(CardValue.TEN, CardValue.JACK, CardValue.QUEEN, CardValue.KING, CardValue.ACE)
+    var currentLevel: CardValue = CardValue.JACK
+    var brokenFaceValue: CardValue? = null
+    var scoredCards = mutableListOf<Card>()
 
     var blackCard: Card? = null
     var redCard: Card? = null
     var deckTopCard: Card? = null
-    var currentLevel: CardValue = CardValue.JACK
-    var brokenFaceValue: CardValue? = null
-
     var tenPool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
     var jackPool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
     var queenPool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
     var kingPool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
     var acePool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
-
-    private fun createEmptyPool(): MutableMap<CardSuit, FaceCardState> {
-        return mutableMapOf<CardSuit, FaceCardState>().apply{
-            CardSuit.values().forEach {
-                put(it, FaceCardState.NOT_DRAWN)
-            }
-        }
-    }
-
     var collectedCards: MutableMap<CardSuit, Card?> = mutableMapOf<CardSuit, Card?>().apply {
         CardSuit.values().forEach {
             put(it, null)
         }
     }
-    var scoredCards = mutableListOf<Card>()
 
     init {
         CardValue.values().forEach { cardValue ->
@@ -41,8 +32,16 @@ object GameState {
         deck.shuffle()
     }
 
+    private fun createEmptyPool(): MutableMap<CardSuit, FaceCardState> {
+        return mutableMapOf<CardSuit, FaceCardState>().apply{
+            CardSuit.values().forEach {
+                put(it, FaceCardState.NOT_DRAWN)
+            }
+        }
+    }
+
     fun drawACard(): Card {
-        return deck.removeFirst().also {
+        return deck.first().also {
             if (it.isFaceCard()) {
                 handleDrawnFaceCard(it)
             } else {
@@ -71,6 +70,7 @@ object GameState {
                     FaceCardState.NOT_USABLE
                 }
         }
+        deck.removeFirst()
     }
 
     private fun handleDrawnNumberCard(numberCard: Card) {
@@ -87,6 +87,7 @@ object GameState {
                         redCard = numberCard
                     }
                 }
+                deck.removeFirst()
             } else {
                 deckTopCard = numberCard
             }
@@ -126,5 +127,10 @@ object GameState {
         return brokenFaceValue?.let {
             true
         } ?: false
+    }
+
+    fun discardDeckTopCard() {
+        discardedCards.add(deck.removeFirst())
+        deckTopCard = null
     }
 }

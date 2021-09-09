@@ -11,4 +11,8 @@ data class Card(val cardValue: CardValue, val cardSuit: CardSuit) {
     fun isFaceCard(): Boolean {
         return cardValue.value >= 10
     }
+
+    fun isNumberCard(): Boolean {
+        return !isFaceCard()
+    }
 }

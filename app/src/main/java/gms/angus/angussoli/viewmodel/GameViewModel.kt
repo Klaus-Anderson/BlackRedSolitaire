@@ -3,6 +3,9 @@ package gms.angus.angussoli.viewmodel
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import gms.angus.angussoli.model.Card
+import gms.angus.angussoli.model.CardSuit
+import gms.angus.angussoli.model.FaceCardState
 
 interface GameViewModel {
     val topCardVisibilityLiveData: LiveData<Int>
@@ -14,9 +17,16 @@ interface GameViewModel {
     fun onBreakClick(view: View)
     fun onToPlayClick(view: View)
     fun onNewGameClick(view: View)
-    fun onColorFrameClick(view: View)
-    fun onFaceFrameClick(view: View)
-    val redDiscardTextVisibilityLiveData: MutableLiveData<Int>
-    val blackDiscardTextVisibilityLiveData: MutableLiveData<Int>
-    val cardLeftTextLiveData: MutableLiveData<String>
+    val redDiscardTextVisibilityLiveData: LiveData<Int>
+    val blackDiscardTextVisibilityLiveData: LiveData<Int>
+    val cardLeftTextLiveData: LiveData<String>
+    val deckTopCardLiveData: LiveData<Card?>
+    val redCardLiveData: LiveData<Card?>
+    val blackCardLiveData: LiveData<Card?>
+    val tenPoolLiveData: LiveData<Map<CardSuit, FaceCardState>>
+    val jackPoolLiveData: LiveData<Map<CardSuit, FaceCardState>>
+    val queenPoolLiveData: LiveData<Map<CardSuit, FaceCardState>>
+    val kingPoolLiveData: LiveData<Map<CardSuit, FaceCardState>>
+    val acePoolLiveData: LiveData<Map<CardSuit, FaceCardState>>
+    val collectedCardsLiveData: LiveData<Map<CardSuit, Card?>>
 }
