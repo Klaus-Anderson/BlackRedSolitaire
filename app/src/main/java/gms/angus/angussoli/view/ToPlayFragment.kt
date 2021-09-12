@@ -1,18 +1,6 @@
 package gms.angus.angussoli.view
 
 import android.app.Fragment
-import butterknife.BindView
-import gms.angus.angussoli.R
-import android.widget.TextView
-import android.widget.RelativeLayout
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import butterknife.ButterKnife
-import butterknife.OnClick
 
 /**
  * A simple [Fragment] subclass.

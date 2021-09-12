@@ -1,11 +1,16 @@
 package gms.angus.angussoli.view
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import gms.angus.angussoli.R
 import gms.angus.angussoli.databinding.FragmentGameBinding
 import gms.angus.angussoli.databinding.PoolLayoutBinding
@@ -13,37 +18,38 @@ import gms.angus.angussoli.model.CardSuit
 import gms.angus.angussoli.model.CardValue
 import gms.angus.angussoli.model.FaceCardState
 import gms.angus.angussoli.viewmodel.GameViewModel
+import gms.angus.angussoli.viewmodel.impl.GameViewModelImpl
 
-class GameFragment : Fragment(R.layout.fragment_game) {
+class GameFragment : Fragment() {
 
-    private val gameViewModel: GameViewModel by activityViewModels()
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val binding = FragmentGameBinding.bind(view)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val binding = FragmentGameBinding.inflate(inflater, container, false)
+        val gameViewModel : GameViewModel = ViewModelProvider(viewModelStore,
+            GameViewModel.GameViewModelFactory(activity!!.application)).get(GameViewModelImpl::class.java)
+        binding.viewModel = gameViewModel
         gameViewModel.tenPoolLiveData.observe(viewLifecycleOwner) { poolMap ->
             poolMap.forEach { mapEntry ->
-                setFaceCard(binding.tensPool, mapEntry, CardValue.TEN)
+                setFaceCard(binding.tensPool as PoolLayoutBinding, mapEntry, CardValue.TEN)
             }
         }
         gameViewModel.jackPoolLiveData.observe(viewLifecycleOwner) { poolMap ->
             poolMap.forEach { mapEntry ->
-                setFaceCard(binding.jacksPool, mapEntry, CardValue.JACK)
+                setFaceCard(binding.jacksPool as PoolLayoutBinding, mapEntry, CardValue.JACK)
             }
         }
         gameViewModel.queenPoolLiveData.observe(viewLifecycleOwner) { poolMap ->
             poolMap.forEach { mapEntry ->
-                setFaceCard(binding.queensPool, mapEntry, CardValue.QUEEN)
+                setFaceCard(binding.queensPool as PoolLayoutBinding, mapEntry, CardValue.QUEEN)
             }
         }
         gameViewModel.kingPoolLiveData.observe(viewLifecycleOwner) { poolMap ->
             poolMap.forEach { mapEntry ->
-                setFaceCard(binding.kingsPool, mapEntry, CardValue.KING)
+                setFaceCard(binding.kingsPool as PoolLayoutBinding, mapEntry, CardValue.KING)
             }
         }
         gameViewModel.acePoolLiveData.observe(viewLifecycleOwner) { poolMap ->
             poolMap.forEach { mapEntry ->
-                setFaceCard(binding.acesPool, mapEntry, CardValue.ACE)
+                setFaceCard(binding.acesPool as PoolLayoutBinding, mapEntry, CardValue.ACE)
             }
         }
         gameViewModel.collectedCardsLiveData.observe(viewLifecycleOwner) { poolMap ->
@@ -57,7 +63,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                     }
                 }.run {
                     it.value?.let {
-                        if(childCount ==0){
+                        if (childCount == 0) {
                             addView(ImageView(context).apply {
                                 setImageResource(getDrawableResourceId(it.cardValue, it.cardSuit))
                             })
@@ -66,6 +72,12 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                 }
             }
         }
+        gameViewModel.deckTopCardLiveData.observe(viewLifecycleOwner) {
+            binding.topCard.setImageResource(it?.let {
+                getDrawableResourceId(it.cardValue, it.cardSuit)
+            } ?: R.drawable.card_back)
+        }
+        return binding.root
     }
 
     private fun setFaceCard(
@@ -83,7 +95,9 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         }.run {
             when (mapEntry.value) {
                 FaceCardState.NOT_DRAWN -> removeAllViews()
-                FaceCardState.NOT_USABLE -> addFaceCardIfNecessary(mapEntry.key, cardValue, this)
+                FaceCardState.NOT_USABLE -> run {
+                    addFaceCardIfNecessary(mapEntry.key, cardValue, this)
+                }
                 FaceCardState.USABLE_AS_FACE -> run {
                     addFaceCardIfNecessary(mapEntry.key, cardValue, this)
                     setBackgroundResource(R.drawable.face_eligible_shape)
@@ -96,29 +110,30 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                     if (childCount == 0) {
                         addView(ImageView(context).apply {
                             setImageResource(R.drawable.card_back)
+                            setBackgroundResource(R.drawable.face_eligible_shape)
                         })
                     }
                 }
-                FaceCardState.USED -> setAsUsed(mapEntry.key, this)
+                FaceCardState.USED -> run {
+                    removeAllViews()
+                    setBackgroundResource(R.drawable.face_cover_shape)
+                    addView(ImageView(context).apply {
+                        setImageResource(
+                            when (mapEntry.key) {
+                                CardSuit.SPADE -> R.drawable.spades
+                                CardSuit.CLUB -> R.drawable.club
+                                CardSuit.DIAMOND -> R.drawable.diamond
+                                CardSuit.HEART -> R.drawable.heart
+                            }
+                        )
+                    })
+                }
             }
         }
     }
 
     private fun setAsUsed(cardSuit: CardSuit, frameLayout: FrameLayout) {
-        frameLayout.run {
-            removeAllViews()
-            setBackgroundResource(R.drawable.face_cover_shape)
-            addView(ImageView(context).apply {
-                setImageResource(
-                    when (cardSuit) {
-                        CardSuit.SPADE -> R.drawable.spades
-                        CardSuit.CLUB -> R.drawable.club
-                        CardSuit.DIAMOND -> R.drawable.diamond
-                        CardSuit.HEART -> R.drawable.heart
-                    }
-                )
-            })
-        }
+
     }
 
     private fun addFaceCardIfNecessary(

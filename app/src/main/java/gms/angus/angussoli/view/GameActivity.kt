@@ -12,129 +12,19 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import butterknife.ButterKnife
-import butterknife.OnClick
 import gms.angus.angussoli.R
 import gms.angus.angussoli.model.Card
 import gms.angus.angussoli.model.RankedPlayer
 import java.util.*
 
 class GameActivity : AppCompatActivity(R.layout.activity_game) {
-
-    lateinit var deckFrame: FrameLayout
-    lateinit var redFrame: FrameLayout
-    lateinit var blackFrame: FrameLayout
-    lateinit var discardFrame: FrameLayout
-    lateinit var tensLayout: LinearLayout
-    lateinit var textView10: TextView
-    lateinit var jacksLayout: LinearLayout
-    lateinit var textViewJ: TextView
-    lateinit var queensLayout: LinearLayout
-    lateinit var textViewQ: TextView
-    lateinit var kingsLayout: LinearLayout
-    lateinit var textViewK: TextView
-    lateinit var acesLayout: LinearLayout
-    lateinit var textViewA: TextView
-    lateinit var ten_clubs: FrameLayout
-    lateinit var ten_diamonds: FrameLayout
-    lateinit var ten_spades: FrameLayout
-    lateinit var ten_hearts: FrameLayout
-    lateinit var jack_clubs: FrameLayout
-    lateinit var jack_diamonds: FrameLayout
-    lateinit var jack_spades: FrameLayout
-    lateinit var jack_hearts: FrameLayout
-    lateinit var queen_clubs: FrameLayout
-    lateinit var queen_diamonds: FrameLayout
-    lateinit var queen_spades: FrameLayout
-    lateinit var queen_hearts: FrameLayout
-    lateinit var king_clubs: FrameLayout
-    lateinit var king_diamonds: FrameLayout
-    lateinit var king_spades: FrameLayout
-    lateinit var king_hearts: FrameLayout
-    lateinit var ace_clubs: FrameLayout
-    lateinit var ace_diamonds: FrameLayout
-    lateinit var ace_spades: FrameLayout
-    lateinit var ace_hearts: FrameLayout
-    lateinit var pile_clubs: FrameLayout
-    lateinit var pile_diamonds: FrameLayout
-    lateinit var pile_spades: FrameLayout
-    lateinit var pile_hearts: FrameLayout
-    lateinit var deckText: TextView
-    lateinit var redDiscardText: TextView
-    lateinit var blackDiscardText: TextView
-    lateinit var scoreText: TextView
-    lateinit var pileText: TextView
-    lateinit var levelText: TextView
-    lateinit var rankRow: LinearLayout
-    lateinit var averageText: TextView
-    lateinit var cardsLeftText: TextView
-    lateinit var clubsText: TextView
-    lateinit var diamondsText: TextView
-    lateinit var spadesText: TextView
-    lateinit var heartsText: TextView
-    lateinit var topCard: ImageView
-
-    private val RC_SIGN_IN = 111111
 //    private var apiClient: GoogleApiClient? = null
 
 //    @JvmField
 //    var userAccount: GoogleSignInAccount? = null
-    private var progress: ProgressDialog? = null
-    private var deck = Stack<Card>()
-    private var colorFrames = mutableListOf<FrameLayout>()
-    private var pileFrames = mutableListOf<FrameLayout>()
-    private var faceFrames = mutableListOf<FrameLayout>()
-    private var remainingCards = mutableListOf<TextView>()
-    private var colorCards= mutableListOf<Card?>()
-    private var eligibleIndexes= mutableListOf<Int>()
-
-    @JvmField
-    var rankingLeaderboardScoreList = mutableListOf<RankedPlayer>()
-    private var hasDrawn = false
-    private var level = 0
-    private var pileTotal = 0
-    private var scoreTotal = 0
-    private var brokenLevel = -1
-//
-//    private var totalScore: Long = -1
-//    private var numOfGames: Long = -1
-//    private val disposables = CompositeDisposable()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        blackFrame = findViewById(R.id.blackFrame)
-        redFrame = findViewById(R.id.redFrame)
-        colorCards.add(Card.COLOR_BLACK, null)
-        colorCards.add(Card.COLOR_RED, null)
-        colorFrames.add(Card.COLOR_BLACK, blackFrame)
-        colorFrames.add(Card.COLOR_RED, redFrame)
-        pileFrames.add(Card.CLUB_SUIT, pile_clubs)
-        pileFrames.add(Card.DIAMOND_SUIT, pile_diamonds)
-        pileFrames.add(Card.SPADE_SUIT, pile_spades)
-        pileFrames.add(Card.HEART_SUIT, pile_hearts)
-        faceFrames.add(Card.DIAMOND_SUIT, ten_diamonds)
-        faceFrames.add(Card.SPADE_SUIT, ten_spades)
-        faceFrames.add(Card.HEART_SUIT, ten_hearts)
-        faceFrames.add(4 + Card.CLUB_SUIT, jack_clubs)
-        faceFrames.add(4 + Card.DIAMOND_SUIT, jack_diamonds)
-        faceFrames.add(4 + Card.SPADE_SUIT, jack_spades)
-        faceFrames.add(4 + Card.HEART_SUIT, jack_hearts)
-        faceFrames.add(2 * 4 + Card.CLUB_SUIT, queen_clubs)
-        faceFrames.add(2 * 4 + Card.DIAMOND_SUIT, queen_diamonds)
-        faceFrames.add(2 * 4 + Card.SPADE_SUIT, queen_spades)
-        faceFrames.add(2 * 4 + Card.HEART_SUIT, queen_hearts)
-        faceFrames.add(3 * 4 + Card.CLUB_SUIT, king_clubs)
-        faceFrames.add(3 * 4 + Card.DIAMOND_SUIT, king_diamonds)
-        faceFrames.add(3 * 4 + Card.SPADE_SUIT, king_spades)
-        faceFrames.add(3 * 4 + Card.HEART_SUIT, king_hearts)
-        faceFrames.add(4 * 4 + Card.CLUB_SUIT, ace_clubs)
-        faceFrames.add(4 * 4 + Card.DIAMOND_SUIT, ace_diamonds)
-        faceFrames.add(4 * 4 + Card.SPADE_SUIT, ace_spades)
-        faceFrames.add(4 * 4 + Card.HEART_SUIT, ace_hearts)
-        remainingCards.add(clubsText)
-        remainingCards.add(diamondsText)
-        remainingCards.add(spadesText)
-        remainingCards.add(heartsText)
     }
 
 //    private fun submitScore() {
@@ -375,133 +265,6 @@ class GameActivity : AppCompatActivity(R.layout.activity_game) {
 //                .unlock(achievementString)
 //        }
 //    }
-
-
-
-    private fun increaseLevel(isBroken: Boolean) {
-        if (level == 1) {
-            levelText.setText(R.string.queen)
-            if (!isBroken) {
-                jacksLayout.background = resources.getDrawable(R.drawable.face_number_shape)
-//                unlockAchievement(getString(R.string.achievement_jacks))
-            } else {
-                jacksLayout.background = resources.getDrawable(R.drawable.broken_shape)
-            }
-            queensLayout.background = resources.getDrawable(R.drawable.current_level_shape)
-        } else if (level == 2) {
-            levelText.setText(R.string.king)
-            if (!isBroken) {
-                queensLayout.background = resources.getDrawable(R.drawable.face_number_shape)
-//                unlockAchievement(getString(R.string.achievement_queens))
-            } else {
-                queensLayout.background = resources.getDrawable(R.drawable.broken_shape)
-            }
-            kingsLayout.background = resources.getDrawable(R.drawable.current_level_shape)
-        } else if (level == 3) {
-            levelText.setText(R.string.ace)
-            if (!isBroken) {
-                kingsLayout.background = resources.getDrawable(R.drawable.face_number_shape)
-//                unlockAchievement(getString(R.string.achievement_kings))
-            } else {
-                kingsLayout.background = resources.getDrawable(R.drawable.broken_shape)
-            }
-            acesLayout.background = resources.getDrawable(R.drawable.current_level_shape)
-        } else if (level == 4) {
-            levelText.setText(R.string.god_Tier)
-            if (!isBroken) {
-                acesLayout.background = resources.getDrawable(R.drawable.face_number_shape)
-//                unlockAchievement(getString(R.string.achievement_aces))
-                if (brokenLevel != -1) {
-//                    unlockAchievement(getString(R.string.achievement_improbable))
-                }
-            } else {
-                acesLayout.background = resources.getDrawable(R.drawable.broken_shape)
-            }
-        }
-        if (isBroken) {
-            var frameCount = 0
-            for (i in level * 4 until level * 4 + 4) {
-                if (faceFrames[i].childCount != 0 &&
-                    pileFrames[i % 4].childCount == 0
-                ) {
-                    faceFrames[i].removeAllViews()
-                    val face_down = ImageView(this)
-                    face_down.setImageResource(R.drawable.card_back)
-                    faceFrames[i].addView(face_down)
-                }
-                if (pileFrames[i % 4].childCount == 0) {
-                    frameCount++
-                }
-            }
-            if (frameCount == 3) {
-//                unlockAchievement(getString(R.string.achievement_well_played))
-            }
-        }
-        level++
-        findEligibleFaces()
-    }
-
-    private fun isFrameCardSet(frame: FrameLayout?): Boolean {
-        return frame!!.getChildAt(0) != null
-    }
-
-    private fun colorFrameDiscardClick(colorFrame: FrameLayout) {
-        var dummy = colorFrame.getChildAt(0) as ImageView
-        colorFrame.removeView(dummy)
-        discardFrame.addView(dummy)
-        dummy = deckFrame.getChildAt(1) as ImageView
-        deckFrame.removeView(dummy)
-        colorFrame.addView(dummy)
-        redDiscardText.visibility = View.INVISIBLE
-        blackDiscardText.visibility = View.INVISIBLE
-        if (deck.peek().isBlack) {
-            colorCards[Card.COLOR_BLACK] = deck.pop()
-            cardsLeftText.text = deck.size.toString()
-        } else {
-            colorCards[Card.COLOR_RED] = deck.pop()
-            cardsLeftText.text = deck.size.toString()
-        }
-        setHasDrawn(false)
-        findEligibleFaces()
-        emptyDeckCheck()
-    }
-
-    private fun emptyDeckCheck() {
-        if (deck.size == 0) {
-            topCard.visibility = View.INVISIBLE
-            deckFrame.isClickable = false
-            deckFrame.visibility = View.GONE
-            deckText.text = "Press New Game or close app to submit your score"
-        }
-    }
-
-    private fun setUsedFaceCard(frame: FrameLayout, suit: Int, localizedIndex: Int) {
-        frame.isClickable = false
-        frame.background = resources.getDrawable(R.drawable.face_cover_shape)
-        val suitImage = ImageView(applicationContext)
-        if (suit == Card.CLUB_SUIT) suitImage.setImageResource(R.drawable.club) else if (suit == Card.DIAMOND_SUIT) suitImage.setImageResource(
-            R.drawable.diamond
-        ) else if (suit == Card.SPADE_SUIT) suitImage.setImageResource(R.drawable.spades) else suitImage.setImageResource(
-            R.drawable.heart
-        )
-        frame.addView(suitImage)
-
-        // set to null so that it won't be playable
-        faceFrames[localizedIndex]
-    }
-
-    private fun setHasDrawn(hasDrawn: Boolean) {
-        if (hasDrawn) {
-            deckText.setText(R.string.press_to_discard)
-        } else {
-            deckText.setText(R.string.press_to_draw)
-        }
-        this.hasDrawn = hasDrawn
-    }
-
-    override fun onBackPressed() {
-        if (fragmentManager.backStackEntryCount > 0) fragmentManager.popBackStackImmediate() else super.onBackPressed()
-    }
 
 //    override fun onConnected(bundle: Bundle?) {
 //        if (apiClient.isConnected) {

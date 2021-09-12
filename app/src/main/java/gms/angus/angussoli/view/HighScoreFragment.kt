@@ -1,20 +1,6 @@
 package gms.angus.angussoli.view
 
 import android.app.Fragment
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.os.Bundle
-import gms.angus.angussoli.R
-import butterknife.ButterKnife
-import butterknife.OnClick
-import com.google.android.gms.games.Games
-import com.google.android.gms.tasks.OnSuccessListener
-import android.content.Intent
-import android.view.View
-import gms.angus.angussoli.view.ProScoreFragment
-import gms.angus.angussoli.view.ToPlayFragment
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import gms.angus.angussoli.view.GameActivity
 
 /**
  * Created by Harry Cliff on 11/28/17.

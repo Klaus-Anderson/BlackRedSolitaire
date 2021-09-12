@@ -33,7 +33,7 @@ object GameState {
     }
 
     private fun createEmptyPool(): MutableMap<CardSuit, FaceCardState> {
-        return mutableMapOf<CardSuit, FaceCardState>().apply{
+        return mutableMapOf<CardSuit, FaceCardState>().apply {
             CardSuit.values().forEach {
                 put(it, FaceCardState.NOT_DRAWN)
             }
@@ -113,7 +113,7 @@ object GameState {
     }
 
     fun breakLevel() {
-        if(!hasBroken()){
+        if (!hasBroken()) {
             brokenFaceValue = currentLevel
             incrementLevel()
         }
@@ -132,5 +132,21 @@ object GameState {
     fun discardDeckTopCard() {
         discardedCards.add(deck.removeFirst())
         deckTopCard = null
+    }
+
+    fun discardRedCardIfAble() {
+        deckTopCard?.let {
+            discardedCards.add(redCard ?: throw IllegalStateException())
+            redCard = deckTopCard
+            deckTopCard = null
+        }
+    }
+
+    fun discardBlackCardIfAble() {
+        deckTopCard?.let {
+            discardedCards.add(blackCard ?: throw IllegalStateException())
+            blackCard = deckTopCard
+            deckTopCard = null
+        }
     }
 }
