@@ -25,8 +25,29 @@ class GameFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentGameBinding.inflate(inflater, container, false)
         val gameViewModel : GameViewModel = ViewModelProvider(viewModelStore,
-            GameViewModel.GameViewModelFactory(activity!!.application)).get(GameViewModelImpl::class.java)
+            GameViewModel.GameViewModelFactory(activity!!.application))[GameViewModelImpl::class.java]
         binding.viewModel = gameViewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+        gameViewModel.deckTopCardLiveData.observe(viewLifecycleOwner) {
+            binding.topCard.setImageResource(it?.let {
+                getDrawableResourceId(it.cardValue, it.cardSuit)
+            } ?: R.drawable.card_back)
+        }
+        gameViewModel.redCardLiveData.observe(viewLifecycleOwner) {
+            it?.let {
+                binding.redFrame.addView(ImageView(context).apply {
+                    setImageResource(getDrawableResourceId(it.cardValue, it.cardSuit))
+                })
+            } ?: binding.redFrame.removeAllViews()
+        }
+        gameViewModel.blackCardLiveData.observe(viewLifecycleOwner) {
+            it?.let {
+                binding.blackFrame.addView(ImageView(context).apply {
+                    setImageResource(getDrawableResourceId(it.cardValue, it.cardSuit))
+                })
+            } ?: binding.blackFrame.removeAllViews()
+        }
+
         gameViewModel.tenPoolLiveData.observe(viewLifecycleOwner) { poolMap ->
             poolMap.forEach { mapEntry ->
                 setFaceCard(binding.tensPool as PoolLayoutBinding, mapEntry, CardValue.TEN)
@@ -52,6 +73,7 @@ class GameFragment : Fragment() {
                 setFaceCard(binding.acesPool as PoolLayoutBinding, mapEntry, CardValue.ACE)
             }
         }
+
         gameViewModel.collectedCardsLiveData.observe(viewLifecycleOwner) { poolMap ->
             poolMap.forEach {
                 binding.pilePool.run {
@@ -72,11 +94,7 @@ class GameFragment : Fragment() {
                 }
             }
         }
-        gameViewModel.deckTopCardLiveData.observe(viewLifecycleOwner) {
-            binding.topCard.setImageResource(it?.let {
-                getDrawableResourceId(it.cardValue, it.cardSuit)
-            } ?: R.drawable.card_back)
-        }
+
         return binding.root
     }
 

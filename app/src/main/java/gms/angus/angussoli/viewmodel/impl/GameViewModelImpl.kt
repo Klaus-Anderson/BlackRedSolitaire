@@ -12,8 +12,8 @@ import gms.angus.angussoli.viewmodel.GameViewModel
 
 class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewModel(application) {
     override val topCardVisibilityLiveData = MutableLiveData<Int>()
-    override val redDiscardTextVisibilityLiveData = MutableLiveData<Int>()
-    override val blackDiscardTextVisibilityLiveData = MutableLiveData<Int>()
+    override val redDiscardTextVisibilityLiveData = MutableLiveData<Int>(View.VISIBLE)
+    override val blackDiscardTextVisibilityLiveData = MutableLiveData<Int>(View.VISIBLE)
     override val deckDiscardTextVisibilityLiveData = MutableLiveData<Int>()
     override val cardLeftTextLiveData = MutableLiveData<String>("52")
     override val deckTopCardLiveData = MutableLiveData<Card?>()
@@ -53,11 +53,11 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
         deckTopCardLiveData.value = gameState.deckTopCard.also { deckTopCard ->
             (deckTopCard?.let {
                 if (it.cardSuit.isRed) {
-                    redDiscardTextVisibilityLiveData.value = View.VISIBLE
-                    blackDiscardTextVisibilityLiveData.value = View.INVISIBLE
+                    redDiscardTextVisibilityLiveData.postValue(View.VISIBLE)
+                    blackDiscardTextVisibilityLiveData.postValue(View.INVISIBLE)
                 } else {
-                    redDiscardTextVisibilityLiveData.value = View.INVISIBLE
-                    blackDiscardTextVisibilityLiveData.value = View.VISIBLE
+                    redDiscardTextVisibilityLiveData.postValue(View.INVISIBLE)
+                    blackDiscardTextVisibilityLiveData.postValue(View.VISIBLE)
                 }
                 View.VISIBLE
             } ?: run {
