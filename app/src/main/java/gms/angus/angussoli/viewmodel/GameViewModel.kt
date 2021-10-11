@@ -22,7 +22,9 @@ interface GameViewModel {
     fun onNewGameClick(view: View)
     val redDiscardTextVisibilityLiveData: LiveData<Int>
     val blackDiscardTextVisibilityLiveData: LiveData<Int>
-    val deckDiscardTextVisibilityLiveData: LiveData<Int>
+    val deckTextVisibilityLiveData: LiveData<Int>
+    val deckTextResIdLiveData: LiveData<Int>
+    val deckTopCardVisibilityLiveData: LiveData<Int>
     val cardLeftTextLiveData: LiveData<String>
     val deckTopCardLiveData: LiveData<Card?>
     val redCardLiveData: LiveData<Card?>

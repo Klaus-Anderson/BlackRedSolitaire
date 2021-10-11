@@ -291,6 +291,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@drawable/card_back"
+                            android:visibility="@{viewModel.deckTopCardVisibilityLiveData}"
                             android:contentDescription="@string/top_card_access"
                             android:onClick="@{viewModel::onDeckFrameClick}"/>
                 </FrameLayout>
@@ -307,12 +308,12 @@
                             android:gravity="center"
                             android:layout_centerHorizontal="true"
                             android:layout_alignParentTop="true"
-                            android:text="@string/press_to_draw"
+                            android:text="@{context.getString(viewModel.deckTextResIdLiveData)}"
                             android:textAppearance="?android:attr/textAppearanceLargeInverse"
-                            android:visibility="@{viewModel.deckDiscardTextVisibilityLiveData}"
+                            android:visibility="@{viewModel.deckTextVisibilityLiveData}"
                             android:layout_margin="@dimen/card_padding"
                             android:textSize="13sp"
-                            />
+                    />
 
                     <TextView
                             android:id="@+id/cardsLeftText"

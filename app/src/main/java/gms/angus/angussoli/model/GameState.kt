@@ -7,6 +7,7 @@ object GameState {
     val levels = listOf(CardValue.TEN, CardValue.JACK, CardValue.QUEEN, CardValue.KING, CardValue.ACE)
     var currentLevel: CardValue = CardValue.JACK
     var brokenFaceValue: CardValue? = null
+    var clearedFaceValues= listOf(CardValue.TEN)
     var scoredCards = mutableListOf<Card>()
 
     var blackCard: Card? = null
@@ -17,6 +18,9 @@ object GameState {
     var queenPool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
     var kingPool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
     var acePool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
+    var poolMap: MutableMap<CardValue, MutableMap<CardSuit, FaceCardState>> =
+        mutableMapOf(CardValue.TEN to tenPool, CardValue.JACK to jackPool, CardValue.QUEEN to queenPool,
+            CardValue.KING to kingPool, CardValue.ACE to acePool)
     var collectedCards: MutableMap<CardSuit, Card?> = mutableMapOf<CardSuit, Card?>().apply {
         CardSuit.values().forEach {
             put(it, null)
@@ -51,18 +55,13 @@ object GameState {
     }
 
     private fun handleDrawnFaceCard(faceCard: Card) {
-        when (faceCard.cardValue) {
-            CardValue.TEN -> tenPool
-            CardValue.JACK -> jackPool
-            CardValue.QUEEN -> queenPool
-            CardValue.KING -> kingPool
-            CardValue.ACE -> acePool
-            else -> throw IllegalArgumentException()
-        }.also {
+        poolMap[faceCard.cardValue]!!.also {
             it[faceCard.cardSuit] =
                 if (brokenFaceValue == faceCard.cardValue) {
                     FaceCardState.BROKEN
-                } else if (currentLevel.value == faceCard.cardValue.value) {
+                } else if (currentLevel.value == faceCard.cardValue.value &&
+                    (faceCard.cardSuit == redCard?.cardSuit || faceCard.cardSuit == blackCard?.cardSuit)
+                ) {
                     FaceCardState.USABLE_AS_FACE
                 } else if (currentLevel.value > faceCard.cardValue.value) {
                     FaceCardState.USABLE_AS_COLOR
@@ -87,9 +86,56 @@ object GameState {
                         redCard = numberCard
                     }
                 }
+                updateFaceCardStates()
                 deck.removeFirst()
             } else {
                 deckTopCard = numberCard
+            }
+        }
+    }
+
+    private fun updateFaceCardStates() {
+        poolMap.flatMap{ pool ->
+            pool.value.mapNotNull {
+                when(it.value){
+                    FaceCardState.NOT_DRAWN -> null
+                    FaceCardState.NOT_USABLE -> pool.key to it.key
+                    FaceCardState.USABLE_AS_FACE -> pool.key to it.key
+                    FaceCardState.USABLE_AS_COLOR -> pool.key to it.key
+                    FaceCardState.USED -> null
+                    FaceCardState.BROKEN -> null
+                }
+            }
+        }.forEach { pair ->
+            val faceCardValue = pair.first
+            val faceCardSuit = pair.second
+            val faceEligible = blackCard != null && redCard!= null
+            listOf(blackCard, redCard).mapNotNull { colorCard->
+                if(colorCard?.cardSuit?.isRed == faceCardSuit.isRed){
+                    if(colorCard.cardSuit == faceCardSuit){
+                        if(currentLevel == faceCardValue && faceEligible){
+                            FaceCardState.USABLE_AS_FACE
+                        } else if (clearedFaceValues.contains(faceCardValue)){
+                            if(faceEligible && faceCardSuit == colorCard.cardSuit){
+                                FaceCardState.USABLE_AS_FACE
+                            } else {
+                                FaceCardState.USABLE_AS_COLOR
+                            }
+                        } else {
+                            FaceCardState.NOT_USABLE
+                        }
+                    } else {
+                        if (clearedFaceValues.contains(faceCardValue)){
+                            FaceCardState.USABLE_AS_COLOR
+                        } else {
+                            FaceCardState.NOT_USABLE
+                        }
+                    }
+                } else{
+                    null
+                }
+            }.forEach {
+                poolMap[faceCardValue]?.set(faceCardSuit, it)
             }
         }
     }
@@ -139,7 +185,9 @@ object GameState {
             discardedCards.add(redCard ?: throw IllegalStateException())
             redCard = deckTopCard
             deckTopCard = null
+            deck.removeFirst()
         }
+        updateFaceCardStates()
     }
 
     fun discardBlackCardIfAble() {
@@ -147,6 +195,8 @@ object GameState {
             discardedCards.add(blackCard ?: throw IllegalStateException())
             blackCard = deckTopCard
             deckTopCard = null
+            deck.removeFirst()
         }
+        updateFaceCardStates()
     }
 }
