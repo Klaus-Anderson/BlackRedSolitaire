@@ -1,5 +1,6 @@
 package gms.angus.angussoli.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -55,6 +56,13 @@ class GameFragment : Fragment() {
         binding.pilePool.apply {
             root.background = activity?.getDrawable(R.drawable.current_level_shape)
             poolTextView.text = getString(R.string.pile)
+        }
+        binding.newGameButton.setOnClickListener {
+            gameViewModel.endGame()
+            activity?.let{
+                startActivity(Intent(it,GameActivity::class.java))
+                it.finish()
+            }
         }
 
         gameViewModel.deckTopCardLiveData.observe(viewLifecycleOwner) {
@@ -143,6 +151,7 @@ class GameFragment : Fragment() {
 
         gameViewModel.currentLevelLiveData.observe(viewLifecycleOwner) {
             it?.let {
+                binding.levelText.text = it.identity
                 when (it) {
                     CardValue.TEN -> binding.tensPool
                     CardValue.JACK -> binding.jacksPool
@@ -158,6 +167,7 @@ class GameFragment : Fragment() {
 
         gameViewModel.brokenFaceValueLiveData.observe(viewLifecycleOwner) {
             it?.let{
+                binding.breakButton.visibility = View.INVISIBLE
                 when (it) {
                     CardValue.TEN -> binding.tensPool
                     CardValue.JACK -> binding.jacksPool

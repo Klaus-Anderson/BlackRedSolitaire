@@ -20,6 +20,7 @@ interface GameViewModel {
     fun onToPlayClick(view: View)
     fun onNewGameClick(view: View)
     fun onFaceCardClick(cardValue: CardValue, cardSuit: CardSuit)
+    fun endGame()
 
     val redDiscardTextVisibilityLiveData: LiveData<Int>
     val blackDiscardTextVisibilityLiveData: LiveData<Int>
@@ -27,10 +28,15 @@ interface GameViewModel {
     val deckTextResIdLiveData: LiveData<Int>
     val deckTopCardVisibilityLiveData: LiveData<Int>
     val cardLeftTextLiveData: LiveData<String>
+    val clubNumbersLeftTextLiveData: LiveData<String>
+    val spadeNumbersLeftTextLiveData: LiveData<String>
+    val diamondNumbersLeftTextLiveData: LiveData<String>
+    val heartNumbersLeftTextLiveData: LiveData<String>
     val deckTopCardLiveData: LiveData<Card?>
     val redCardLiveData: LiveData<Card?>
     val blackCardLiveData: LiveData<Card?>
     val scoreTextLiveData: LiveData<String>
+    val pileScoreTextLiveData: LiveData<String>
     val clearedFaceCardsLiveData: LiveData<List<CardValue>>
     val currentLevelLiveData: LiveData<CardValue?>
     val brokenFaceValueLiveData: LiveData<CardValue?>

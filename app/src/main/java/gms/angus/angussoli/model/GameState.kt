@@ -1,6 +1,6 @@
 package gms.angus.angussoli.model
 
-object GameState {
+class GameState() {
     val deck = ArrayDeque<Card>()
     val discardedCards = ArrayDeque<Card>()
 
@@ -102,26 +102,28 @@ object GameState {
                 listOf(blackCard, redCard).first {
                     it?.cardSuit?.isRed == faceCardSuit.isRed
                 }?.let { colorCard ->
-                    poolMap[faceCardValue]?.set(faceCardSuit,
-                    if (colorCard.cardSuit == faceCardSuit) {
-                        if (currentLevel == faceCardValue && faceEligible) {
-                            FaceCardState.USABLE_AS_FACE
-                        } else if (clearedFaceValues.contains(faceCardValue)) {
-                            if (faceEligible && faceCardSuit == colorCard.cardSuit) {
+                    poolMap[faceCardValue]?.set(
+                        faceCardSuit,
+                        if (colorCard.cardSuit == faceCardSuit) {
+                            if (currentLevel == faceCardValue && faceEligible) {
                                 FaceCardState.USABLE_AS_FACE
+                            } else if (clearedFaceValues.contains(faceCardValue)) {
+                                if (faceEligible && faceCardSuit == colorCard.cardSuit) {
+                                    FaceCardState.USABLE_AS_FACE
+                                } else {
+                                    FaceCardState.USABLE_AS_COLOR
+                                }
                             } else {
-                                FaceCardState.USABLE_AS_COLOR
+                                FaceCardState.NOT_USABLE
                             }
                         } else {
-                            FaceCardState.NOT_USABLE
+                            if (clearedFaceValues.contains(faceCardValue)) {
+                                FaceCardState.USABLE_AS_COLOR
+                            } else {
+                                FaceCardState.NOT_USABLE
+                            }
                         }
-                    } else {
-                        if (clearedFaceValues.contains(faceCardValue)) {
-                            FaceCardState.USABLE_AS_COLOR
-                        } else {
-                            FaceCardState.NOT_USABLE
-                        }
-                    })
+                    )
                 }
             } else if (brokenFaceValue == faceCardValue) {
                 poolMap[faceCardValue]?.set(faceCardSuit, FaceCardState.BROKEN)
@@ -134,9 +136,7 @@ object GameState {
     }
 
     fun breakLevel() {
-        if (brokenFaceValue?.let {
-                true
-            } != true) {
+        if (brokenFaceValue==null) {
             poolMap[currentLevel]?.apply {
                 forEach {
                     when (it.value) {
@@ -150,6 +150,7 @@ object GameState {
             }
             brokenFaceValue = currentLevel
             currentLevel = levels.elementAtOrNull(levels.indexOf(currentLevel) + 1)
+            updateFaceCardStates()
         }
     }
 
@@ -241,6 +242,16 @@ object GameState {
                 }
             }
         }
+    }
+
+    fun getNumberOfSuitNumberCardsLeft(cardSuit: CardSuit): Int {
+        return deck.filter {
+            it.cardSuit == cardSuit && it.cardValue.value < 10
+        }.size - (if (deckTopCard?.cardSuit == cardSuit) {
+            1
+        } else {
+            0
+        })
     }
 
 }

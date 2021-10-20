@@ -16,10 +16,15 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
     override val deckTextResIdLiveData = MutableLiveData<Int>(R.string.press_to_draw)
     override val deckTopCardVisibilityLiveData = MutableLiveData<Int>(View.VISIBLE)
     override val cardLeftTextLiveData = MutableLiveData<String>("52")
+    override val clubNumbersLeftTextLiveData = MutableLiveData<String>(8.toString())
+    override val spadeNumbersLeftTextLiveData = MutableLiveData<String>(8.toString())
+    override val diamondNumbersLeftTextLiveData = MutableLiveData<String>(8.toString())
+    override val heartNumbersLeftTextLiveData = MutableLiveData<String>(8.toString())
     override val deckTopCardLiveData = MutableLiveData<Card?>()
     override val redCardLiveData = MutableLiveData<Card?>()
     override val blackCardLiveData = MutableLiveData<Card?>()
     override val scoreTextLiveData = MutableLiveData<String>(0.toString())
+    override val pileScoreTextLiveData = MutableLiveData<String>(0.toString())
     override val clearedFaceCardsLiveData = MutableLiveData<List<CardValue>>()
     override val currentLevelLiveData = MutableLiveData<CardValue?>()
     override val brokenFaceValueLiveData = MutableLiveData<CardValue?>()
@@ -30,7 +35,7 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
     override val acePoolLiveData = MutableLiveData<Map<CardSuit, FaceCardState>>()
     override val collectedCardsLiveData = MutableLiveData<Map<CardSuit, Card?>>()
 
-    private var gameState: GameState = GameState
+    private var gameState: GameState = GameState()
 
     init {
     }
@@ -39,40 +44,48 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
         deckTopCardLiveData.value = gameState.deckTopCard.also { deckTopCard ->
             (deckTopCard?.let {
                 if (it.cardSuit.isRed) {
-                    redDiscardTextVisibilityLiveData.postValue(View.VISIBLE)
-                    blackDiscardTextVisibilityLiveData.postValue(View.INVISIBLE)
+                    redDiscardTextVisibilityLiveData.value = View.VISIBLE
+                    blackDiscardTextVisibilityLiveData.value = View.INVISIBLE
                 } else {
-                    redDiscardTextVisibilityLiveData.postValue(View.INVISIBLE)
-                    blackDiscardTextVisibilityLiveData.postValue(View.VISIBLE)
+                    redDiscardTextVisibilityLiveData.value = View.INVISIBLE
+                    blackDiscardTextVisibilityLiveData.value = View.VISIBLE
                 }
-                deckTextResIdLiveData.postValue(R.string.press_to_discard)
+                deckTextResIdLiveData.value = R.string.press_to_discard
                 View.VISIBLE
             } ?: run {
-                blackDiscardTextVisibilityLiveData.postValue(View.INVISIBLE)
-                redDiscardTextVisibilityLiveData.postValue(View.INVISIBLE)
+                blackDiscardTextVisibilityLiveData.value = View.INVISIBLE
+                redDiscardTextVisibilityLiveData.value = View.INVISIBLE
                 if(gameState.deck.size == 0){
-                    deckTextVisibilityLiveData.postValue(View.INVISIBLE)
-                    deckTopCardVisibilityLiveData.postValue(View.INVISIBLE)
+                    deckTextVisibilityLiveData.value = View.INVISIBLE
+                    deckTopCardVisibilityLiveData.value = View.INVISIBLE
                 }
-                deckTextResIdLiveData.postValue(R.string.press_to_draw)
+                deckTextResIdLiveData.value = R.string.press_to_draw
                 View.INVISIBLE
             })
         }
-        clearedFaceCardsLiveData.value = gameState.clearedFaceValues
         currentLevelLiveData.value = gameState.currentLevel
+        cardLeftTextLiveData.value = gameState.deck.size.toString()
+        scoreTextLiveData.value = gameState.score.toString()
+        pileScoreTextLiveData.value = gameState.pileScores.values.sum().toString()
+        spadeNumbersLeftTextLiveData.value = gameState.getNumberOfSuitNumberCardsLeft(CardSuit.SPADE).toString()
+        clubNumbersLeftTextLiveData.value = gameState.getNumberOfSuitNumberCardsLeft(CardSuit.CLUB).toString()
+        heartNumbersLeftTextLiveData.value = gameState.getNumberOfSuitNumberCardsLeft(CardSuit.HEART).toString()
+        diamondNumbersLeftTextLiveData.value = gameState.getNumberOfSuitNumberCardsLeft(CardSuit.DIAMOND).toString()
+
+
         redCardLiveData.value = gameState.redCard
         blackCardLiveData.value = gameState.blackCard
-        scoreTextLiveData.value = gameState.score.toString()
-        brokenFaceValueLiveData.value = gameState.brokenFaceValue
 
         //update Face Card state based on
+        clearedFaceCardsLiveData.value = gameState.clearedFaceValues
+        brokenFaceValueLiveData.value = gameState.brokenFaceValue
         tenPoolLiveData.value = gameState.tenPool
         jackPoolLiveData.value = gameState.jackPool
         queenPoolLiveData.value = gameState.queenPool
         kingPoolLiveData.value = gameState.kingPool
         acePoolLiveData.value = gameState.acePool
         collectedCardsLiveData.value = gameState.pileCards
-        cardLeftTextLiveData.value = gameState.deck.size.toString()
+
     }
 
     override fun onDeckFrameClick(view: View) {
@@ -93,6 +106,10 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
     override fun onFaceCardClick(cardValue: CardValue, cardSuit: CardSuit) {
         gameState.onFaceCardTouched(cardValue, cardSuit)
         updateLiveData()
+    }
+
+    override fun endGame() {
+        gameState = GameState()
     }
 
 
