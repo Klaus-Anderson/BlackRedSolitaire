@@ -5,10 +5,10 @@ object GameState {
     val discardedCards = ArrayDeque<Card>()
 
     val levels = listOf(CardValue.TEN, CardValue.JACK, CardValue.QUEEN, CardValue.KING, CardValue.ACE)
-    var currentLevel: CardValue = CardValue.JACK
+    var currentLevel: CardValue? = CardValue.JACK
     var brokenFaceValue: CardValue? = null
-    var clearedFaceValues= listOf(CardValue.TEN)
-    var scoredCards = mutableListOf<Card>()
+    var clearedFaceValues = mutableListOf(CardValue.TEN)
+    var score = 0
 
     var blackCard: Card? = null
     var redCard: Card? = null
@@ -18,10 +18,17 @@ object GameState {
     var queenPool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
     var kingPool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
     var acePool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
+    var pileScores: MutableMap<CardSuit, Int> = mutableMapOf<CardSuit, Int>().apply {
+        CardSuit.values().forEach {
+            put(it, 0)
+        }
+    }
     var poolMap: MutableMap<CardValue, MutableMap<CardSuit, FaceCardState>> =
-        mutableMapOf(CardValue.TEN to tenPool, CardValue.JACK to jackPool, CardValue.QUEEN to queenPool,
-            CardValue.KING to kingPool, CardValue.ACE to acePool)
-    var collectedCards: MutableMap<CardSuit, Card?> = mutableMapOf<CardSuit, Card?>().apply {
+        mutableMapOf(
+            CardValue.TEN to tenPool, CardValue.JACK to jackPool, CardValue.QUEEN to queenPool,
+            CardValue.KING to kingPool, CardValue.ACE to acePool
+        )
+    var pileCards: MutableMap<CardSuit, Card?> = mutableMapOf<CardSuit, Card?>().apply {
         CardSuit.values().forEach {
             put(it, null)
         }
@@ -44,32 +51,12 @@ object GameState {
         }
     }
 
-    fun drawACard(): Card {
-        return deck.first().also {
-            if (it.isFaceCard()) {
-                handleDrawnFaceCard(it)
-            } else {
-                handleDrawnNumberCard(it)
-            }
-        }
-    }
-
     private fun handleDrawnFaceCard(faceCard: Card) {
         poolMap[faceCard.cardValue]!!.also {
-            it[faceCard.cardSuit] =
-                if (brokenFaceValue == faceCard.cardValue) {
-                    FaceCardState.BROKEN
-                } else if (currentLevel.value == faceCard.cardValue.value &&
-                    (faceCard.cardSuit == redCard?.cardSuit || faceCard.cardSuit == blackCard?.cardSuit)
-                ) {
-                    FaceCardState.USABLE_AS_FACE
-                } else if (currentLevel.value > faceCard.cardValue.value) {
-                    FaceCardState.USABLE_AS_COLOR
-                } else {
-                    FaceCardState.NOT_USABLE
-                }
+            it[faceCard.cardSuit] = FaceCardState.NOT_USABLE
         }
         deck.removeFirst()
+        updateFaceCardStates()
     }
 
     private fun handleDrawnNumberCard(numberCard: Card) {
@@ -86,8 +73,8 @@ object GameState {
                         redCard = numberCard
                     }
                 }
-                updateFaceCardStates()
                 deck.removeFirst()
+                updateFaceCardStates()
             } else {
                 deckTopCard = numberCard
             }
@@ -95,9 +82,9 @@ object GameState {
     }
 
     private fun updateFaceCardStates() {
-        poolMap.flatMap{ pool ->
+        poolMap.flatMap { pool ->
             pool.value.mapNotNull {
-                when(it.value){
+                when (it.value) {
                     FaceCardState.NOT_DRAWN -> null
                     FaceCardState.NOT_USABLE -> pool.key to it.key
                     FaceCardState.USABLE_AS_FACE -> pool.key to it.key
@@ -109,14 +96,18 @@ object GameState {
         }.forEach { pair ->
             val faceCardValue = pair.first
             val faceCardSuit = pair.second
-            val faceEligible = blackCard != null && redCard!= null
-            listOf(blackCard, redCard).mapNotNull { colorCard->
-                if(colorCard?.cardSuit?.isRed == faceCardSuit.isRed){
-                    if(colorCard.cardSuit == faceCardSuit){
-                        if(currentLevel == faceCardValue && faceEligible){
+            val faceEligible = blackCard != null && redCard != null && pileCards[faceCardSuit] == null &&
+                    (faceCardValue == currentLevel || clearedFaceValues.contains(faceCardValue))
+            if (faceEligible) {
+                listOf(blackCard, redCard).first {
+                    it?.cardSuit?.isRed == faceCardSuit.isRed
+                }?.let { colorCard ->
+                    poolMap[faceCardValue]?.set(faceCardSuit,
+                    if (colorCard.cardSuit == faceCardSuit) {
+                        if (currentLevel == faceCardValue && faceEligible) {
                             FaceCardState.USABLE_AS_FACE
-                        } else if (clearedFaceValues.contains(faceCardValue)){
-                            if(faceEligible && faceCardSuit == colorCard.cardSuit){
+                        } else if (clearedFaceValues.contains(faceCardValue)) {
+                            if (faceEligible && faceCardSuit == colorCard.cardSuit) {
                                 FaceCardState.USABLE_AS_FACE
                             } else {
                                 FaceCardState.USABLE_AS_COLOR
@@ -125,59 +116,41 @@ object GameState {
                             FaceCardState.NOT_USABLE
                         }
                     } else {
-                        if (clearedFaceValues.contains(faceCardValue)){
+                        if (clearedFaceValues.contains(faceCardValue)) {
                             FaceCardState.USABLE_AS_COLOR
                         } else {
                             FaceCardState.NOT_USABLE
                         }
-                    }
-                } else{
-                    null
+                    })
                 }
-            }.forEach {
-                poolMap[faceCardValue]?.set(faceCardSuit, it)
+            } else if (brokenFaceValue == faceCardValue) {
+                poolMap[faceCardValue]?.set(faceCardSuit, FaceCardState.BROKEN)
+            } else if (clearedFaceValues.contains(faceCardValue)) {
+                poolMap[faceCardValue]?.set(faceCardSuit, FaceCardState.USABLE_AS_COLOR)
+            } else {
+                poolMap[faceCardValue]?.set(faceCardSuit, FaceCardState.NOT_USABLE)
             }
         }
     }
 
-    fun canDraw(): Boolean {
-        return deckTopCard?.let {
-            false
-        } ?: (deck.size > 0)
-    }
-
-    fun gameScore(): Int {
-        return scoredCards.sumOf {
-            it.cardValue.value
-        }
-    }
-
-    fun collectedScore(): Int {
-        return collectedCards.map {
-            it.value?.cardValue?.value ?: 0
-        }.sum()
-    }
-
     fun breakLevel() {
-        if (!hasBroken()) {
+        if (brokenFaceValue?.let {
+                true
+            } != true) {
+            poolMap[currentLevel]?.apply {
+                forEach {
+                    when (it.value) {
+                        FaceCardState.USABLE_AS_FACE, FaceCardState.USABLE_AS_COLOR -> put(
+                            it.key,
+                            FaceCardState.NOT_USABLE
+                        )
+                        else -> run { }
+                    }
+                }
+            }
             brokenFaceValue = currentLevel
-            incrementLevel()
+            currentLevel = levels.elementAtOrNull(levels.indexOf(currentLevel) + 1)
         }
-    }
-
-    private fun incrementLevel() {
-        TODO("Not yet implemented")
-    }
-
-    fun hasBroken(): Boolean {
-        return brokenFaceValue?.let {
-            true
-        } ?: false
-    }
-
-    fun discardDeckTopCard() {
-        discardedCards.add(deck.removeFirst())
-        deckTopCard = null
     }
 
     fun discardRedCardIfAble() {
@@ -199,4 +172,75 @@ object GameState {
         }
         updateFaceCardStates()
     }
+
+    fun onDeckTouched() {
+        if (deckTopCard?.let {
+                false
+            } ?: (deck.size > 0)) {
+            deck.first().also {
+                if (it.isFaceCard()) {
+                    handleDrawnFaceCard(it)
+                } else {
+                    handleDrawnNumberCard(it)
+                }
+            }
+        } else deckTopCard?.let {
+            discardedCards.add(deck.removeFirst())
+            deckTopCard = null
+        } ?: return
+    }
+
+    fun onFaceCardTouched(cardValue: CardValue, cardSuit: CardSuit) {
+        poolMap[cardValue]?.let { mutableMap ->
+            mutableMap[cardSuit]?.let { faceCardState ->
+                when (faceCardState) {
+                    FaceCardState.USABLE_AS_FACE -> run {
+                        pileScores[cardSuit] =
+                            blackCard!!.cardValue.getPointValue() + redCard!!.cardValue.getPointValue()
+                        poolMap[cardValue]?.let {
+                            it[cardSuit] = FaceCardState.USED
+                        }
+                        pileCards[cardSuit] = Card(cardValue, cardSuit)
+                        redCard = null
+                        blackCard = null
+                        pileScores.all {
+                            it.value != 0
+                        }.let { roundIsCompleted ->
+                            if (roundIsCompleted) {
+                                score += pileScores.values.sum()
+                                pileScores = mutableMapOf<CardSuit, Int>().apply {
+                                    CardSuit.values().forEach {
+                                        put(it, 0)
+                                    }
+                                }
+                                pileCards = mutableMapOf<CardSuit, Card?>().apply {
+                                    CardSuit.values().forEach {
+                                        put(it, null)
+                                    }
+                                }
+                                currentLevel?.let {
+                                    clearedFaceValues.add(it)
+                                }
+                                currentLevel = levels.elementAtOrNull(levels.indexOf(currentLevel) + 1)
+                            }
+                        }
+                        updateFaceCardStates()
+                    }
+                    FaceCardState.USABLE_AS_COLOR -> run {
+                        if (cardSuit.isRed) {
+                            redCard = Card(cardValue, cardSuit)
+                        } else {
+                            blackCard = Card(cardValue, cardSuit)
+                        }
+                        poolMap[cardValue]?.let {
+                            it[cardSuit] = FaceCardState.USED
+                        }
+                        updateFaceCardStates()
+                    }
+                    else -> return
+                }
+            }
+        }
+    }
+
 }

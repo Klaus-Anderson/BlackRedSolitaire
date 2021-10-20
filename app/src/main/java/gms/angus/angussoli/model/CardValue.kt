@@ -13,5 +13,12 @@ enum class CardValue(val identity: String, val value: Int) {
     JACK("jack", 11),
     QUEEN("queen", 12),
     KING("king", 13),
-    ACE("ace",14);
+    ACE("ace", 14);
+
+    fun getPointValue(): Int {
+        return when {
+            value > 10 -> 10
+            else -> value
+        }
+    }
 }

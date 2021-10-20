@@ -3,16 +3,13 @@ package gms.angus.angussoli.viewmodel.impl
 import android.app.Application
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import gms.angus.angussoli.R
-import gms.angus.angussoli.model.Card
-import gms.angus.angussoli.model.CardSuit
-import gms.angus.angussoli.model.FaceCardState
-import gms.angus.angussoli.model.GameState
+import gms.angus.angussoli.model.*
 import gms.angus.angussoli.viewmodel.GameViewModel
 
 class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewModel(application) {
-    override val topCardVisibilityLiveData = MutableLiveData<Int>()
     override val redDiscardTextVisibilityLiveData = MutableLiveData<Int>(View.INVISIBLE)
     override val blackDiscardTextVisibilityLiveData = MutableLiveData<Int>(View.INVISIBLE)
     override val deckTextVisibilityLiveData = MutableLiveData<Int>(View.VISIBLE)
@@ -22,6 +19,10 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
     override val deckTopCardLiveData = MutableLiveData<Card?>()
     override val redCardLiveData = MutableLiveData<Card?>()
     override val blackCardLiveData = MutableLiveData<Card?>()
+    override val scoreTextLiveData = MutableLiveData<String>(0.toString())
+    override val clearedFaceCardsLiveData = MutableLiveData<List<CardValue>>()
+    override val currentLevelLiveData = MutableLiveData<CardValue?>()
+    override val brokenFaceValueLiveData = MutableLiveData<CardValue?>()
     override val tenPoolLiveData = MutableLiveData<Map<CardSuit, FaceCardState>>()
     override val jackPoolLiveData = MutableLiveData<Map<CardSuit, FaceCardState>>()
     override val queenPoolLiveData = MutableLiveData<Map<CardSuit, FaceCardState>>()
@@ -32,25 +33,6 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
     private var gameState: GameState = GameState
 
     init {
-    }
-
-    override fun onDeckFrameClick(view: View) {
-        if (gameState.canDraw()) {
-            gameState.drawACard()
-        } else gameState.deckTopCard?.let {
-            gameState.discardDeckTopCard()
-        } ?: return
-        updateLiveData()
-    }
-
-    override fun onRedFrameClick(view: View) {
-        gameState.discardRedCardIfAble()
-        updateLiveData()
-    }
-
-    override fun onBlackFrameClick(view: View) {
-        gameState.discardBlackCardIfAble()
-        updateLiveData()
     }
 
     private fun updateLiveData() {
@@ -74,13 +56,14 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
                 }
                 deckTextResIdLiveData.postValue(R.string.press_to_draw)
                 View.INVISIBLE
-            }).let {
-                topCardVisibilityLiveData.value = it
-            }
+            })
         }
-
+        clearedFaceCardsLiveData.value = gameState.clearedFaceValues
+        currentLevelLiveData.value = gameState.currentLevel
         redCardLiveData.value = gameState.redCard
         blackCardLiveData.value = gameState.blackCard
+        scoreTextLiveData.value = gameState.score.toString()
+        brokenFaceValueLiveData.value = gameState.brokenFaceValue
 
         //update Face Card state based on
         tenPoolLiveData.value = gameState.tenPool
@@ -88,9 +71,30 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
         queenPoolLiveData.value = gameState.queenPool
         kingPoolLiveData.value = gameState.kingPool
         acePoolLiveData.value = gameState.acePool
-        collectedCardsLiveData.value = gameState.collectedCards
+        collectedCardsLiveData.value = gameState.pileCards
         cardLeftTextLiveData.value = gameState.deck.size.toString()
     }
+
+    override fun onDeckFrameClick(view: View) {
+        gameState.onDeckTouched()
+        updateLiveData()
+    }
+
+    override fun onRedFrameClick(view: View) {
+        gameState.discardRedCardIfAble()
+        updateLiveData()
+    }
+
+    override fun onBlackFrameClick(view: View) {
+        gameState.discardBlackCardIfAble()
+        updateLiveData()
+    }
+
+    override fun onFaceCardClick(cardValue: CardValue, cardSuit: CardSuit) {
+        gameState.onFaceCardTouched(cardValue, cardSuit)
+        updateLiveData()
+    }
+
 
     override fun onBreakClick(view: View) {
         gameState.breakLevel()
@@ -109,4 +113,6 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
 //        startActivity(i)
 //        finish()
     }
+
+
 }

@@ -20,31 +20,41 @@ import gms.angus.angussoli.viewmodel.impl.GameViewModelImpl
 
 class GameFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val binding = FragmentGameBinding.inflate(inflater, container, false)
         val gameViewModel: GameViewModel = ViewModelProvider(
             viewModelStore,
-            GameViewModel.GameViewModelFactory(activity!!.application)
-        )[GameViewModelImpl::class.java]
+            GameViewModel.GameViewModelFactory(activity!!.application))[GameViewModelImpl::class.java]
 
         binding.viewModel = gameViewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        binding.tensPool.apply {
+            setFaceCardOnClickListeners(gameViewModel, this, CardValue.TEN)
+        }
         binding.jacksPool.apply {
             root.background = activity?.getDrawable(R.drawable.current_level_shape)
             poolTextView.text = getString(R.string.jack)
+            setFaceCardOnClickListeners(gameViewModel, this, CardValue.JACK)
         }
         binding.queensPool.apply {
             root.background = activity?.getDrawable(R.drawable.locked_level_shape)
             poolTextView.text = getString(R.string.queen)
+            setFaceCardOnClickListeners(gameViewModel, this, CardValue.QUEEN)
         }
         binding.kingsPool.apply {
             root.background = activity?.getDrawable(R.drawable.locked_level_shape)
             poolTextView.text = getString(R.string.king)
+            setFaceCardOnClickListeners(gameViewModel, this, CardValue.KING)
         }
         binding.acesPool.apply {
             root.background = activity?.getDrawable(R.drawable.locked_level_shape)
             poolTextView.text = getString(R.string.ace)
+            setFaceCardOnClickListeners(gameViewModel, this, CardValue.ACE)
+        }
+        binding.pilePool.apply {
+            root.background = activity?.getDrawable(R.drawable.current_level_shape)
+            poolTextView.text = getString(R.string.pile)
         }
 
         gameViewModel.deckTopCardLiveData.observe(viewLifecycleOwner) {
@@ -116,7 +126,71 @@ class GameFragment : Fragment() {
             }
         }
 
+        gameViewModel.clearedFaceCardsLiveData.observe(viewLifecycleOwner) { list ->
+            list.map {
+                when (it) {
+                    CardValue.TEN -> binding.tensPool
+                    CardValue.JACK -> binding.jacksPool
+                    CardValue.QUEEN -> binding.queensPool
+                    CardValue.KING -> binding.kingsPool
+                    CardValue.ACE -> binding.acesPool
+                    else -> throw IllegalStateException()
+                }
+            }.forEach {
+                it.root.setBackgroundResource(R.drawable.face_number_shape)
+            }
+        }
+
+        gameViewModel.currentLevelLiveData.observe(viewLifecycleOwner) {
+            it?.let {
+                when (it) {
+                    CardValue.TEN -> binding.tensPool
+                    CardValue.JACK -> binding.jacksPool
+                    CardValue.QUEEN -> binding.queensPool
+                    CardValue.KING -> binding.kingsPool
+                    CardValue.ACE -> binding.acesPool
+                    else -> throw IllegalStateException()
+                }
+            }?.root?.setBackgroundResource(R.drawable.current_level_shape) ?: run{
+                //game won code
+            }
+        }
+
+        gameViewModel.brokenFaceValueLiveData.observe(viewLifecycleOwner) {
+            it?.let{
+                when (it) {
+                    CardValue.TEN -> binding.tensPool
+                    CardValue.JACK -> binding.jacksPool
+                    CardValue.QUEEN -> binding.queensPool
+                    CardValue.KING -> binding.kingsPool
+                    CardValue.ACE -> binding.acesPool
+                    else -> throw IllegalStateException()
+                }
+            }?.root?.setBackgroundResource(R.drawable.broken_shape)
+        }
+
         return binding.root
+    }
+
+    private fun setFaceCardOnClickListeners(
+        gameViewModel: GameViewModel,
+        poolLayoutBinding: PoolLayoutBinding,
+        cardValue: CardValue
+    ) {
+        poolLayoutBinding.apply {
+            poolClubs.setOnClickListener {
+                gameViewModel.onFaceCardClick(cardValue, CardSuit.CLUB)
+            }
+            poolSpades.setOnClickListener {
+                gameViewModel.onFaceCardClick(cardValue, CardSuit.SPADE)
+            }
+            poolDiamonds.setOnClickListener {
+                gameViewModel.onFaceCardClick(cardValue, CardSuit.DIAMOND)
+            }
+            poolHearts.setOnClickListener {
+                gameViewModel.onFaceCardClick(cardValue, CardSuit.HEART)
+            }
+        }
     }
 
     private fun setFaceCard(
@@ -150,7 +224,7 @@ class GameFragment : Fragment() {
                     if (childCount == 0) {
                         addView(ImageView(context).apply {
                             setImageResource(R.drawable.card_back)
-                            setBackgroundResource(R.drawable.face_eligible_shape)
+                            setBackgroundResource(0)
                         })
                     }
                 }
@@ -184,8 +258,10 @@ class GameFragment : Fragment() {
         (frameLayout.childCount == 0).let {
             if (it) {
                 frameLayout.addView(ImageView(context).apply {
-                    setImageResource(Card(cardValue, cardSuit)
-                        .getDrawableResourceId())
+                    setImageResource(
+                        Card(cardValue, cardSuit)
+                            .getDrawableResourceId()
+                    )
                 })
             }
         }

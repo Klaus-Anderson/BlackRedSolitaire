@@ -363,7 +363,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="@string/_0"
+                            android:text="@{viewModel.scoreTextLiveData}"
                             android:textColor="@color/white"
                             android:textSize="13sp"/>
                 </LinearLayout>
@@ -450,7 +450,8 @@
                         android:textSize="13sp"
                         android:background="@drawable/break_button_shape"
                         android:textColor="@color/white"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                android:onClick="@{viewModel::onBreakClick}"/>
             </LinearLayout>
 
             <LinearLayout
