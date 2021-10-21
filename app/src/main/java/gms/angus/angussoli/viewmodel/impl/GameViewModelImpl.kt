@@ -13,7 +13,9 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
     override val redDiscardTextVisibilityLiveData = MutableLiveData<Int>(View.INVISIBLE)
     override val blackDiscardTextVisibilityLiveData = MutableLiveData<Int>(View.INVISIBLE)
     override val deckTopCardVisibilityLiveData = MutableLiveData<Int>(View.VISIBLE)
-    override val underDeckTextLiveData = MutableLiveData<String>("52")
+    override val underDeckTextLiveData = MutableLiveData<String>()
+    override val cardLeftTextLiveData = MutableLiveData<String>("52")
+    override val cardSquanderedTextLiveData = MutableLiveData<String>("0")
     override val clubNumbersLeftTextLiveData = MutableLiveData<String>(8.toString())
     override val spadeNumbersLeftTextLiveData = MutableLiveData<String>(8.toString())
     override val diamondNumbersLeftTextLiveData = MutableLiveData<String>(8.toString())
@@ -36,6 +38,7 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
     private var gameState: GameState = GameState()
 
     init {
+        updateLiveData(application.applicationContext)
     }
 
     private fun updateLiveData(context: Context) {
@@ -48,21 +51,22 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
                     redDiscardTextVisibilityLiveData.value = View.INVISIBLE
                     blackDiscardTextVisibilityLiveData.value = View.VISIBLE
                 }
-                underDeckTextLiveData.value = context.getString(R.string.press_to_discard) + "\n" + gameState.deck.size.toString()
+                underDeckTextLiveData.value = context.getString(R.string.press_to_discard)
                 View.VISIBLE
             } ?: run {
                 blackDiscardTextVisibilityLiveData.value = View.INVISIBLE
                 redDiscardTextVisibilityLiveData.value = View.INVISIBLE
                 if(gameState.deck.size == 0){
                     deckTopCardVisibilityLiveData.value = View.INVISIBLE
+                    underDeckTextLiveData.value =""
                 } else {
-                    underDeckTextLiveData.value =
-                        context.getString(R.string.press_to_draw) + "\n" + gameState.deck.size.toString()
+                    underDeckTextLiveData.value = context.getString(R.string.press_to_draw)
                 }
-                underDeckTextLiveData.value ="\n" + gameState.deck.size.toString()
                 View.INVISIBLE
             })
         }
+        cardLeftTextLiveData.value = gameState.deck.size.toString()
+        cardSquanderedTextLiveData.value = gameState.discardedCards.size.toString()
         currentLevelLiveData.value = gameState.currentLevel
         scoreTextLiveData.value = gameState.score.toString()
         pileScoreTextLiveData.value = gameState.pileScores.values.sum().toString()

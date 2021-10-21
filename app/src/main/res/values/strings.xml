@@ -48,6 +48,8 @@
     <string name="top_card_access">Top Card</string>
     <string name="pile">Pile</string>
     <string name="discard">Discard</string>
+    <string name="card_left">Cards Left:</string>
+    <string name="cards_squandered">Squander:</string>
     <string name="clubs">\u2663</string>
     <string name="_8">8</string>
     <string name="diamond">\u2666</string>

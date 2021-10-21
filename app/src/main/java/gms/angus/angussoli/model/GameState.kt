@@ -136,7 +136,7 @@ class GameState() {
     }
 
     fun breakLevel() {
-        if (brokenFaceValue==null) {
+        if (brokenFaceValue == null) {
             poolMap[currentLevel]?.apply {
                 forEach {
                     when (it.value) {
@@ -157,23 +157,28 @@ class GameState() {
     }
 
     fun discardRedCardIfAble() {
-        deckTopCard?.let {
-            discardedCards.add(redCard ?: throw IllegalStateException())
-            redCard = deckTopCard
-            deckTopCard = null
-            deck.removeFirst()
+        if (deckTopCard?.cardSuit?.isRed == true) {
+            deckTopCard?.let {
+                discardedCards.add(redCard ?: throw IllegalStateException())
+                redCard = deckTopCard
+                deckTopCard = null
+                deck.removeFirst()
+            }
+            updateFaceCardStates()
         }
-        updateFaceCardStates()
     }
 
     fun discardBlackCardIfAble() {
-        deckTopCard?.let {
-            discardedCards.add(blackCard ?: throw IllegalStateException())
-            blackCard = deckTopCard
-            deckTopCard = null
-            deck.removeFirst()
+        if (deckTopCard?.cardSuit?.isRed == false) {
+            deckTopCard?.let {
+                discardedCards.add(blackCard ?: throw IllegalStateException())
+                blackCard = deckTopCard
+                deckTopCard = null
+                deck.removeFirst()
+
+            }
+            updateFaceCardStates()
         }
-        updateFaceCardStates()
     }
 
     fun onDeckTouched() {
@@ -224,7 +229,7 @@ class GameState() {
                                 currentLevel?.let {
                                     clearedFaceValues.add(it)
                                 }
-                                currentLevel = currentLevel?.let{
+                                currentLevel = currentLevel?.let {
                                     levels.elementAtOrNull(levels.indexOf(it) + 1)
                                 }
                             }
@@ -233,8 +238,14 @@ class GameState() {
                     }
                     FaceCardState.USABLE_AS_COLOR -> run {
                         if (cardSuit.isRed) {
+                            redCard?.let {
+                                discardedCards.add(it)
+                            }
                             redCard = Card(cardValue, cardSuit)
                         } else {
+                            blackCard?.let {
+                                discardedCards.add(it)
+                            }
                             blackCard = Card(cardValue, cardSuit)
                         }
                         poolMap[cardValue]?.let {

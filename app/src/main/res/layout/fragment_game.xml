@@ -11,10 +11,10 @@
 
     <LinearLayout
             android:id="@+id/container"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:background="@color/black"
-                  android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            android:orientation="vertical">
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -56,128 +56,168 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/discard"
-                    style="@style/cardLayoutStyle"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:padding="12dp"
                     android:background="@drawable/bottom_row_shape">
 
                 <TextView
-                        android:id="@+id/textViewDiscard"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/cards_remaining"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintTop_toTopOf="@id/cards_remaining_number"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/cards_remaining_number"
+                        app:layout_constraintBottom_toBottomOf="@id/cards_remaining_number"
+                        app:layout_constraintHorizontal_weight="3"
+                        android:gravity="center"
+                        android:text="@string/card_left"
+                        android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                        android:textSize="13sp"/>
+
+                <TextView
+                        android:id="@+id/cards_remaining_number"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="@string/discard"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/cards_remaining"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/clubsSymbol"
+                        app:layout_constraintHorizontal_weight="1"
+                        android:text="@{viewModel.cardLeftTextLiveData}"
                         android:textAppearance="?android:attr/textAppearanceLargeInverse"
                         android:textSize="17sp"/>
 
-                <FrameLayout
-                        android:id="@+id/discardFrame"
-                        android:layout_width="45dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:paddingTop="2dp"
-                        android:paddingBottom="2dp"
-                        android:paddingStart="2dp"
-                        android:paddingEnd="2dp">
-                </FrameLayout>
+                <TextView
+                        android:id="@+id/clubsSymbol"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cards_remaining_number"
+                        app:layout_constraintEnd_toStartOf="@id/clubsText"
+                        app:layout_constraintBottom_toTopOf="@id/spadesSymbol"
+                        android:text="@string/clubs"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"/>
 
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="@dimen/card_padding"
-                        android:layout_marginStart="@dimen/card_padding"
-                        android:layout_marginBottom="@dimen/card_padding">
+                <TextView
+                        android:id="@+id/clubsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/cards_remaining_number"
+                        app:layout_constraintStart_toEndOf="@id/clubsSymbol"
+                        app:layout_constraintEnd_toStartOf="@id/diamondsSymbol"
+                        app:layout_constraintBottom_toTopOf="@id/spadesSymbol"
+                        android:text="@{viewModel.clubNumbersLeftTextLiveData}"
+                        tools:text="1"
+                        android:textColor="@color/white"
+                        android:textSize="17sp"/>
 
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                <TextView
+                        android:id="@+id/diamondsSymbol"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/cards_remaining_number"
+                        app:layout_constraintStart_toEndOf="@id/clubsText"
+                        app:layout_constraintEnd_toStartOf="@id/diamondsText"
+                        app:layout_constraintBottom_toTopOf="@id/spadesSymbol"
+                        android:text="@string/diamond"
+                        android:textColor="@color/red"
+                        android:textSize="17sp"/>
 
-                            android:layout_weight="1">
+                <TextView
+                        android:id="@+id/diamondsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.diamondNumbersLeftTextLiveData}"
+                        tools:text="1"
+                        app:layout_constraintTop_toBottomOf="@id/cards_remaining_number"
+                        app:layout_constraintStart_toEndOf="@id/diamondsSymbol"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/spadesSymbol"
+                        android:textColor="@color/white"
+                        android:textSize="17sp"/>
 
-                        <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="end"
-                                android:text="@string/clubs"
-                                android:textColor="@color/black"
-                                android:textSize="17sp"/>
+                <TextView
+                        android:id="@+id/spadesSymbol"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/spadesText"
+                        app:layout_constraintBottom_toTopOf="@id/cards_squandered_number"
+                        app:layout_constraintTop_toBottomOf="@id/clubsSymbol"
+                        android:textColor="@color/black"
+                        android:text="@string/spade"
+                        android:textSize="17sp"/>
 
-                        <TextView
-                                android:id="@+id/clubsText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:gravity="end"
-                                android:text="@{viewModel.clubNumbersLeftTextLiveData}"
-                                android:textColor="@color/white"
-                                android:textSize="17sp"/>
+                <TextView
+                        android:id="@+id/spadesText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="1"
+                        android:text="@{viewModel.spadeNumbersLeftTextLiveData}"
+                        app:layout_constraintStart_toEndOf="@id/spadesSymbol"
+                        app:layout_constraintEnd_toStartOf="@id/heartsSymbol"
+                        app:layout_constraintBottom_toTopOf="@id/cards_squandered_number"
+                        app:layout_constraintTop_toBottomOf="@id/clubsSymbol"
+                        android:textColor="@color/white"
+                        android:textSize="17sp"/>
 
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:gravity="start"
-                                android:text="@string/diamond"
-                                android:textColor="@color/red"
-                                android:textSize="17sp"/>
+                <TextView
+                        android:id="@+id/heartsSymbol"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/spadesText"
+                        app:layout_constraintEnd_toStartOf="@id/heartsText"
+                        app:layout_constraintBottom_toTopOf="@id/cards_squandered_number"
+                        app:layout_constraintTop_toBottomOf="@id/clubsSymbol"
+                        android:textColor="@color/red"
+                        android:text="@string/heart"
+                        android:textSize="17sp"/>
 
-                        <TextView
-                                android:id="@+id/diamondsText"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="start"
-                                android:text="@{viewModel.diamondNumbersLeftTextLiveData}"
-                                android:textColor="@color/white"
-                                android:textSize="17sp"/>
-                    </LinearLayout>
+                <TextView
+                        android:id="@+id/heartsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="1"
+                        android:text="@{viewModel.heartNumbersLeftTextLiveData}"
+                        app:layout_constraintStart_toEndOf="@id/heartsSymbol"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/cards_squandered_number"
+                        app:layout_constraintTop_toBottomOf="@id/clubsSymbol"
+                        android:textColor="@color/white"
+                        android:textSize="17sp"/>
 
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1">
+                <TextView
+                        android:id="@+id/cards_squandered"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintTop_toTopOf="@id/cards_squandered_number"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/cards_squandered_number"
+                        app:layout_constraintBottom_toBottomOf="@id/cards_squandered_number"
+                        app:layout_constraintHorizontal_weight="3"
+                        android:gravity="center"
+                        android:text="@string/cards_squandered"
+                        android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                        android:textSize="13sp"/>
 
-                        <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="end"
-                                android:textColor="@color/black"
-                                android:text="@string/spade"
-                                android:textSize="17sp"/>
+                <TextView
+                        android:id="@+id/cards_squandered_number"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/cards_squandered"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintHorizontal_weight="1"
+                        android:text="@{viewModel.cardSquanderedTextLiveData}"
+                        android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                        android:textSize="17sp"/>
 
-                        <TextView
-                                android:id="@+id/spadesText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:text="@{viewModel.spadeNumbersLeftTextLiveData}"
-                                android:gravity="end"
-                                android:textColor="@color/white"
-                                android:textSize="17sp"/>
-
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:gravity="start"
-                                android:textColor="@color/red"
-                                android:text="@string/heart"
-                                android:textSize="17sp"/>
-
-                        <TextView
-                                android:id="@+id/heartsText"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:text="@{viewModel.heartNumbersLeftTextLiveData}"
-                                android:gravity="start"
-                                android:textColor="@color/white"
-                                android:textSize="17sp"/>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/black"
@@ -219,8 +259,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/blackFrame"
-                        android:lines="2"
-
                         android:text="@string/press_to_discard"
                         android:textAppearance="?android:attr/textAppearanceLargeInverse"
                         android:textSize="13sp"
@@ -269,7 +307,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/redFrame"
-                        android:lines="2"
                         android:text="@string/press_to_discard"
                         android:textAppearance="?android:attr/textAppearanceLargeInverse"
                         android:textSize="13sp"
@@ -328,7 +365,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/deckFrame"
-                        android:lines="2"
                         android:text="@{viewModel.underDeckTextLiveData}"
                         android:gravity="center"
                         android:layout_marginBottom="12dp"
@@ -457,7 +493,7 @@
                         android:background="@drawable/break_button_shape"
                         android:textColor="@color/white"
                         android:layout_weight="1"
-                android:onClick="@{viewModel::onBreakClick}"/>
+                        android:onClick="@{viewModel::onBreakClick}"/>
             </LinearLayout>
 
             <LinearLayout

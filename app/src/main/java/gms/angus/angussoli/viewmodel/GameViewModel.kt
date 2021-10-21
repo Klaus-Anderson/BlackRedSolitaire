@@ -26,6 +26,8 @@ interface GameViewModel {
     val blackDiscardTextVisibilityLiveData: LiveData<Int>
     val deckTopCardVisibilityLiveData: LiveData<Int>
     val underDeckTextLiveData: LiveData<String>
+    val cardLeftTextLiveData: LiveData<String>
+    val cardSquanderedTextLiveData: LiveData<String>
     val clubNumbersLeftTextLiveData: LiveData<String>
     val spadeNumbersLeftTextLiveData: LiveData<String>
     val diamondNumbersLeftTextLiveData: LiveData<String>
