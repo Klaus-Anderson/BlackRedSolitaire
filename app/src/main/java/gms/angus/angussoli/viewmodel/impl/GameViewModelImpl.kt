@@ -112,6 +112,11 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
         gameState = GameState()
     }
 
+    override fun enableCompleteMode() {
+        gameState.enableCompleteMode()
+        updateLiveData()
+    }
+
 
     override fun onBreakClick(view: View) {
         gameState.breakLevel()

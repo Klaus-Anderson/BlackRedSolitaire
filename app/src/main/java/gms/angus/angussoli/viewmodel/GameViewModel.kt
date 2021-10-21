@@ -21,6 +21,7 @@ interface GameViewModel {
     fun onNewGameClick(view: View)
     fun onFaceCardClick(cardValue: CardValue, cardSuit: CardSuit)
     fun endGame()
+    fun enableCompleteMode()
 
     val redDiscardTextVisibilityLiveData: LiveData<Int>
     val blackDiscardTextVisibilityLiveData: LiveData<Int>

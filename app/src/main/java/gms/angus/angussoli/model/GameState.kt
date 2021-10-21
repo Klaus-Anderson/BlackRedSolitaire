@@ -149,7 +149,9 @@ class GameState() {
                 }
             }
             brokenFaceValue = currentLevel
-            currentLevel = levels.elementAtOrNull(levels.indexOf(currentLevel) + 1)
+            currentLevel = currentLevel?.let {
+                levels.elementAtOrNull(levels.indexOf(it) + 1)
+            }
             updateFaceCardStates()
         }
     }
@@ -222,7 +224,9 @@ class GameState() {
                                 currentLevel?.let {
                                     clearedFaceValues.add(it)
                                 }
-                                currentLevel = levels.elementAtOrNull(levels.indexOf(currentLevel) + 1)
+                                currentLevel = currentLevel?.let{
+                                    levels.elementAtOrNull(levels.indexOf(it) + 1)
+                                }
                             }
                         }
                         updateFaceCardStates()
@@ -252,6 +256,11 @@ class GameState() {
         } else {
             0
         })
+    }
+
+    fun enableCompleteMode() {
+        currentLevel = null
+        clearedFaceValues = levels.toMutableList()
     }
 
 }

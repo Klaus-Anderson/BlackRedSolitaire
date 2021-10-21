@@ -65,7 +65,7 @@
     <string name="press_here_for_game_over">Press Here for Game Over</string>
     <string name="new_game">New Game</string>
     <string name="how_to_play">How to Play</string>
-    <string name="god_Tier">Done</string>
+    <string name="done">Done</string>
     <string name="scoreColon">Score:</string>
     <string name="breakString">break</string>
     <string name="press_to_draw">Press Card to Draw</string>

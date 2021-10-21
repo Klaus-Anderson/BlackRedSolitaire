@@ -1,6 +1,7 @@
 package gms.angus.angussoli.view
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import gms.angus.angussoli.BuildConfig
 import gms.angus.angussoli.R
 import gms.angus.angussoli.databinding.FragmentGameBinding
 import gms.angus.angussoli.databinding.PoolLayoutBinding
@@ -57,6 +59,7 @@ class GameFragment : Fragment() {
             root.background = activity?.getDrawable(R.drawable.current_level_shape)
             poolTextView.text = getString(R.string.pile)
         }
+
         binding.newGameButton.setOnClickListener {
             gameViewModel.endGame()
             activity?.let{
@@ -65,9 +68,19 @@ class GameFragment : Fragment() {
             }
         }
 
+        if(BuildConfig.DEBUG) {
+            binding.newGameButton.setOnLongClickListener(object : View.OnLongClickListener {
+                override fun onLongClick(v: View?): Boolean {
+                    gameViewModel.enableCompleteMode()
+                    return true
+                }
+            })
+        }
+
         gameViewModel.deckTopCardLiveData.observe(viewLifecycleOwner) {
             binding.topCard.setImageResource(it?.getDrawableResourceId() ?: R.drawable.card_back)
         }
+
         gameViewModel.redCardLiveData.observe(viewLifecycleOwner) {
             it?.let {
                 binding.redFrame.addView(ImageView(context).apply {
@@ -77,6 +90,7 @@ class GameFragment : Fragment() {
                 })
             } ?: binding.redFrame.removeAllViews()
         }
+
         gameViewModel.blackCardLiveData.observe(viewLifecycleOwner) {
             it?.let {
                 binding.blackFrame.addView(ImageView(context).apply {
@@ -161,7 +175,7 @@ class GameFragment : Fragment() {
                     else -> throw IllegalStateException()
                 }
             }?.root?.setBackgroundResource(R.drawable.current_level_shape) ?: run{
-                //game won code
+                binding.levelText.text = getString(R.string.done)
             }
         }
 
