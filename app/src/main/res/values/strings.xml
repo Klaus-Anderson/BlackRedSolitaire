@@ -54,7 +54,7 @@
     <string name="spade">\u2660</string>
     <string name="heart">\u2665</string>
     <string name="black">Black</string>
-    <string name="press_to_discard">Press to Discard</string>
+    <string name="press_to_discard">Discard</string>
     <string name="red">Red</string>
     <string name="deck">Deck</string>
     <string name="_52">52</string>
@@ -68,7 +68,7 @@
     <string name="done">Done</string>
     <string name="scoreColon">Score:</string>
     <string name="breakString">break</string>
-    <string name="press_to_draw">Press Card to Draw</string>
+    <string name="press_to_draw">Draw</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="high_scores">High Scores</string>

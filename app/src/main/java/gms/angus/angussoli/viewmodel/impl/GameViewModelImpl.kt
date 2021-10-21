@@ -1,9 +1,9 @@
 package gms.angus.angussoli.viewmodel.impl
 
 import android.app.Application
+import android.content.Context
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import gms.angus.angussoli.R
 import gms.angus.angussoli.model.*
@@ -12,10 +12,8 @@ import gms.angus.angussoli.viewmodel.GameViewModel
 class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewModel(application) {
     override val redDiscardTextVisibilityLiveData = MutableLiveData<Int>(View.INVISIBLE)
     override val blackDiscardTextVisibilityLiveData = MutableLiveData<Int>(View.INVISIBLE)
-    override val deckTextVisibilityLiveData = MutableLiveData<Int>(View.VISIBLE)
-    override val deckTextResIdLiveData = MutableLiveData<Int>(R.string.press_to_draw)
     override val deckTopCardVisibilityLiveData = MutableLiveData<Int>(View.VISIBLE)
-    override val cardLeftTextLiveData = MutableLiveData<String>("52")
+    override val underDeckTextLiveData = MutableLiveData<String>("52")
     override val clubNumbersLeftTextLiveData = MutableLiveData<String>(8.toString())
     override val spadeNumbersLeftTextLiveData = MutableLiveData<String>(8.toString())
     override val diamondNumbersLeftTextLiveData = MutableLiveData<String>(8.toString())
@@ -40,7 +38,7 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
     init {
     }
 
-    private fun updateLiveData() {
+    private fun updateLiveData(context: Context) {
         deckTopCardLiveData.value = gameState.deckTopCard.also { deckTopCard ->
             (deckTopCard?.let {
                 if (it.cardSuit.isRed) {
@@ -50,21 +48,22 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
                     redDiscardTextVisibilityLiveData.value = View.INVISIBLE
                     blackDiscardTextVisibilityLiveData.value = View.VISIBLE
                 }
-                deckTextResIdLiveData.value = R.string.press_to_discard
+                underDeckTextLiveData.value = context.getString(R.string.press_to_discard) + "\n" + gameState.deck.size.toString()
                 View.VISIBLE
             } ?: run {
                 blackDiscardTextVisibilityLiveData.value = View.INVISIBLE
                 redDiscardTextVisibilityLiveData.value = View.INVISIBLE
                 if(gameState.deck.size == 0){
-                    deckTextVisibilityLiveData.value = View.INVISIBLE
                     deckTopCardVisibilityLiveData.value = View.INVISIBLE
+                } else {
+                    underDeckTextLiveData.value =
+                        context.getString(R.string.press_to_draw) + "\n" + gameState.deck.size.toString()
                 }
-                deckTextResIdLiveData.value = R.string.press_to_draw
+                underDeckTextLiveData.value ="\n" + gameState.deck.size.toString()
                 View.INVISIBLE
             })
         }
         currentLevelLiveData.value = gameState.currentLevel
-        cardLeftTextLiveData.value = gameState.deck.size.toString()
         scoreTextLiveData.value = gameState.score.toString()
         pileScoreTextLiveData.value = gameState.pileScores.values.sum().toString()
         spadeNumbersLeftTextLiveData.value = gameState.getNumberOfSuitNumberCardsLeft(CardSuit.SPADE).toString()
@@ -90,37 +89,42 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
 
     override fun onDeckFrameClick(view: View) {
         gameState.onDeckTouched()
-        updateLiveData()
+        updateLiveData(view.context)
     }
 
     override fun onRedFrameClick(view: View) {
         gameState.discardRedCardIfAble()
-        updateLiveData()
+        updateLiveData(view.context)
+
     }
 
     override fun onBlackFrameClick(view: View) {
         gameState.discardBlackCardIfAble()
-        updateLiveData()
+        updateLiveData(view.context)
+
     }
 
-    override fun onFaceCardClick(cardValue: CardValue, cardSuit: CardSuit) {
+    override fun onFaceCardClick(cardValue: CardValue, cardSuit: CardSuit, context: Context) {
         gameState.onFaceCardTouched(cardValue, cardSuit)
-        updateLiveData()
+        updateLiveData(context)
+
     }
 
     override fun endGame() {
         gameState = GameState()
     }
 
-    override fun enableCompleteMode() {
+    override fun enableCompleteMode(context: Context) {
         gameState.enableCompleteMode()
-        updateLiveData()
+        updateLiveData(context)
+
     }
 
 
     override fun onBreakClick(view: View) {
         gameState.breakLevel()
-        updateLiveData()
+        updateLiveData(view.context)
+
 //        unlockAchievement(getString(R.string.achievement_break))
     }
 

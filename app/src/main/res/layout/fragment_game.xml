@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -179,114 +179,138 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/black"
-                    style="@style/cardLayoutStyle"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
                     android:background="@drawable/black_shape">
 
                 <TextView
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="8dp"
                         android:id="@+id/textViewBlack"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
                         android:text="@string/black"
                         android:textAppearance="?android:attr/textAppearanceLargeInverse"
                         android:textSize="17sp"/>
 
                 <FrameLayout
+                        app:layout_constraintTop_toBottomOf="@id/textViewBlack"
+                        app:layout_constraintBottom_toTopOf="@id/blackDiscardText"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         android:id="@+id/blackFrame"
-                        android:layout_width="45dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:paddingTop="2dp"
-                        android:paddingBottom="2dp"
-                        android:paddingStart="2dp"
-                        android:paddingEnd="2dp"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginVertical="5dp"
+                        app:layout_constraintWidth_percent=".75"
                         android:onClick="@{viewModel::onBlackFrameClick}">
                 </FrameLayout>
 
                 <TextView
                         android:id="@+id/blackDiscardText"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_horizontal"
-                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/blackFrame"
+                        android:lines="2"
+
                         android:text="@string/press_to_discard"
                         android:textAppearance="?android:attr/textAppearanceLargeInverse"
                         android:textSize="13sp"
                         android:visibility="@{viewModel.blackDiscardTextVisibilityLiveData}"
-                        android:layout_margin="@dimen/card_padding"
+                        android:layout_marginBottom="12dp"
                         android:layout_weight="1"/>
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/red"
-                    style="@style/cardLayoutStyle"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
                     android:background="@drawable/red_shape">
 
                 <TextView
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="8dp"
                         android:id="@+id/textViewRed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
                         android:text="@string/red"
                         android:textAppearance="?android:attr/textAppearanceLargeInverse"
                         android:textSize="17sp"/>
 
                 <FrameLayout
+                        app:layout_constraintTop_toBottomOf="@id/textViewRed"
+                        app:layout_constraintBottom_toTopOf="@id/redDiscardText"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         android:id="@+id/redFrame"
-                        android:layout_width="45dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:paddingTop="2dp"
-                        android:paddingBottom="2dp"
-                        android:paddingStart="2dp"
-                        android:paddingEnd="2dp"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginVertical="5dp"
+                        app:layout_constraintWidth_percent=".75"
                         android:onClick="@{viewModel::onRedFrameClick}">
                 </FrameLayout>
 
                 <TextView
                         android:id="@+id/redDiscardText"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_horizontal"
-                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/redFrame"
+                        android:lines="2"
                         android:text="@string/press_to_discard"
                         android:textAppearance="?android:attr/textAppearanceLargeInverse"
                         android:textSize="13sp"
-                        android:layout_margin="@dimen/card_padding"
                         android:visibility="@{viewModel.redDiscardTextVisibilityLiveData}"
+                        android:layout_marginBottom="12dp"
                         android:layout_weight="1"/>
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/deck"
-                    style="@style/cardLayoutStyle"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
                     android:background="@drawable/bottom_row_shape">
 
                 <TextView
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="8dp"
                         android:id="@+id/textViewDeck"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
                         android:text="@string/deck"
                         android:textAppearance="?android:attr/textAppearanceLargeInverse"
                         android:textSize="17sp"/>
 
                 <FrameLayout
-                        android:id="@+id/deckFrame"
-                        android:layout_width="45dp"
-                        android:layout_height="match_parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewDeck"
+                        app:layout_constraintBottom_toTopOf="@id/underDeckText"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:paddingTop="2dp"
-                        android:paddingBottom="2dp"
-                        android:paddingStart="2dp"
-                        android:paddingEnd="2dp">
-
+                        android:id="@+id/deckFrame"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginVertical="5dp"
+                        app:layout_constraintWidth_percent=".75"
+                        android:onClick="@{viewModel::onRedFrameClick}">
                     <ImageView
+                            android:gravity="center"
                             android:id="@+id/topCard"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -296,39 +320,21 @@
                             android:onClick="@{viewModel::onDeckFrameClick}"/>
                 </FrameLayout>
 
-                <RelativeLayout
+                <TextView
+                        android:id="@+id/underDeckText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                    <TextView
-                            android:id="@+id/deckText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:layout_centerHorizontal="true"
-                            android:layout_alignParentTop="true"
-                            android:text="@{context.getString(viewModel.deckTextResIdLiveData)}"
-                            android:textAppearance="?android:attr/textAppearanceLargeInverse"
-                            android:visibility="@{viewModel.deckTextVisibilityLiveData}"
-                            android:layout_margin="@dimen/card_padding"
-                            android:textSize="13sp"
-                    />
-
-                    <TextView
-                            android:id="@+id/cardsLeftText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="@{viewModel.cardLeftTextLiveData}"
-                            android:layout_centerHorizontal="true"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginBottom="@dimen/card_padding"
-                            android:textAppearance="?android:attr/textAppearanceLargeInverse"
-                            android:textSize="15sp"/>
-                </RelativeLayout>
-
-            </LinearLayout>
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/deckFrame"
+                        android:lines="2"
+                        android:text="@{viewModel.underDeckTextLiveData}"
+                        android:gravity="center"
+                        android:layout_marginBottom="12dp"
+                        android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                        android:textSize="13sp"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                     android:id="@+id/score"

@@ -69,12 +69,10 @@ class GameFragment : Fragment() {
         }
 
         if(BuildConfig.DEBUG) {
-            binding.newGameButton.setOnLongClickListener(object : View.OnLongClickListener {
-                override fun onLongClick(v: View?): Boolean {
-                    gameViewModel.enableCompleteMode()
-                    return true
-                }
-            })
+            binding.newGameButton.setOnLongClickListener {
+                gameViewModel.enableCompleteMode(it.context)
+                true
+            }
         }
 
         gameViewModel.deckTopCardLiveData.observe(viewLifecycleOwner) {
@@ -203,16 +201,16 @@ class GameFragment : Fragment() {
     ) {
         poolLayoutBinding.apply {
             poolClubs.setOnClickListener {
-                gameViewModel.onFaceCardClick(cardValue, CardSuit.CLUB)
+                gameViewModel.onFaceCardClick(cardValue, CardSuit.CLUB, activity!!)
             }
             poolSpades.setOnClickListener {
-                gameViewModel.onFaceCardClick(cardValue, CardSuit.SPADE)
+                gameViewModel.onFaceCardClick(cardValue, CardSuit.SPADE, activity!!)
             }
             poolDiamonds.setOnClickListener {
-                gameViewModel.onFaceCardClick(cardValue, CardSuit.DIAMOND)
+                gameViewModel.onFaceCardClick(cardValue, CardSuit.DIAMOND, activity!!)
             }
             poolHearts.setOnClickListener {
-                gameViewModel.onFaceCardClick(cardValue, CardSuit.HEART)
+                gameViewModel.onFaceCardClick(cardValue, CardSuit.HEART, activity!!)
             }
         }
     }

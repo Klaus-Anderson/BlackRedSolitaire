@@ -1,6 +1,7 @@
 package gms.angus.angussoli.viewmodel
 
 import android.app.Application
+import android.content.Context
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -19,16 +20,12 @@ interface GameViewModel {
     fun onBreakClick(view: View)
     fun onToPlayClick(view: View)
     fun onNewGameClick(view: View)
-    fun onFaceCardClick(cardValue: CardValue, cardSuit: CardSuit)
     fun endGame()
-    fun enableCompleteMode()
 
     val redDiscardTextVisibilityLiveData: LiveData<Int>
     val blackDiscardTextVisibilityLiveData: LiveData<Int>
-    val deckTextVisibilityLiveData: LiveData<Int>
-    val deckTextResIdLiveData: LiveData<Int>
     val deckTopCardVisibilityLiveData: LiveData<Int>
-    val cardLeftTextLiveData: LiveData<String>
+    val underDeckTextLiveData: LiveData<String>
     val clubNumbersLeftTextLiveData: LiveData<String>
     val spadeNumbersLeftTextLiveData: LiveData<String>
     val diamondNumbersLeftTextLiveData: LiveData<String>
@@ -53,4 +50,7 @@ interface GameViewModel {
             return GameViewModelImpl(application) as T
         }
     }
+
+    fun enableCompleteMode(context: Context)
+    fun onFaceCardClick(cardValue: CardValue, cardSuit: CardSuit, context: Context)
 }
