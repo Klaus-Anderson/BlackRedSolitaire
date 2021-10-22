@@ -36,6 +36,7 @@ interface GameViewModel {
     val redCardLiveData: LiveData<Card?>
     val blackCardLiveData: LiveData<Card?>
     val scoreTextLiveData: LiveData<String>
+    val multiplierTextLiveData: LiveData<String>
     val pileScoreTextLiveData: LiveData<String>
     val clearedFaceCardsLiveData: LiveData<List<CardValue>>
     val currentLevelLiveData: LiveData<CardValue?>

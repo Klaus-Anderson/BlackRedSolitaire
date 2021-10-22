@@ -75,6 +75,7 @@
     <string name="next">Next</string>
     <string name="high_scores">High Scores</string>
     <string name="rankColon">Rank: </string>
+    <string name="multiplier_colon">Multiplier: </string>
     <string name="average_game_score">Average Game Score: </string>
 
     <string name="highScore_board_id">CgkIvvHOjI4eEAIQDg</string>

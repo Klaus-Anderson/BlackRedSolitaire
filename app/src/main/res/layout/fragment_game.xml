@@ -372,9 +372,11 @@
                         android:textSize="13sp"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                    android:id="@+id/score"
-                    style="@style/cardLayoutStyle"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/score_layout"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
                     android:background="@drawable/bottom_row_shape">
 
                 <TextView
@@ -383,120 +385,132 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="@string/score"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/score"
                         android:textAppearance="?android:attr/textAppearanceLargeInverse"
                         android:textSize="17sp"/>
 
-                <LinearLayout
-                        android:layout_width="match_parent"
+                <TextView
+                        android:id="@+id/score"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                        app:layout_constraintTop_toBottomOf="@id/textViewScore"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/scoreText"
+                        app:layout_constraintBottom_toTopOf="@id/pile"
+                        android:gravity="end"
+                        android:text="@string/scoreColon"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"/>
 
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="@string/scoreColon"
-                            android:textColor="@color/white"
-                            android:textSize="13sp"/>
-
-                    <TextView
-                            android:id="@+id/scoreText"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="@{viewModel.scoreTextLiveData}"
-                            android:textColor="@color/white"
-                            android:textSize="13sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                        android:layout_width="match_parent"
+                <TextView
+                        android:id="@+id/scoreText"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                        app:layout_constraintTop_toBottomOf="@id/textViewScore"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/score"
+                        app:layout_constraintBottom_toTopOf="@id/pile"
+                        android:text="@{viewModel.scoreTextLiveData}"
+                        tools:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"/>
 
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:textColor="@color/white"
-                            android:text="@string/pileColon"
-                            android:textSize="13sp"/>
-
-                    <TextView
-                            android:id="@+id/pileText"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:textColor="@color/white"
-                            android:text="@string/_0"
-                            android:textSize="13sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                        android:layout_width="match_parent"
+                <TextView
+                        android:id="@+id/pile"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                        app:layout_constraintTop_toBottomOf="@id/score"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/pileText"
+                        app:layout_constraintBottom_toTopOf="@id/level"
+                        android:gravity="end"
+                        android:textColor="@color/white"
+                        android:text="@string/pileColon"
+                        android:textSize="13sp"/>
 
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:textColor="@color/white"
-                            android:gravity="end"
-                            android:text="@string/level"
-                            android:textSize="13sp"/>
-
-                    <TextView
-                            android:id="@+id/levelText"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="@string/jack"
-                            android:textColor="@color/white"
-                            android:textSize="13sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                        android:id="@+id/rank_row"
-                        android:layout_width="match_parent"
+                <TextView
+                        android:id="@+id/pileText"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:layout_weight="1">
+                        app:layout_constraintTop_toBottomOf="@id/score"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/pile"
+                        app:layout_constraintBottom_toTopOf="@id/level"
+                        android:textColor="@color/white"
+                        android:text="@string/_0"
+                        android:textSize="13sp"/>
 
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:textColor="@color/white"
-                            android:gravity="end"
-                            android:text="@string/rankColon"
-                            android:textSize="13sp"/>
+                <TextView
+                        android:id="@+id/level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/pile"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/levelText"
+                        app:layout_constraintBottom_toTopOf="@id/multiplier"
+                        android:textColor="@color/white"
+                        android:gravity="end"
+                        android:text="@string/level"
+                        android:textSize="13sp"/>
 
-                    <TextView
-                            android:id="@+id/averageText"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="@string/jack"
-                            android:textColor="@color/white"
-                            android:textSize="13sp"/>
-                </LinearLayout>
+                <TextView
+                        android:id="@+id/levelText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/pile"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/level"
+                        app:layout_constraintBottom_toTopOf="@id/multiplier"
+                        android:text="@string/jack"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"/>
+
+                <TextView
+                        android:id="@+id/multiplier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/level"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/multiplierText"
+                        app:layout_constraintBottom_toTopOf="@id/breakButton"
+                        android:textColor="@color/white"
+                        android:gravity="end"
+                        android:text="@string/multiplier_colon"
+                        android:textSize="13sp"/>
+
+                <TextView
+                        android:id="@+id/multiplierText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/level"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/multiplier"
+                        app:layout_constraintBottom_toTopOf="@id/breakButton"
+
+                        android:text="@{viewModel.multiplierTextLiveData}"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"/>
 
                 <Button
                         android:id="@+id/breakButton"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/multiplier"
                         android:text="@string/breakString"
                         android:textSize="13sp"
                         android:background="@drawable/break_button_shape"
                         android:textColor="@color/white"
                         android:layout_weight="1"
                         android:onClick="@{viewModel::onBreakClick}"/>
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/menu"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -504,20 +518,29 @@
                     android:orientation="vertical">
 
                 <Button
-                        android:id="@+id/newGameButton"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/toPlayButton"
+                        app:layout_constraintStart_toStartOf="parent"
                         style="@style/gameButtonStyle"
+                        android:id="@+id/newGameButton"
                         android:text="@string/new_game"/>
 
                 <Button
-                        android:id="@+id/toPlayButton"
+                        app:layout_constraintTop_toBottomOf="@id/newGameButton"
+                        app:layout_constraintBottom_toTopOf="@id/high_scores_button"
+                        app:layout_constraintStart_toStartOf="parent"
                         style="@style/gameButtonStyle"
+                        android:id="@+id/toPlayButton"
                         android:text="@string/how_to_play"/>
 
                 <Button
                         android:id="@+id/high_scores_button"
+                        app:layout_constraintTop_toBottomOf="@id/toPlayButton"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         style="@style/gameButtonStyle"
                         android:text="@string/high_scores"/>
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
     </LinearLayout>

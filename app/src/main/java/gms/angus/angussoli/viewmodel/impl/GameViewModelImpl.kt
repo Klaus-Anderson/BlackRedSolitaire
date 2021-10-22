@@ -24,6 +24,7 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
     override val redCardLiveData = MutableLiveData<Card?>()
     override val blackCardLiveData = MutableLiveData<Card?>()
     override val scoreTextLiveData = MutableLiveData<String>(0.toString())
+    override val multiplierTextLiveData = MutableLiveData<String>(1.toString())
     override val pileScoreTextLiveData = MutableLiveData<String>(0.toString())
     override val clearedFaceCardsLiveData = MutableLiveData<List<CardValue>>()
     override val currentLevelLiveData = MutableLiveData<CardValue?>()
@@ -68,7 +69,8 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
         cardLeftTextLiveData.value = gameState.deck.size.toString()
         cardSquanderedTextLiveData.value = gameState.discardedCards.size.toString()
         currentLevelLiveData.value = gameState.currentLevel
-        scoreTextLiveData.value = gameState.score.toString()
+        scoreTextLiveData.value = gameState.getFinalScore().toString()
+        multiplierTextLiveData.value = gameState.getMultiplier().toString()
         pileScoreTextLiveData.value = gameState.pileScores.values.sum().toString()
         spadeNumbersLeftTextLiveData.value = gameState.getNumberOfSuitNumberCardsLeft(CardSuit.SPADE).toString()
         clubNumbersLeftTextLiveData.value = gameState.getNumberOfSuitNumberCardsLeft(CardSuit.CLUB).toString()

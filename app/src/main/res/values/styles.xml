@@ -21,7 +21,7 @@
 
     <style name="gameButtonStyle">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">0dp</item>
         <item name="android:textSize">15sp</item>
         <item name="android:background">@drawable/game_button_shape</item>
         <item name="android:padding">@dimen/card_padding</item>

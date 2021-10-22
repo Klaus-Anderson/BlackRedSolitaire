@@ -8,7 +8,7 @@ class GameState() {
     var currentLevel: CardValue? = CardValue.JACK
     var brokenFaceValue: CardValue? = null
     var clearedFaceValues = mutableListOf(CardValue.TEN)
-    var score = 0
+    var rawScore = 0
 
     var blackCard: Card? = null
     var redCard: Card? = null
@@ -215,7 +215,7 @@ class GameState() {
                             it.value != 0
                         }.let { roundIsCompleted ->
                             if (roundIsCompleted) {
-                                score += pileScores.values.sum()
+                                rawScore += pileScores.values.sum()
                                 pileScores = mutableMapOf<CardSuit, Int>().apply {
                                     CardSuit.values().forEach {
                                         put(it, 0)
@@ -272,6 +272,20 @@ class GameState() {
     fun enableCompleteMode() {
         currentLevel = null
         clearedFaceValues = levels.toMutableList()
+    }
+
+    fun getFinalScore(): Int {
+        return getMultiplier() * rawScore
+    }
+
+    fun getMultiplier(): Int {
+        return when(currentLevel){
+            CardValue.JACK -> 1
+            CardValue.QUEEN -> 1
+            CardValue.KING -> 2
+            CardValue.ACE -> 3
+            else -> 5
+        }
     }
 
 }
