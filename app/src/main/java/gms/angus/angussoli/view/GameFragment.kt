@@ -1,13 +1,15 @@
 package gms.angus.angussoli.view
 
 import android.content.Intent
-import android.os.Build
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.core.graphics.scale
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import gms.angus.angussoli.BuildConfig
@@ -21,13 +23,19 @@ import gms.angus.angussoli.model.FaceCardState
 import gms.angus.angussoli.viewmodel.GameViewModel
 import gms.angus.angussoli.viewmodel.impl.GameViewModelImpl
 
+
 class GameFragment : Fragment() {
+
+    companion object{
+        const val CARD_IMAGES_INTENT_FLAG = "CARD_IMAGES_INTENT_FLAG"
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val binding = FragmentGameBinding.inflate(inflater, container, false)
         val gameViewModel: GameViewModel = ViewModelProvider(
             viewModelStore,
-            GameViewModel.GameViewModelFactory(activity!!.application))[GameViewModelImpl::class.java]
+            GameViewModel.GameViewModelFactory(activity!!.application)
+        )[GameViewModelImpl::class.java]
 
         binding.viewModel = gameViewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -36,39 +44,40 @@ class GameFragment : Fragment() {
             setFaceCardOnClickListeners(gameViewModel, this, CardValue.TEN)
         }
         binding.jacksPool.apply {
-            root.background = activity?.getDrawable(R.drawable.current_level_shape)
+            root.background = activity?.getDrawable(R.drawable.zone_current)
             poolTextView.text = getString(R.string.jack)
             setFaceCardOnClickListeners(gameViewModel, this, CardValue.JACK)
         }
         binding.queensPool.apply {
-            root.background = activity?.getDrawable(R.drawable.locked_level_shape)
+            root.background = activity?.getDrawable(R.drawable.zone_locked)
             poolTextView.text = getString(R.string.queen)
             setFaceCardOnClickListeners(gameViewModel, this, CardValue.QUEEN)
         }
         binding.kingsPool.apply {
-            root.background = activity?.getDrawable(R.drawable.locked_level_shape)
+            root.background = activity?.getDrawable(R.drawable.zone_locked)
             poolTextView.text = getString(R.string.king)
             setFaceCardOnClickListeners(gameViewModel, this, CardValue.KING)
         }
         binding.acesPool.apply {
-            root.background = activity?.getDrawable(R.drawable.locked_level_shape)
+            root.background = activity?.getDrawable(R.drawable.zone_locked)
             poolTextView.text = getString(R.string.ace)
             setFaceCardOnClickListeners(gameViewModel, this, CardValue.ACE)
         }
         binding.pilePool.apply {
-            root.background = activity?.getDrawable(R.drawable.current_level_shape)
+            root.background = activity?.getDrawable(R.drawable.zone_current)
             poolTextView.text = getString(R.string.pile)
+            poolTextView.setTextColor(Color.BLACK)
         }
 
         binding.newGameButton.setOnClickListener {
             gameViewModel.endGame()
-            activity?.let{
-                startActivity(Intent(it,GameActivity::class.java))
+            activity?.let {
+                startActivity(Intent(it, GameActivity::class.java))
                 it.finish()
             }
         }
 
-        if(BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             binding.newGameButton.setOnLongClickListener {
                 gameViewModel.enableCompleteMode(it.context)
                 true
@@ -76,50 +85,56 @@ class GameFragment : Fragment() {
         }
 
         gameViewModel.deckTopCardLiveData.observe(viewLifecycleOwner) {
-            binding.topCard.setImageResource(it?.getDrawableResourceId() ?: R.drawable.card_back)
+            it?.let {
+                addCardImageToImageView(binding.topCard, it, gameViewModel)
+            } ?: binding.topCard.setImageResource(R.drawable.card_back)
         }
 
-        gameViewModel.redCardLiveData.observe(viewLifecycleOwner) {
-            it?.let {
-                binding.redFrame.addView(ImageView(context).apply {
-                    setImageResource(
-                        it.getDrawableResourceId()
-                    )
-                })
-            } ?: binding.redFrame.removeAllViews()
+        gameViewModel.loadingSpinnerVisibilityLiveData.observe(viewLifecycleOwner) {
+            if (it == View.GONE) {
+                binding.container.visibility = View.VISIBLE
+            }
         }
 
-        gameViewModel.blackCardLiveData.observe(viewLifecycleOwner) {
-            it?.let {
-                binding.blackFrame.addView(ImageView(context).apply {
-                    setImageResource(it.getDrawableResourceId())
-                })
-            } ?: binding.blackFrame.removeAllViews()
+        gameViewModel.redCardLiveData.observe(viewLifecycleOwner) { nullableCard ->
+            nullableCard?.let { card ->
+                addCardImageToImageView(binding.redFrame, card, gameViewModel)
+            } ?: run {
+                binding.redFrame.visibility = View.INVISIBLE
+            }
+        }
+
+        gameViewModel.blackCardLiveData.observe(viewLifecycleOwner) { nullableCard ->
+            nullableCard?.let { card ->
+                addCardImageToImageView(binding.blackFrame, card, gameViewModel)
+            } ?: run {
+                binding.blackFrame.visibility = View.INVISIBLE
+            }
         }
 
         gameViewModel.tenPoolLiveData.observe(viewLifecycleOwner) { poolMap ->
             poolMap.forEach { mapEntry ->
-                setFaceCard(binding.tensPool as PoolLayoutBinding, mapEntry, CardValue.TEN)
+                setFaceCard(binding.tensPool as PoolLayoutBinding, mapEntry, CardValue.TEN, gameViewModel)
             }
         }
         gameViewModel.jackPoolLiveData.observe(viewLifecycleOwner) { poolMap ->
             poolMap.forEach { mapEntry ->
-                setFaceCard(binding.jacksPool as PoolLayoutBinding, mapEntry, CardValue.JACK)
+                setFaceCard(binding.jacksPool as PoolLayoutBinding, mapEntry, CardValue.JACK, gameViewModel)
             }
         }
         gameViewModel.queenPoolLiveData.observe(viewLifecycleOwner) { poolMap ->
             poolMap.forEach { mapEntry ->
-                setFaceCard(binding.queensPool as PoolLayoutBinding, mapEntry, CardValue.QUEEN)
+                setFaceCard(binding.queensPool as PoolLayoutBinding, mapEntry, CardValue.QUEEN, gameViewModel)
             }
         }
         gameViewModel.kingPoolLiveData.observe(viewLifecycleOwner) { poolMap ->
             poolMap.forEach { mapEntry ->
-                setFaceCard(binding.kingsPool as PoolLayoutBinding, mapEntry, CardValue.KING)
+                setFaceCard(binding.kingsPool as PoolLayoutBinding, mapEntry, CardValue.KING, gameViewModel)
             }
         }
         gameViewModel.acePoolLiveData.observe(viewLifecycleOwner) { poolMap ->
             poolMap.forEach { mapEntry ->
-                setFaceCard(binding.acesPool as PoolLayoutBinding, mapEntry, CardValue.ACE)
+                setFaceCard(binding.acesPool as PoolLayoutBinding, mapEntry, CardValue.ACE, gameViewModel)
             }
         }
 
@@ -133,15 +148,13 @@ class GameFragment : Fragment() {
                         CardSuit.HEART -> poolHearts
                     }
                 }.run {
-                    it.value?.let {
-                        if (childCount == 0) {
-                            addView(ImageView(context).apply {
-                                setImageResource(
-                                    it.getDrawableResourceId()
-                                )
-                            })
+                    it.value?.let { card ->
+                        if (visibility == View.INVISIBLE) {
+                            addCardImageToImageView(this, card, gameViewModel)
                         }
-                    } ?: removeAllViews()
+                    } ?: run {
+                        visibility = View.INVISIBLE
+                    }
                 }
             }
         }
@@ -157,28 +170,53 @@ class GameFragment : Fragment() {
                     else -> throw IllegalStateException()
                 }
             }.forEach {
-                it.root.setBackgroundResource(R.drawable.face_number_shape)
+                it.root.setBackgroundResource(R.drawable.zone_cleared)
+                it.poolTextView.setTextColor(Color.BLACK)
             }
         }
 
         gameViewModel.currentLevelLiveData.observe(viewLifecycleOwner) {
             it?.let {
-                binding.levelText.text = it.identity
+                binding.levelText.text = it.identity.first().toString().uppercase()
                 when (it) {
                     CardValue.TEN -> binding.tensPool
                     CardValue.JACK -> binding.jacksPool
                     CardValue.QUEEN -> binding.queensPool
                     CardValue.KING -> binding.kingsPool
-                    CardValue.ACE -> binding.acesPool
+                    CardValue.ACE -> run {
+                        //todo: move this to ViewModel
+                        if (binding.breakButton.visibility == View.VISIBLE) {
+                            binding.breakButton.visibility = View.INVISIBLE
+                            binding.breakButton.isClickable = false
+                        }
+                        binding.levelText.text = it.identity.first().toString().uppercase() +
+                                if(gameViewModel.hasNotBroken()){
+                            "+"
+                        } else {
+                            ""
+                        } + if(gameViewModel.hasMultiplierBonus()){
+                            "+"
+                        } else {
+                            ""
+                        }
+                        binding.acesPool
+                    }
                     else -> throw IllegalStateException()
                 }
-            }?.root?.setBackgroundResource(R.drawable.current_level_shape) ?: run{
-                binding.levelText.text = getString(R.string.done)
+            }?.run {
+                root?.setBackgroundResource(R.drawable.zone_current)
+                poolTextView.setTextColor(Color.BLACK)
+            } ?: run {
+                binding.levelText.text = getString(R.string.done) + if(gameViewModel.hasNotBroken()){
+                    "+"
+                } else {
+                    ""
+                }
             }
         }
 
         gameViewModel.brokenFaceValueLiveData.observe(viewLifecycleOwner) {
-            it?.let{
+            it?.let {
                 binding.breakButton.visibility = View.INVISIBLE
                 when (it) {
                     CardValue.TEN -> binding.tensPool
@@ -188,10 +226,20 @@ class GameFragment : Fragment() {
                     CardValue.ACE -> binding.acesPool
                     else -> throw IllegalStateException()
                 }
-            }?.root?.setBackgroundResource(R.drawable.broken_shape)
-        }
+            }?.apply {
+                root?.setBackgroundResource(R.drawable.zone_broken)
+                poolTextView.setTextColor(Color.BLACK)
+            }
 
+        }
         return binding.root
+    }
+ 
+    private fun addCardImageToImageView(imageView: ImageView, card: Card, gameViewModel: GameViewModel) {
+        gameViewModel.getCardImageBitmap(card)?.let {
+            imageView.setImageBitmap(it.scale(imageView.width, imageView.height, false))
+            imageView.visibility = View.VISIBLE
+        }
     }
 
     private fun setFaceCardOnClickListeners(
@@ -218,7 +266,8 @@ class GameFragment : Fragment() {
     private fun setFaceCard(
         binding: PoolLayoutBinding,
         mapEntry: Map.Entry<CardSuit, FaceCardState>,
-        cardValue: CardValue
+        cardValue: CardValue,
+        gameViewModel: GameViewModel
     ) {
         binding.let {
             when (mapEntry.key) {
@@ -229,62 +278,53 @@ class GameFragment : Fragment() {
             }
         }.run {
             when (mapEntry.value) {
-                FaceCardState.NOT_DRAWN -> removeAllViews()
+                FaceCardState.NOT_DRAWN -> run {
+                    visibility = View.INVISIBLE
+                }
                 FaceCardState.NOT_USABLE -> run {
-                    addFaceCardIfNecessary(mapEntry.key, cardValue, this)
+                    addFaceCardIfNecessary(mapEntry.key, cardValue, this, gameViewModel)
                     setBackgroundResource(0)
                 }
                 FaceCardState.USABLE_AS_FACE -> run {
-                    addFaceCardIfNecessary(mapEntry.key, cardValue, this)
-                    setBackgroundResource(R.drawable.face_eligible_shape)
+                    addFaceCardIfNecessary(mapEntry.key, cardValue, this, gameViewModel)
+                    setBackgroundResource(R.drawable.outline_hint_face)
                 }
                 FaceCardState.USABLE_AS_COLOR -> run {
-                    addFaceCardIfNecessary(mapEntry.key, cardValue, this)
-                    setBackgroundResource(R.drawable.number_eligible_shape)
+                    addFaceCardIfNecessary(mapEntry.key, cardValue, this, gameViewModel)
+                    setBackgroundResource(R.drawable.outline_hint_number)
                 }
                 FaceCardState.BROKEN -> run {
-                    if (childCount == 0) {
-                        addView(ImageView(context).apply {
-                            setImageResource(R.drawable.card_back)
+                    if (visibility == View.INVISIBLE) {
+                        setImageResource(R.drawable.card_back)
                             setBackgroundResource(0)
-                        })
+                        visibility = View.VISIBLE
                     }
                 }
                 FaceCardState.USED -> run {
-                    removeAllViews()
-                    setBackgroundResource(R.drawable.face_cover_shape)
-                    addView(ImageView(context).apply {
-                        setImageResource(
-                            when (mapEntry.key) {
-                                CardSuit.SPADE -> R.drawable.spades
-                                CardSuit.CLUB -> R.drawable.club
-                                CardSuit.DIAMOND -> R.drawable.diamond
-                                CardSuit.HEART -> R.drawable.heart
-                            }
-                        )
-                    })
+                    setBackgroundResource(R.drawable.zone_cover)
+                    setImageResource(
+                        when (mapEntry.key) {
+                            CardSuit.SPADE -> R.drawable.spades
+                            CardSuit.CLUB -> R.drawable.club
+                            CardSuit.DIAMOND -> R.drawable.diamond
+                            CardSuit.HEART -> R.drawable.heart
+                        }
+                    )
+                    visibility = View.VISIBLE
                 }
             }
         }
     }
 
-    private fun setAsUsed(cardSuit: CardSuit, frameLayout: FrameLayout) {
-
-    }
-
     private fun addFaceCardIfNecessary(
         cardSuit: CardSuit,
         cardValue: CardValue,
-        frameLayout: FrameLayout
+        imageView: ImageView,
+        gameViewModel: GameViewModel
     ) {
-        (frameLayout.childCount == 0).let {
-            if (it) {
-                frameLayout.addView(ImageView(context).apply {
-                    setImageResource(
-                        Card(cardValue, cardSuit)
-                            .getDrawableResourceId()
-                    )
-                })
+        (imageView.visibility == View.INVISIBLE).let { isInvisible ->
+            if (isInvisible) {
+                addCardImageToImageView(imageView, Card(cardValue, cardSuit), gameViewModel)
             }
         }
     }

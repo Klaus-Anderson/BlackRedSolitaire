@@ -2,6 +2,7 @@ package gms.angus.angussoli.viewmodel
 
 import android.app.Application
 import android.content.Context
+import android.graphics.Bitmap
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -47,6 +48,7 @@ interface GameViewModel {
     val kingPoolLiveData: LiveData<Map<CardSuit, FaceCardState>>
     val acePoolLiveData: LiveData<Map<CardSuit, FaceCardState>>
     val collectedCardsLiveData: LiveData<Map<CardSuit, Card?>>
+    val loadingSpinnerVisibilityLiveData: LiveData<Int>
 
     class GameViewModelFactory(val application: Application) : ViewModelProvider.AndroidViewModelFactory(application) {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -56,4 +58,7 @@ interface GameViewModel {
 
     fun enableCompleteMode(context: Context)
     fun onFaceCardClick(cardValue: CardValue, cardSuit: CardSuit, context: Context)
+    fun getCardImageBitmap(card: Card): Bitmap?
+    fun hasNotBroken(): Boolean
+    fun hasMultiplierBonus(): Boolean
 }

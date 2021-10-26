@@ -18,85 +18,85 @@ data class Card(val cardValue: CardValue, val cardSuit: CardSuit) {
         return !isFaceCard()
     }
 
-    fun getDrawableResourceId(): Int {
+    fun getDrawableResourceName(): String {
         return when (cardValue) {
             CardValue.TWO -> when (cardSuit) {
-                CardSuit.CLUB -> R.drawable.two_clubs
-                CardSuit.DIAMOND -> R.drawable.two_diamonds
-                CardSuit.SPADE -> R.drawable.two_spades
-                CardSuit.HEART -> R.drawable.two_hearts
+                CardSuit.CLUB -> "two_clubs"
+                CardSuit.DIAMOND -> "two_diamonds"
+                CardSuit.SPADE -> "two_spades"
+                CardSuit.HEART -> "two_hearts"
             }
             CardValue.THREE -> when (cardSuit) {
-                CardSuit.CLUB -> R.drawable.three_clubs
-                CardSuit.DIAMOND -> R.drawable.three_diamonds
-                CardSuit.SPADE -> R.drawable.three_spades
-                CardSuit.HEART -> R.drawable.three_hearts
+                CardSuit.CLUB -> "three_clubs"
+                CardSuit.DIAMOND -> "three_diamonds"
+                CardSuit.SPADE -> "three_spades"
+                CardSuit.HEART -> "three_hearts"
             }
             CardValue.FOUR -> when (cardSuit) {
-                CardSuit.CLUB -> R.drawable.four_clubs
-                CardSuit.DIAMOND -> R.drawable.four_diamonds
-                CardSuit.SPADE -> R.drawable.four_spades
-                CardSuit.HEART -> R.drawable.four_hearts
+                CardSuit.CLUB -> "four_clubs"
+                CardSuit.DIAMOND -> "four_diamonds"
+                CardSuit.SPADE -> "four_spades"
+                CardSuit.HEART -> "four_hearts"
             }
             CardValue.FIVE -> when (cardSuit) {
-                CardSuit.CLUB -> R.drawable.five_clubs
-                CardSuit.DIAMOND -> R.drawable.five_diamonds
-                CardSuit.SPADE -> R.drawable.five_spades
-                CardSuit.HEART -> R.drawable.five_hearts
+                CardSuit.CLUB -> "five_clubs"
+                CardSuit.DIAMOND -> "five_diamonds"
+                CardSuit.SPADE -> "five_spades"
+                CardSuit.HEART -> "five_hearts"
             }
             CardValue.SIX -> when (cardSuit) {
-                CardSuit.CLUB -> R.drawable.six_clubs
-                CardSuit.DIAMOND -> R.drawable.six_diamonds
-                CardSuit.SPADE -> R.drawable.six_spades
-                CardSuit.HEART -> R.drawable.six_hearts
+                CardSuit.CLUB -> "six_clubs"
+                CardSuit.DIAMOND -> "six_diamonds"
+                CardSuit.SPADE -> "six_spades"
+                CardSuit.HEART -> "six_hearts"
             }
             CardValue.SEVEN -> when (cardSuit) {
-                CardSuit.CLUB -> R.drawable.seven_clubs
-                CardSuit.DIAMOND -> R.drawable.seven_diamonds
-                CardSuit.SPADE -> R.drawable.seven_spades
-                CardSuit.HEART -> R.drawable.seven_hearts
+                CardSuit.CLUB -> "seven_clubs"
+                CardSuit.DIAMOND -> "seven_diamonds"
+                CardSuit.SPADE -> "seven_spades"
+                CardSuit.HEART -> "seven_hearts"
             }
             CardValue.EIGHT -> when (cardSuit) {
-                CardSuit.CLUB -> R.drawable.eight_clubs
-                CardSuit.DIAMOND -> R.drawable.eight_diamonds
-                CardSuit.SPADE -> R.drawable.eight_spades
-                CardSuit.HEART -> R.drawable.eight_hearts
+                CardSuit.CLUB -> "eight_clubs"
+                CardSuit.DIAMOND -> "eight_diamonds"
+                CardSuit.SPADE -> "eight_spades"
+                CardSuit.HEART -> "eight_hearts"
             }
             CardValue.NINE -> when (cardSuit) {
-                CardSuit.CLUB -> R.drawable.nine_clubs
-                CardSuit.DIAMOND -> R.drawable.nine_diamonds
-                CardSuit.SPADE -> R.drawable.nine_spades
-                CardSuit.HEART -> R.drawable.nine_hearts
+                CardSuit.CLUB -> "nine_clubs"
+                CardSuit.DIAMOND -> "nine_diamonds"
+                CardSuit.SPADE -> "nine_spades"
+                CardSuit.HEART -> "nine_hearts"
             }
             CardValue.TEN -> when (cardSuit) {
-                CardSuit.CLUB -> R.drawable.ten_clubs
-                CardSuit.DIAMOND -> R.drawable.ten_diamonds
-                CardSuit.SPADE -> R.drawable.ten_spades
-                CardSuit.HEART -> R.drawable.ten_hearts
+                CardSuit.CLUB -> "ten_clubs"
+                CardSuit.DIAMOND -> "ten_diamonds"
+                CardSuit.SPADE -> "ten_spades"
+                CardSuit.HEART -> "ten_hearts"
             }
             CardValue.JACK -> when (cardSuit) {
-                CardSuit.CLUB -> R.drawable.jack_clubs
-                CardSuit.DIAMOND -> R.drawable.jack_diamonds
-                CardSuit.SPADE -> R.drawable.jack_spades
-                CardSuit.HEART -> R.drawable.jack_hearts
+                CardSuit.CLUB -> "jack_clubs"
+                CardSuit.DIAMOND -> "jack_diamonds"
+                CardSuit.SPADE -> "jack_spades"
+                CardSuit.HEART -> "jack_hearts"
             }
             CardValue.QUEEN -> when (cardSuit) {
-                CardSuit.CLUB -> R.drawable.queen_clubs
-                CardSuit.DIAMOND -> R.drawable.queen_diamonds
-                CardSuit.SPADE -> R.drawable.queen_spades
-                CardSuit.HEART -> R.drawable.queen_hearts
+                CardSuit.CLUB -> "queen_clubs"
+                CardSuit.DIAMOND -> "queen_diamonds"
+                CardSuit.SPADE -> "queen_spades"
+                CardSuit.HEART -> "queen_hearts"
             }
             CardValue.KING -> when (cardSuit) {
-                CardSuit.CLUB -> R.drawable.king_clubs
-                CardSuit.DIAMOND -> R.drawable.king_diamonds
-                CardSuit.SPADE -> R.drawable.king_spades
-                CardSuit.HEART -> R.drawable.king_hearts
+                CardSuit.CLUB -> "king_clubs"
+                CardSuit.DIAMOND -> "king_diamonds"
+                CardSuit.SPADE -> "king_spades"
+                CardSuit.HEART -> "king_hearts"
             }
             CardValue.ACE -> when (cardSuit) {
-                CardSuit.CLUB -> R.drawable.ace_clubs
-                CardSuit.DIAMOND -> R.drawable.ace_diamonds
-                CardSuit.SPADE -> R.drawable.ace_spades
-                CardSuit.HEART -> R.drawable.ace_hearts
+                CardSuit.CLUB -> "ace_clubs"
+                CardSuit.DIAMOND -> "ace_diamonds"
+                CardSuit.SPADE -> "ace_spades"
+                CardSuit.HEART -> "ace_hearts"
             }
         }
     }

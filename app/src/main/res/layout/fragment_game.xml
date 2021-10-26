@@ -8,540 +8,547 @@
                 name="viewModel"
                 type="gms.angus.angussoli.viewmodel.GameViewModel"/>
     </data>
-
-    <LinearLayout
-            android:id="@+id/container"
+    <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/black"
-            android:orientation="vertical">
-
-        <LinearLayout
+            android:layout_height="match_parent">
+        <ProgressBar
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:baselineAligned="false"
-                android:orientation="horizontal">
-
-            <include
-                    android:id="@+id/tens_pool"
-                    layout="@layout/pool_layout"/>
-
-            <include
-                    android:id="@+id/jacks_pool"
-                    layout="@layout/pool_layout"/>
-
-            <include
-                    android:id="@+id/queens_pool"
-                    layout="@layout/pool_layout"/>
-
-            <include
-                    android:id="@+id/kings_pool"
-                    layout="@layout/pool_layout"/>
-
-            <include
-                    android:id="@+id/aces_pool"
-                    layout="@layout/pool_layout"/>
-
-            <include
-                    android:id="@+id/pile_pool"
-                    layout="@layout/pool_layout"/>
-
-        </LinearLayout>
-
+                android:layout_centerInParent="true"
+                android:indeterminateTint="@color/dark_red"
+                android:background="@color/see_through_dark_purple"
+                android:visibility="@{viewModel.loadingSpinnerVisibilityLiveData}"
+        />
         <LinearLayout
-                android:baselineAligned="false"
+                android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                android:background="@color/dark_purple"
+                android:visibility="gone"
+                android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/discard"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
+            <LinearLayout
                     android:layout_width="match_parent"
-                    android:padding="12dp"
-                    android:background="@drawable/bottom_row_shape">
-
-                <TextView
-                        android:id="@+id/cards_remaining"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        app:layout_constraintTop_toTopOf="@id/cards_remaining_number"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/cards_remaining_number"
-                        app:layout_constraintBottom_toBottomOf="@id/cards_remaining_number"
-                        app:layout_constraintHorizontal_weight="3"
-                        android:gravity="center"
-                        android:text="@string/card_left"
-                        android:textAppearance="?android:attr/textAppearanceLargeInverse"
-                        android:textSize="13sp"/>
-
-                <TextView
-                        android:id="@+id/cards_remaining_number"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/cards_remaining"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/clubsSymbol"
-                        app:layout_constraintHorizontal_weight="1"
-                        android:text="@{viewModel.cardLeftTextLiveData}"
-                        android:textAppearance="?android:attr/textAppearanceLargeInverse"
-                        android:textSize="17sp"/>
-
-                <TextView
-                        android:id="@+id/clubsSymbol"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/cards_remaining_number"
-                        app:layout_constraintEnd_toStartOf="@id/clubsText"
-                        app:layout_constraintBottom_toTopOf="@id/spadesSymbol"
-                        android:text="@string/clubs"
-                        android:textColor="@color/black"
-                        android:textSize="17sp"/>
-
-                <TextView
-                        android:id="@+id/clubsText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/cards_remaining_number"
-                        app:layout_constraintStart_toEndOf="@id/clubsSymbol"
-                        app:layout_constraintEnd_toStartOf="@id/diamondsSymbol"
-                        app:layout_constraintBottom_toTopOf="@id/spadesSymbol"
-                        android:text="@{viewModel.clubNumbersLeftTextLiveData}"
-                        tools:text="1"
-                        android:textColor="@color/white"
-                        android:textSize="17sp"/>
-
-                <TextView
-                        android:id="@+id/diamondsSymbol"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/cards_remaining_number"
-                        app:layout_constraintStart_toEndOf="@id/clubsText"
-                        app:layout_constraintEnd_toStartOf="@id/diamondsText"
-                        app:layout_constraintBottom_toTopOf="@id/spadesSymbol"
-                        android:text="@string/diamond"
-                        android:textColor="@color/red"
-                        android:textSize="17sp"/>
-
-                <TextView
-                        android:id="@+id/diamondsText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{viewModel.diamondNumbersLeftTextLiveData}"
-                        tools:text="1"
-                        app:layout_constraintTop_toBottomOf="@id/cards_remaining_number"
-                        app:layout_constraintStart_toEndOf="@id/diamondsSymbol"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/spadesSymbol"
-                        android:textColor="@color/white"
-                        android:textSize="17sp"/>
-
-                <TextView
-                        android:id="@+id/spadesSymbol"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/spadesText"
-                        app:layout_constraintBottom_toTopOf="@id/cards_squandered_number"
-                        app:layout_constraintTop_toBottomOf="@id/clubsSymbol"
-                        android:textColor="@color/black"
-                        android:text="@string/spade"
-                        android:textSize="17sp"/>
-
-                <TextView
-                        android:id="@+id/spadesText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="1"
-                        android:text="@{viewModel.spadeNumbersLeftTextLiveData}"
-                        app:layout_constraintStart_toEndOf="@id/spadesSymbol"
-                        app:layout_constraintEnd_toStartOf="@id/heartsSymbol"
-                        app:layout_constraintBottom_toTopOf="@id/cards_squandered_number"
-                        app:layout_constraintTop_toBottomOf="@id/clubsSymbol"
-                        android:textColor="@color/white"
-                        android:textSize="17sp"/>
-
-                <TextView
-                        android:id="@+id/heartsSymbol"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintStart_toEndOf="@id/spadesText"
-                        app:layout_constraintEnd_toStartOf="@id/heartsText"
-                        app:layout_constraintBottom_toTopOf="@id/cards_squandered_number"
-                        app:layout_constraintTop_toBottomOf="@id/clubsSymbol"
-                        android:textColor="@color/red"
-                        android:text="@string/heart"
-                        android:textSize="17sp"/>
-
-                <TextView
-                        android:id="@+id/heartsText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="1"
-                        android:text="@{viewModel.heartNumbersLeftTextLiveData}"
-                        app:layout_constraintStart_toEndOf="@id/heartsSymbol"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/cards_squandered_number"
-                        app:layout_constraintTop_toBottomOf="@id/clubsSymbol"
-                        android:textColor="@color/white"
-                        android:textSize="17sp"/>
-
-                <TextView
-                        android:id="@+id/cards_squandered"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        app:layout_constraintTop_toTopOf="@id/cards_squandered_number"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/cards_squandered_number"
-                        app:layout_constraintBottom_toBottomOf="@id/cards_squandered_number"
-                        app:layout_constraintHorizontal_weight="3"
-                        android:gravity="center"
-                        android:text="@string/cards_squandered"
-                        android:textAppearance="?android:attr/textAppearanceLargeInverse"
-                        android:textSize="13sp"/>
-
-                <TextView
-                        android:id="@+id/cards_squandered_number"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintStart_toEndOf="@id/cards_squandered"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintHorizontal_weight="1"
-                        android:text="@{viewModel.cardSquanderedTextLiveData}"
-                        android:textAppearance="?android:attr/textAppearanceLargeInverse"
-                        android:textSize="17sp"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/black"
                     android:layout_height="match_parent"
-                    android:layout_width="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/black_shape">
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
 
-                <TextView
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_marginTop="8dp"
-                        android:id="@+id/textViewBlack"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/black"
-                        android:textAppearance="?android:attr/textAppearanceLargeInverse"
-                        android:textSize="17sp"/>
+                <include
+                        android:id="@+id/tens_pool"
+                        layout="@layout/pool_layout"/>
 
-                <FrameLayout
-                        app:layout_constraintTop_toBottomOf="@id/textViewBlack"
-                        app:layout_constraintBottom_toTopOf="@id/blackDiscardText"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:id="@+id/blackFrame"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginVertical="5dp"
-                        app:layout_constraintWidth_percent=".75"
-                        android:onClick="@{viewModel::onBlackFrameClick}">
-                </FrameLayout>
+                <include
+                        android:id="@+id/jacks_pool"
+                        layout="@layout/pool_layout"/>
 
-                <TextView
-                        android:id="@+id/blackDiscardText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/blackFrame"
-                        android:text="@string/press_to_discard"
-                        android:textAppearance="?android:attr/textAppearanceLargeInverse"
-                        android:textSize="13sp"
-                        android:visibility="@{viewModel.blackDiscardTextVisibilityLiveData}"
-                        android:layout_marginBottom="12dp"
-                        android:layout_weight="1"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <include
+                        android:id="@+id/queens_pool"
+                        layout="@layout/pool_layout"/>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/red"
+                <include
+                        android:id="@+id/kings_pool"
+                        layout="@layout/pool_layout"/>
+
+                <include
+                        android:id="@+id/aces_pool"
+                        layout="@layout/pool_layout"/>
+
+                <include
+                        android:id="@+id/pile_pool"
+                        layout="@layout/pool_layout"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:baselineAligned="false"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_width="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/red_shape">
+                    android:orientation="horizontal">
 
-                <TextView
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_marginTop="8dp"
-                        android:id="@+id/textViewRed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/red"
-                        android:textAppearance="?android:attr/textAppearanceLargeInverse"
-                        android:textSize="17sp"/>
-
-                <FrameLayout
-                        app:layout_constraintTop_toBottomOf="@id/textViewRed"
-                        app:layout_constraintBottom_toTopOf="@id/redDiscardText"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:id="@+id/redFrame"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginVertical="5dp"
-                        app:layout_constraintWidth_percent=".75"
-                        android:onClick="@{viewModel::onRedFrameClick}">
-                </FrameLayout>
-
-                <TextView
-                        android:id="@+id/redDiscardText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/redFrame"
-                        android:text="@string/press_to_discard"
-                        android:textAppearance="?android:attr/textAppearanceLargeInverse"
-                        android:textSize="13sp"
-                        android:visibility="@{viewModel.redDiscardTextVisibilityLiveData}"
-                        android:layout_marginBottom="12dp"
-                        android:layout_weight="1"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/deck"
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/bottom_row_shape">
-
-                <TextView
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_marginTop="8dp"
-                        android:id="@+id/textViewDeck"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/deck"
-                        android:textAppearance="?android:attr/textAppearanceLargeInverse"
-                        android:textSize="17sp"/>
-
-                <FrameLayout
-                        app:layout_constraintTop_toBottomOf="@id/textViewDeck"
-                        app:layout_constraintBottom_toTopOf="@id/underDeckText"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_gravity="center"
-                        android:id="@+id/deckFrame"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginVertical="5dp"
-                        app:layout_constraintWidth_percent=".75"
-                        android:onClick="@{viewModel::onRedFrameClick}">
-                    <ImageView
-                            android:gravity="center"
-                            android:id="@+id/topCard"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/card_back"
-                            android:visibility="@{viewModel.deckTopCardVisibilityLiveData}"
-                            android:contentDescription="@string/top_card_access"
-                            android:onClick="@{viewModel::onDeckFrameClick}"/>
-                </FrameLayout>
-
-                <TextView
-                        android:id="@+id/underDeckText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/deckFrame"
-                        android:text="@{viewModel.underDeckTextLiveData}"
-                        android:gravity="center"
-                        android:layout_marginBottom="12dp"
-                        android:textAppearance="?android:attr/textAppearanceLargeInverse"
-                        android:textSize="13sp"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/score_layout"
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/bottom_row_shape">
-
-                <TextView
-                        android:id="@+id/textViewScore"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="@string/score"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/score"
-                        android:textAppearance="?android:attr/textAppearanceLargeInverse"
-                        android:textSize="17sp"/>
-
-                <TextView
-                        android:id="@+id/score"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/textViewScore"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/scoreText"
-                        app:layout_constraintBottom_toTopOf="@id/pile"
-                        android:gravity="end"
-                        android:text="@string/scoreColon"
-                        android:textColor="@color/white"
-                        android:textSize="13sp"/>
-
-                <TextView
-                        android:id="@+id/scoreText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/textViewScore"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/score"
-                        app:layout_constraintBottom_toTopOf="@id/pile"
-                        android:text="@{viewModel.scoreTextLiveData}"
-                        tools:text="0"
-                        android:textColor="@color/white"
-                        android:textSize="13sp"/>
-
-                <TextView
-                        android:id="@+id/pile"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/score"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/pileText"
-                        app:layout_constraintBottom_toTopOf="@id/level"
-                        android:gravity="end"
-                        android:textColor="@color/white"
-                        android:text="@string/pileColon"
-                        android:textSize="13sp"/>
-
-                <TextView
-                        android:id="@+id/pileText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/score"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/pile"
-                        app:layout_constraintBottom_toTopOf="@id/level"
-                        android:textColor="@color/white"
-                        android:text="@string/_0"
-                        android:textSize="13sp"/>
-
-                <TextView
-                        android:id="@+id/level"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/pile"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/levelText"
-                        app:layout_constraintBottom_toTopOf="@id/multiplier"
-                        android:textColor="@color/white"
-                        android:gravity="end"
-                        android:text="@string/level"
-                        android:textSize="13sp"/>
-
-                <TextView
-                        android:id="@+id/levelText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/pile"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/level"
-                        app:layout_constraintBottom_toTopOf="@id/multiplier"
-                        android:text="@string/jack"
-                        android:textColor="@color/white"
-                        android:textSize="13sp"/>
-
-                <TextView
-                        android:id="@+id/multiplier"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/level"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/multiplierText"
-                        app:layout_constraintBottom_toTopOf="@id/breakButton"
-                        android:textColor="@color/white"
-                        android:gravity="end"
-                        android:text="@string/multiplier_colon"
-                        android:textSize="13sp"/>
-
-                <TextView
-                        android:id="@+id/multiplierText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/level"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/multiplier"
-                        app:layout_constraintBottom_toTopOf="@id/breakButton"
-
-                        android:text="@{viewModel.multiplierTextLiveData}"
-                        android:textColor="@color/white"
-                        android:textSize="13sp"/>
-
-                <Button
-                        android:id="@+id/breakButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/multiplier"
-                        android:text="@string/breakString"
-                        android:textSize="13sp"
-                        android:background="@drawable/break_button_shape"
-                        android:textColor="@color/white"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/discard"
                         android:layout_weight="1"
-                        android:onClick="@{viewModel::onBreakClick}"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:padding="12dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/menu"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    <TextView
+                            android:id="@+id/cards_remaining"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            app:layout_constraintTop_toTopOf="@id/cards_remaining_number"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/cards_remaining_number"
+                            app:layout_constraintBottom_toBottomOf="@id/cards_remaining_number"
+                            app:layout_constraintHorizontal_weight="3"
+                            android:gravity="center"
+                            android:text="@string/card_left"
+                            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                            android:textSize="13sp"/>
 
-                <Button
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/toPlayButton"
-                        app:layout_constraintStart_toStartOf="parent"
-                        style="@style/gameButtonStyle"
-                        android:id="@+id/newGameButton"
-                        android:text="@string/new_game"/>
+                    <TextView
+                            android:id="@+id/cards_remaining_number"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/cards_remaining"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/clubsSymbol"
+                            app:layout_constraintHorizontal_weight="1"
+                            android:text="@{viewModel.cardLeftTextLiveData}"
+                            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                            android:textSize="17sp"/>
 
-                <Button
-                        app:layout_constraintTop_toBottomOf="@id/newGameButton"
-                        app:layout_constraintBottom_toTopOf="@id/high_scores_button"
-                        app:layout_constraintStart_toStartOf="parent"
-                        style="@style/gameButtonStyle"
-                        android:id="@+id/toPlayButton"
-                        android:text="@string/how_to_play"/>
+                    <TextView
+                            android:id="@+id/clubsSymbol"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/cards_remaining_number"
+                            app:layout_constraintEnd_toStartOf="@id/clubsText"
+                            app:layout_constraintBottom_toTopOf="@id/spadesSymbol"
+                            android:text="@string/clubs"
+                            android:textColor="@color/black"
+                            android:textSize="17sp"/>
 
-                <Button
-                        android:id="@+id/high_scores_button"
-                        app:layout_constraintTop_toBottomOf="@id/toPlayButton"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        style="@style/gameButtonStyle"
-                        android:text="@string/high_scores"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                            android:id="@+id/clubsText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/cards_remaining_number"
+                            app:layout_constraintStart_toEndOf="@id/clubsSymbol"
+                            app:layout_constraintEnd_toStartOf="@id/diamondsSymbol"
+                            app:layout_constraintBottom_toTopOf="@id/spadesSymbol"
+                            android:text="@{viewModel.clubNumbersLeftTextLiveData}"
+                            tools:text="1"
+                            android:textColor="@color/white"
+                            android:textSize="17sp"/>
 
+                    <TextView
+                            android:id="@+id/diamondsSymbol"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/cards_remaining_number"
+                            app:layout_constraintStart_toEndOf="@id/clubsText"
+                            app:layout_constraintEnd_toStartOf="@id/diamondsText"
+                            app:layout_constraintBottom_toTopOf="@id/spadesSymbol"
+                            android:text="@string/diamond"
+                            android:textColor="@color/red"
+                            android:textSize="17sp"/>
+
+                    <TextView
+                            android:id="@+id/diamondsText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.diamondNumbersLeftTextLiveData}"
+                            tools:text="1"
+                            app:layout_constraintTop_toBottomOf="@id/cards_remaining_number"
+                            app:layout_constraintStart_toEndOf="@id/diamondsSymbol"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/spadesSymbol"
+                            android:textColor="@color/white"
+                            android:textSize="17sp"/>
+
+                    <TextView
+                            android:id="@+id/spadesSymbol"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/spadesText"
+                            app:layout_constraintBottom_toTopOf="@id/cards_squandered_number"
+                            app:layout_constraintTop_toBottomOf="@id/clubsSymbol"
+                            android:textColor="@color/black"
+                            android:text="@string/spade"
+                            android:textSize="17sp"/>
+
+                    <TextView
+                            android:id="@+id/spadesText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="1"
+                            android:text="@{viewModel.spadeNumbersLeftTextLiveData}"
+                            app:layout_constraintStart_toEndOf="@id/spadesSymbol"
+                            app:layout_constraintEnd_toStartOf="@id/heartsSymbol"
+                            app:layout_constraintBottom_toTopOf="@id/cards_squandered_number"
+                            app:layout_constraintTop_toBottomOf="@id/clubsSymbol"
+                            android:textColor="@color/white"
+                            android:textSize="17sp"/>
+
+                    <TextView
+                            android:id="@+id/heartsSymbol"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toEndOf="@id/spadesText"
+                            app:layout_constraintEnd_toStartOf="@id/heartsText"
+                            app:layout_constraintBottom_toTopOf="@id/cards_squandered_number"
+                            app:layout_constraintTop_toBottomOf="@id/clubsSymbol"
+                            android:textColor="@color/red"
+                            android:text="@string/heart"
+                            android:textSize="17sp"/>
+
+                    <TextView
+                            android:id="@+id/heartsText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="1"
+                            android:text="@{viewModel.heartNumbersLeftTextLiveData}"
+                            app:layout_constraintStart_toEndOf="@id/heartsSymbol"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/cards_squandered_number"
+                            app:layout_constraintTop_toBottomOf="@id/clubsSymbol"
+                            android:textColor="@color/white"
+                            android:textSize="17sp"/>
+
+                    <TextView
+                            android:id="@+id/cards_squandered"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            app:layout_constraintTop_toTopOf="@id/cards_squandered_number"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/cards_squandered_number"
+                            app:layout_constraintBottom_toBottomOf="@id/cards_squandered_number"
+                            app:layout_constraintHorizontal_weight="3"
+                            android:gravity="center"
+                            android:text="@string/cards_squandered"
+                            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                            android:textSize="13sp"/>
+
+                    <TextView
+                            android:id="@+id/cards_squandered_number"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toEndOf="@id/cards_squandered"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintHorizontal_weight="1"
+                            android:text="@{viewModel.cardSquanderedTextLiveData}"
+                            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                            android:textSize="17sp"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/black"
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/zone_black">
+
+                    <TextView
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginTop="8dp"
+                            android:id="@+id/textViewBlack"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/black"
+                            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                            android:textSize="17sp"/>
+
+                    <ImageView
+                            app:layout_constraintTop_toBottomOf="@id/textViewBlack"
+                            app:layout_constraintBottom_toTopOf="@id/blackDiscardText"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:id="@+id/blackFrame"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginVertical="5dp"
+                            app:layout_constraintWidth_percent=".75"
+                            android:onClick="@{viewModel::onBlackFrameClick}"/>
+
+                    <TextView
+                            android:id="@+id/blackDiscardText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/blackFrame"
+                            android:text="@string/press_to_discard"
+                            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                            android:textSize="13sp"
+                            android:visibility="@{viewModel.blackDiscardTextVisibilityLiveData}"
+                            android:layout_marginBottom="12dp"
+                            android:layout_weight="1"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/red"
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/zone_red">
+
+                    <TextView
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginTop="8dp"
+                            android:id="@+id/textViewRed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/red"
+                            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                            android:textSize="17sp"/>
+
+                    <ImageView
+                            app:layout_constraintTop_toBottomOf="@id/textViewRed"
+                            app:layout_constraintBottom_toTopOf="@id/redDiscardText"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:id="@+id/redFrame"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginVertical="5dp"
+                            app:layout_constraintWidth_percent=".75"
+                            android:onClick="@{viewModel::onRedFrameClick}"/>
+
+                    <TextView
+                            android:id="@+id/redDiscardText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/redFrame"
+                            android:text="@string/press_to_discard"
+                            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                            android:textSize="13sp"
+                            android:visibility="@{viewModel.redDiscardTextVisibilityLiveData}"
+                            android:layout_marginBottom="12dp"
+                            android:layout_weight="1"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/deck"
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/zone_deck">
+
+                    <TextView
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginTop="8dp"
+                            android:id="@+id/textViewDeck"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/deck"
+                            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                            android:textSize="17sp"/>
+
+                    <FrameLayout
+                            app:layout_constraintTop_toBottomOf="@id/textViewDeck"
+                            app:layout_constraintBottom_toTopOf="@id/underDeckText"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_gravity="center"
+                            android:id="@+id/deckFrame"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginVertical="5dp"
+                            app:layout_constraintWidth_percent=".75"
+                            android:onClick="@{viewModel::onRedFrameClick}">
+                        <ImageView
+                                android:gravity="center"
+                                android:id="@+id/topCard"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/card_back"
+                                android:visibility="@{viewModel.deckTopCardVisibilityLiveData}"
+                                android:contentDescription="@string/top_card_access"
+                                android:onClick="@{viewModel::onDeckFrameClick}"/>
+                    </FrameLayout>
+
+                    <TextView
+                            android:id="@+id/underDeckText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/deckFrame"
+                            android:text="@{viewModel.underDeckTextLiveData}"
+                            android:gravity="center"
+                            android:layout_marginBottom="12dp"
+                            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                            android:textSize="13sp"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/score_layout"
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1">
+
+                    <TextView
+                            android:id="@+id/score"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/scoreText"
+                            app:layout_constraintBottom_toTopOf="@id/pile"
+                            app:layout_constraintHorizontal_weight="3"
+                            android:gravity="end"
+                            android:text="@string/scoreColon"
+                            android:textColor="@color/white"
+                            android:textSize="13sp"/>
+
+                    <TextView
+                            android:id="@+id/scoreText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/score"
+                            app:layout_constraintBottom_toTopOf="@id/pile"
+                            app:layout_constraintHorizontal_weight="1"
+                            android:gravity="center"
+                            android:text="@{viewModel.scoreTextLiveData}"
+                            tools:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="13sp"/>
+
+                    <TextView
+                            android:id="@+id/pile"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/score"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/pileText"
+                            app:layout_constraintBottom_toTopOf="@id/level"
+                            app:layout_constraintHorizontal_weight="3"
+                            android:gravity="end"
+                            android:textColor="@color/white"
+                            android:text="@string/pileColon"
+                            android:textSize="13sp"/>
+
+                    <TextView
+                            android:id="@+id/pileText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/score"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/pile"
+                            app:layout_constraintBottom_toTopOf="@id/level"
+                            app:layout_constraintHorizontal_weight="1"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:text="@{viewModel.pileScoreTextLiveData}"
+                            android:textSize="13sp"/>
+
+                    <TextView
+                            android:id="@+id/level"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/pile"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/levelText"
+                            app:layout_constraintBottom_toTopOf="@id/multiplier"
+                            app:layout_constraintHorizontal_weight="3"
+                            android:textColor="@color/white"
+                            android:gravity="end"
+                            android:text="@string/level"
+                            android:textSize="13sp"/>
+
+                    <TextView
+                            android:id="@+id/levelText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/pile"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/level"
+                            app:layout_constraintBottom_toTopOf="@id/multiplier"
+                            app:layout_constraintHorizontal_weight="1"
+                            android:gravity="center"
+                            android:text="@string/jack"
+                            android:textColor="@color/white"
+                            android:textSize="13sp"/>
+
+                    <TextView
+                            android:id="@+id/multiplier"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/level"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/multiplierText"
+                            app:layout_constraintBottom_toTopOf="@id/breakButton"
+                            app:layout_constraintHorizontal_weight="3"
+                            android:textColor="@color/white"
+                            android:gravity="end"
+                            android:text="@string/multiplier_colon"
+                            android:textSize="13sp"/>
+
+                    <TextView
+                            android:id="@+id/multiplierText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/level"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/multiplier"
+                            app:layout_constraintBottom_toTopOf="@id/breakButton"
+                            app:layout_constraintHorizontal_weight="1"
+                            android:gravity="center"
+                            android:text="@{viewModel.multiplierTextLiveData}"
+                            android:textColor="@color/white"
+                            android:textSize="13sp"/>
+
+                    <Button
+                            android:id="@+id/breakButton"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/multiplier"
+                            android:text="@string/breakString"
+                            android:textSize="13sp"
+                            android:background="@drawable/button_break"
+                            android:layout_weight="1"
+                            android:onClick="@{viewModel::onBreakClick}"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/menu"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                    <Button
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/toPlayButton"
+                            app:layout_constraintStart_toStartOf="parent"
+                            style="@style/gameButtonStyle"
+                            android:id="@+id/newGameButton"
+                            android:text="@string/new_game"/>
+
+                    <Button
+                            app:layout_constraintTop_toBottomOf="@id/newGameButton"
+                            app:layout_constraintBottom_toTopOf="@id/high_scores_button"
+                            app:layout_constraintStart_toStartOf="parent"
+                            style="@style/gameButtonStyle"
+                            android:id="@+id/toPlayButton"
+                            android:text="@string/how_to_play"/>
+
+                    <Button
+                            android:id="@+id/high_scores_button"
+                            app:layout_constraintTop_toBottomOf="@id/toPlayButton"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            style="@style/gameButtonStyle"
+                            android:text="@string/high_scores"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+
+    </RelativeLayout>
+
 </layout>

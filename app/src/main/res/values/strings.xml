@@ -67,7 +67,7 @@
     <string name="press_here_for_game_over">Press Here for Game Over</string>
     <string name="new_game">New Game</string>
     <string name="how_to_play">How to Play</string>
-    <string name="done">Done</string>
+    <string name="done">\u2713</string>
     <string name="scoreColon">Score:</string>
     <string name="breakString">break</string>
     <string name="press_to_draw">Draw</string>

@@ -7,7 +7,7 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/face_number_shape"
+            android:background="@drawable/zone_cleared"
             android:paddingHorizontal="12dp"
             android:paddingVertical="8dp"
             tools:ignore="ObsoleteLayoutParam">
@@ -24,42 +24,46 @@
                 android:textAppearance="?android:attr/textAppearanceInverse"
                 android:textSize="17sp"/>
 
-        <FrameLayout
+        <ImageView
                 android:id="@+id/pool_clubs"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:paddingVertical="3dp"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toTopOf="@id/pool_spades"
                 app:layout_constraintTop_toBottomOf="@id/pool_textView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/pool_diamonds"
         />
 
-        <FrameLayout
+        <ImageView
                 android:id="@+id/pool_diamonds"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:paddingVertical="3dp"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toTopOf="@id/pool_hearts"
                 app:layout_constraintTop_toBottomOf="@id/pool_textView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/pool_clubs"/>
 
-        <FrameLayout
+        <ImageView
                 android:id="@+id/pool_spades"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:paddingVertical="3dp"
+                android:visibility="invisible"
                 app:layout_constraintTop_toBottomOf="@id/pool_clubs"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/pool_hearts"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <FrameLayout
+        <ImageView
                 android:id="@+id/pool_hearts"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:paddingVertical="3dp"
+                android:visibility="invisible"
                 app:layout_constraintTop_toBottomOf="@id/pool_diamonds"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/pool_spades"

@@ -33,6 +33,8 @@ class GameState() {
             put(it, null)
         }
     }
+    var multiplierBonus = false
+    var multiplierScore = 1
 
     init {
         CardValue.values().forEach { cardValue ->
@@ -199,61 +201,67 @@ class GameState() {
     }
 
     fun onFaceCardTouched(cardValue: CardValue, cardSuit: CardSuit) {
-        poolMap[cardValue]?.let { mutableMap ->
-            mutableMap[cardSuit]?.let { faceCardState ->
-                when (faceCardState) {
-                    FaceCardState.USABLE_AS_FACE -> run {
-                        pileScores[cardSuit] =
-                            blackCard!!.cardValue.getPointValue() + redCard!!.cardValue.getPointValue()
-                        poolMap[cardValue]?.let {
-                            it[cardSuit] = FaceCardState.USED
-                        }
-                        pileCards[cardSuit] = Card(cardValue, cardSuit)
-                        redCard = null
-                        blackCard = null
-                        pileScores.all {
-                            it.value != 0
-                        }.let { roundIsCompleted ->
-                            if (roundIsCompleted) {
-                                rawScore += pileScores.values.sum()
-                                pileScores = mutableMapOf<CardSuit, Int>().apply {
-                                    CardSuit.values().forEach {
-                                        put(it, 0)
+        deckTopCard ?: run {
+            poolMap[cardValue]?.let { mutableMap ->
+                mutableMap[cardSuit]?.let { faceCardState ->
+                    when (faceCardState) {
+                        FaceCardState.USABLE_AS_FACE -> run {
+                            pileScores[cardSuit] =
+                                blackCard!!.cardValue.getPointValue() + redCard!!.cardValue.getPointValue()
+                            poolMap[cardValue]?.let {
+                                it[cardSuit] = FaceCardState.USED
+                            }
+                            pileCards[cardSuit] = Card(cardValue, cardSuit)
+                            redCard = null
+                            blackCard = null
+                            pileScores.all {
+                                it.value != 0
+                            }.let { roundIsCompleted ->
+                                if (roundIsCompleted) {
+                                    multiplierScore += 2
+                                    rawScore += pileScores.values.sum()
+                                    pileScores = mutableMapOf<CardSuit, Int>().apply {
+                                        CardSuit.values().forEach {
+                                            put(it, 0)
+                                        }
+                                    }
+                                    pileCards = mutableMapOf<CardSuit, Card?>().apply {
+                                        CardSuit.values().forEach {
+                                            put(it, null)
+                                        }
+                                    }
+                                    currentLevel?.let {
+                                        clearedFaceValues.add(it)
+                                    }
+                                    currentLevel = currentLevel?.let {
+                                        levels.elementAtOrNull(levels.indexOf(it) + 1)
+                                    } ?: run {
+                                        multiplierBonus = true
+                                        null
                                     }
                                 }
-                                pileCards = mutableMapOf<CardSuit, Card?>().apply {
-                                    CardSuit.values().forEach {
-                                        put(it, null)
-                                    }
-                                }
-                                currentLevel?.let {
-                                    clearedFaceValues.add(it)
-                                }
-                                currentLevel = currentLevel?.let {
-                                    levels.elementAtOrNull(levels.indexOf(it) + 1)
-                                }
                             }
+                            updateFaceCardStates()
                         }
-                        updateFaceCardStates()
+                        FaceCardState.USABLE_AS_COLOR -> run {
+                            if (cardSuit.isRed) {
+                                redCard?.let {
+                                    discardedCards.add(it)
+                                }
+                                redCard = Card(cardValue, cardSuit)
+                            } else {
+                                blackCard?.let {
+                                    discardedCards.add(it)
+                                }
+                                blackCard = Card(cardValue, cardSuit)
+                            }
+                            poolMap[cardValue]?.let {
+                                it[cardSuit] = FaceCardState.USED
+                            }
+                            updateFaceCardStates()
+                        }
+                        else -> return
                     }
-                    FaceCardState.USABLE_AS_COLOR -> run {
-                        if (cardSuit.isRed) {
-                            redCard?.let {
-                                discardedCards.add(it)
-                            }
-                            redCard = Card(cardValue, cardSuit)
-                        } else {
-                            blackCard?.let {
-                                discardedCards.add(it)
-                            }
-                            blackCard = Card(cardValue, cardSuit)
-                        }
-                        poolMap[cardValue]?.let {
-                            it[cardSuit] = FaceCardState.USED
-                        }
-                        updateFaceCardStates()
-                    }
-                    else -> return
                 }
             }
         }
@@ -270,8 +278,12 @@ class GameState() {
     }
 
     fun enableCompleteMode() {
-        currentLevel = null
-        clearedFaceValues = levels.toMutableList()
+        currentLevel = CardValue.KING
+        clearedFaceValues = levels.toMutableList().apply {
+            removeAll {
+                it.value > 12
+            }
+        }
     }
 
     fun getFinalScore(): Int {
@@ -279,12 +291,24 @@ class GameState() {
     }
 
     fun getMultiplier(): Int {
-        return when(currentLevel){
+        return when (currentLevel) {
             CardValue.JACK -> 1
             CardValue.QUEEN -> 1
             CardValue.KING -> 2
-            CardValue.ACE -> 3
-            else -> 5
+            CardValue.ACE -> (brokenFaceValue?.let {
+                3
+            } ?: 5) + if (multiplierBonus) {
+                2
+            } else {
+                0
+            }
+            else -> (brokenFaceValue?.let {
+                5
+            } ?: 7) + if (multiplierBonus) {
+                2
+            } else {
+                0
+            }
         }
     }
 

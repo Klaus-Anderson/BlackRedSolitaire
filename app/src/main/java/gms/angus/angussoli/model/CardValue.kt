@@ -10,10 +10,10 @@ enum class CardValue(val identity: String, val value: Int) {
     EIGHT("eight", 8),
     NINE("nine", 9),
     TEN("ten", 10),
-    JACK("Jack", 11),
-    QUEEN("Queen", 12),
-    KING("King", 13),
-    ACE("Ace", 14);
+    JACK("jack", 11),
+    QUEEN("queen", 12),
+    KING("king", 13),
+    ACE("ace", 14);
 
     fun getPointValue(): Int {
         return when {

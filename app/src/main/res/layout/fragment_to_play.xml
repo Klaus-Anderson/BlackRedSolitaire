@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.angus.gaming.blackredsolitaire.view.ToPlayFragment"
-    android:background="@drawable/bottom_row_shape">
+    android:background="@drawable/zone_deck">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/previous"
-        android:background="@drawable/game_button_shape"
+        android:background="@drawable/button_game"
         android:visibility="invisible"/>
 
     <Button
@@ -61,7 +61,7 @@
         android:layout_alignParentTop="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/game_button_shape"
+        android:background="@drawable/button_game"
         android:text="@string/next"/>
 
 </RelativeLayout>

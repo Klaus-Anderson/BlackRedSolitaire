@@ -4,7 +4,7 @@
 
     <stroke
         android:width="3dp"
-        android:color="#FF0000" />
+        android:color="#00FFFF" />
 
     <corners
         android:bottomLeftRadius="@dimen/eligible_card_radius"

@@ -1,10 +1,10 @@
 package gms.angus.angussoli.model
 
 enum class CardSuit(val identity: String) {
-    CLUB("club"),
-    DIAMOND("diamond"),
-    SPADE("spade"),
-    HEART("heart");
+    CLUB("clubs"),
+    DIAMOND("diamonds"),
+    SPADE("spades"),
+    HEART("hearts");
 
     val isBlack: Boolean
         get() = this == CLUB || this == SPADE
