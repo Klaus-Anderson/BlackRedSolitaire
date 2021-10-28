@@ -1,40 +1,53 @@
 package gms.angus.angussoli.model
 
 class GameState() {
-    val deck = ArrayDeque<Card>()
-    val discardedCards = ArrayDeque<Card>()
+    private val discardedCards = ArrayDeque<Card>()
+    private val levels = listOf(CardValue.TEN, CardValue.JACK, CardValue.QUEEN, CardValue.KING, CardValue.ACE)
+    private var rawScore = 0
+    private var multiplierScore = 1
 
-    val levels = listOf(CardValue.TEN, CardValue.JACK, CardValue.QUEEN, CardValue.KING, CardValue.ACE)
-    var currentLevel: CardValue? = CardValue.JACK
-    var brokenFaceValue: CardValue? = null
-    var clearedFaceValues = mutableListOf(CardValue.TEN)
-    var rawScore = 0
-
-    var blackCard: Card? = null
-    var redCard: Card? = null
-    var deckTopCard: Card? = null
-    var tenPool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
-    var jackPool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
-    var queenPool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
-    var kingPool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
-    var acePool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
-    var pileScores: MutableMap<CardSuit, Int> = mutableMapOf<CardSuit, Int>().apply {
+    private var pileScores: MutableMap<CardSuit, Int> = mutableMapOf<CardSuit, Int>().apply {
         CardSuit.values().forEach {
             put(it, 0)
         }
     }
-    var poolMap: MutableMap<CardValue, MutableMap<CardSuit, FaceCardState>> =
-        mutableMapOf(
-            CardValue.TEN to tenPool, CardValue.JACK to jackPool, CardValue.QUEEN to queenPool,
-            CardValue.KING to kingPool, CardValue.ACE to acePool
-        )
+
+    val deck = ArrayDeque<Card>()
+    var currentLevel: CardValue? = CardValue.JACK
+        private set
+    var brokenFaceValue: CardValue? = null
+        private set
+    var clearedFaceValues = mutableListOf(CardValue.TEN)
+        private set
+    var blackCard: Card? = null
+        private set
+    var redCard: Card? = null
+        private set
+    var deckTopCard: Card? = null
+        private set
+    var tenPool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
+        private set
+    var jackPool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
+        private set
+    var queenPool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
+        private set
+    var kingPool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
+        private set
+    var acePool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
+        private set
     var pileCards: MutableMap<CardSuit, Card?> = mutableMapOf<CardSuit, Card?>().apply {
         CardSuit.values().forEach {
             put(it, null)
         }
     }
-    var multiplierBonus = false
-    var multiplierScore = 1
+        private set
+
+    private var poolMap: MutableMap<CardValue, MutableMap<CardSuit, FaceCardState>> =
+        mutableMapOf(
+            CardValue.TEN to tenPool, CardValue.JACK to jackPool, CardValue.QUEEN to queenPool,
+            CardValue.KING to kingPool, CardValue.ACE to acePool
+        )
+
 
     init {
         CardValue.values().forEach { cardValue ->
@@ -177,7 +190,6 @@ class GameState() {
                 blackCard = deckTopCard
                 deckTopCard = null
                 deck.removeFirst()
-
             }
             updateFaceCardStates()
         }
@@ -235,9 +247,6 @@ class GameState() {
                                     }
                                     currentLevel = currentLevel?.let {
                                         levels.elementAtOrNull(levels.indexOf(it) + 1)
-                                    } ?: run {
-                                        multiplierBonus = true
-                                        null
                                     }
                                 }
                             }
@@ -267,14 +276,14 @@ class GameState() {
         }
     }
 
-    fun getNumberOfSuitNumberCardsLeft(cardSuit: CardSuit): Int {
-        return deck.filter {
+    fun getNumberOfSuitNumberCardsLeftString(cardSuit: CardSuit): String {
+        return (deck.filter {
             it.cardSuit == cardSuit && it.cardValue.value < 10
         }.size - (if (deckTopCard?.cardSuit == cardSuit) {
             1
         } else {
             0
-        })
+        })).toString()
     }
 
     fun enableCompleteMode() {
@@ -284,32 +293,59 @@ class GameState() {
                 it.value > 12
             }
         }
+        multiplierScore = 5
+        rawScore = 1
     }
 
-    fun getFinalScore(): Int {
-        return getMultiplier() * rawScore
+    fun getFinalScoreString(): String {
+        return (rawScore * multiplierScore).toString()
     }
 
-    fun getMultiplier(): Int {
+    fun getMultiplierString(): String {
+        return multiplierScore.toString()
+    }
+
+    fun getLevelText(): String {
         return when (currentLevel) {
-            CardValue.JACK -> 1
-            CardValue.QUEEN -> 1
-            CardValue.KING -> 2
-            CardValue.ACE -> (brokenFaceValue?.let {
-                3
-            } ?: 5) + if (multiplierBonus) {
-                2
+            CardValue.JACK -> "J"
+            CardValue.QUEEN -> "Q"
+            CardValue.KING -> "K"
+            CardValue.ACE -> "A"
+            else -> "\u2713"
+        } + when (currentLevel) {
+            CardValue.ACE, null -> if(brokenFaceValue == null){
+                "+"
             } else {
-                0
+                ""
             }
-            else -> (brokenFaceValue?.let {
-                5
-            } ?: 7) + if (multiplierBonus) {
-                2
-            } else {
-                0
-            }
+            else -> ""
+        } + if (multiplierScore == 11){
+            "+"
+        } else {
+            ""
         }
+    }
+
+    fun getPileScoreString(): String {
+        return pileScores.values.sum().toString()
+    }
+
+    fun getCardSquanderedText(): String {
+        return discardedCards.size.toString()
+    }
+
+    fun isBreakButtonEligible(): Boolean {
+        return brokenFaceValue?.let {
+            false
+        } ?: run {
+            currentLevel?.let {
+                it != CardValue.ACE
+            } ?: true
+        }
+    }
+
+    fun getCardsLeftText(): String {
+        return deck.size.toString()
     }
 
 }

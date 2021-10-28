@@ -1,8 +1,5 @@
 package gms.angus.angussoli.view
 
-import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +9,6 @@ import android.widget.ImageView
 import androidx.core.graphics.scale
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import gms.angus.angussoli.BuildConfig
 import gms.angus.angussoli.R
 import gms.angus.angussoli.databinding.FragmentGameBinding
 import gms.angus.angussoli.databinding.PoolLayoutBinding
@@ -26,7 +22,7 @@ import gms.angus.angussoli.viewmodel.impl.GameViewModelImpl
 
 class GameFragment : Fragment() {
 
-    companion object{
+    companion object {
         const val CARD_IMAGES_INTENT_FLAG = "CARD_IMAGES_INTENT_FLAG"
     }
 
@@ -69,19 +65,9 @@ class GameFragment : Fragment() {
             poolTextView.setTextColor(Color.BLACK)
         }
 
-        binding.newGameButton.setOnClickListener {
-            gameViewModel.endGame()
-            activity?.let {
-                startActivity(Intent(it, GameActivity::class.java))
-                it.finish()
-            }
-        }
-
-        if (BuildConfig.DEBUG) {
-            binding.newGameButton.setOnLongClickListener {
-                gameViewModel.enableCompleteMode(it.context)
-                true
-            }
+        binding.newGameButton.setOnLongClickListener {
+            gameViewModel.enableCompleteMode(it.context)
+            true
         }
 
         gameViewModel.deckTopCardLiveData.observe(viewLifecycleOwner) {
@@ -177,7 +163,6 @@ class GameFragment : Fragment() {
 
         gameViewModel.currentLevelLiveData.observe(viewLifecycleOwner) {
             it?.let {
-                binding.levelText.text = it.identity.first().toString().uppercase()
                 when (it) {
                     CardValue.TEN -> binding.tensPool
                     CardValue.JACK -> binding.jacksPool
@@ -189,29 +174,13 @@ class GameFragment : Fragment() {
                             binding.breakButton.visibility = View.INVISIBLE
                             binding.breakButton.isClickable = false
                         }
-                        binding.levelText.text = it.identity.first().toString().uppercase() +
-                                if(gameViewModel.hasNotBroken()){
-                            "+"
-                        } else {
-                            ""
-                        } + if(gameViewModel.hasMultiplierBonus()){
-                            "+"
-                        } else {
-                            ""
-                        }
                         binding.acesPool
                     }
                     else -> throw IllegalStateException()
                 }
             }?.run {
-                root?.setBackgroundResource(R.drawable.zone_current)
+                root.setBackgroundResource(R.drawable.zone_current)
                 poolTextView.setTextColor(Color.BLACK)
-            } ?: run {
-                binding.levelText.text = getString(R.string.done) + if(gameViewModel.hasNotBroken()){
-                    "+"
-                } else {
-                    ""
-                }
             }
         }
 
@@ -227,14 +196,14 @@ class GameFragment : Fragment() {
                     else -> throw IllegalStateException()
                 }
             }?.apply {
-                root?.setBackgroundResource(R.drawable.zone_broken)
+                root.setBackgroundResource(R.drawable.zone_broken)
                 poolTextView.setTextColor(Color.BLACK)
             }
 
         }
         return binding.root
     }
- 
+
     private fun addCardImageToImageView(imageView: ImageView, card: Card, gameViewModel: GameViewModel) {
         gameViewModel.getCardImageBitmap(card)?.let {
             imageView.setImageBitmap(it.scale(imageView.width, imageView.height, false))
@@ -296,7 +265,7 @@ class GameFragment : Fragment() {
                 FaceCardState.BROKEN -> run {
                     if (visibility == View.INVISIBLE) {
                         setImageResource(R.drawable.card_back)
-                            setBackgroundResource(0)
+                        setBackgroundResource(0)
                         visibility = View.VISIBLE
                     }
                 }

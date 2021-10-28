@@ -1,16 +1,14 @@
 package gms.angus.angussoli.viewmodel.impl
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
@@ -18,18 +16,20 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import gms.angus.angussoli.BuildConfig
 import gms.angus.angussoli.R
 import gms.angus.angussoli.model.*
 import gms.angus.angussoli.module.GlideApp
+import gms.angus.angussoli.view.GameActivity
 import gms.angus.angussoli.viewmodel.GameViewModel
 import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewModel(application) {
     override val redDiscardTextVisibilityLiveData = MutableLiveData<Int>(View.INVISIBLE)
     override val blackDiscardTextVisibilityLiveData = MutableLiveData<Int>(View.INVISIBLE)
     override val deckTopCardVisibilityLiveData = MutableLiveData<Int>(View.VISIBLE)
+    override val breakButtonVisibilityLiveData = MutableLiveData<Int>(View.VISIBLE)
     override val underDeckTextLiveData = MutableLiveData<String>()
     override val cardLeftTextLiveData = MutableLiveData<String>("52")
     override val cardSquanderedTextLiveData = MutableLiveData<String>("0")
@@ -41,6 +41,7 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
     override val redCardLiveData = MutableLiveData<Card?>()
     override val blackCardLiveData = MutableLiveData<Card?>()
     override val scoreTextLiveData = MutableLiveData<String>(0.toString())
+    override val levelTextLiveData = MutableLiveData<String>()
     override val multiplierTextLiveData = MutableLiveData<String>(1.toString())
     override val pileScoreTextLiveData = MutableLiveData<String>(0.toString())
     override val clearedFaceCardsLiveData = MutableLiveData<List<CardValue>>()
@@ -62,20 +63,26 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
         loadCardBitmapMap(application.applicationContext)
     }
 
+    override fun getCardImageBitmap(card: Card): Bitmap? {
+        return cardBitmapMap[card]
+    }
+
     private fun loadCardBitmapMap(context: Context) {
         loadingSpinnerVisibilityLiveData.value = View.VISIBLE
+
         runBlocking {
             CardValue.values().forEach { value ->
-                CardSuit.values().forEach { suit->
+                CardSuit.values().forEach { suit ->
                     async {
                         GlideApp.with(context)
                             .asBitmap()
                             .load(
                                 Firebase.storage.reference.child(
-                                    String.format("simple-cards/%s_%s.png",value.identity, suit.identity))
+                                    String.format("simple-cards/%s_%s.png", value.identity, suit.identity)
+                                )
                             )
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                            .listener(object : RequestListener<Bitmap>{
+                            .listener(object : RequestListener<Bitmap> {
                                 override fun onLoadFailed(
                                     e: GlideException?,
                                     model: Any?,
@@ -83,7 +90,7 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
                                     isFirstResource: Boolean
                                 ): Boolean {
                                     loadingSpinnerVisibilityLiveData.value = View.INVISIBLE
-                                    Log.e(javaClass.name,e?.message?: "", e)
+                                    Log.e(javaClass.name, e?.message ?: "", e)
                                     return true
                                 }
 
@@ -94,8 +101,8 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
                                     dataSource: DataSource?,
                                     isFirstResource: Boolean
                                 ): Boolean {
-                                    cardBitmapMap[Card(value,suit)] = resource!!
-                                    if(cardBitmapMap.size==52){
+                                    cardBitmapMap[Card(value, suit)] = resource!!
+                                    if (cardBitmapMap.size == 52) {
                                         loadingSpinnerVisibilityLiveData.value = View.GONE
                                     }
                                     return true
@@ -124,26 +131,33 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
             } ?: run {
                 blackDiscardTextVisibilityLiveData.value = View.INVISIBLE
                 redDiscardTextVisibilityLiveData.value = View.INVISIBLE
-                if(gameState.deck.size == 0){
+                if (gameState.deck.size == 0) {
                     deckTopCardVisibilityLiveData.value = View.INVISIBLE
-                    underDeckTextLiveData.value =""
+                    underDeckTextLiveData.value = ""
                 } else {
                     underDeckTextLiveData.value = context.getString(R.string.press_to_draw)
                 }
                 View.INVISIBLE
             })
         }
-        cardLeftTextLiveData.value = gameState.deck.size.toString()
-        cardSquanderedTextLiveData.value = gameState.discardedCards.size.toString()
-        currentLevelLiveData.value = gameState.currentLevel
-        scoreTextLiveData.value = gameState.getFinalScore().toString()
-        multiplierTextLiveData.value = gameState.getMultiplier().toString()
-        pileScoreTextLiveData.value = gameState.pileScores.values.sum().toString()
-        spadeNumbersLeftTextLiveData.value = gameState.getNumberOfSuitNumberCardsLeft(CardSuit.SPADE).toString()
-        clubNumbersLeftTextLiveData.value = gameState.getNumberOfSuitNumberCardsLeft(CardSuit.CLUB).toString()
-        heartNumbersLeftTextLiveData.value = gameState.getNumberOfSuitNumberCardsLeft(CardSuit.HEART).toString()
-        diamondNumbersLeftTextLiveData.value = gameState.getNumberOfSuitNumberCardsLeft(CardSuit.DIAMOND).toString()
+        breakButtonVisibilityLiveData.value = if(gameState.isBreakButtonEligible()){
+            View.VISIBLE
+        } else {
+            View.INVISIBLE
+        }
 
+        cardLeftTextLiveData.value = gameState.getCardsLeftText()
+        cardSquanderedTextLiveData.value = gameState.getCardSquanderedText()
+        levelTextLiveData.value = gameState.getLevelText()
+        scoreTextLiveData.value = gameState.getFinalScoreString()
+        multiplierTextLiveData.value = gameState.getMultiplierString()
+        pileScoreTextLiveData.value = gameState.getPileScoreString()
+        spadeNumbersLeftTextLiveData.value = gameState.getNumberOfSuitNumberCardsLeftString(CardSuit.SPADE)
+        clubNumbersLeftTextLiveData.value = gameState.getNumberOfSuitNumberCardsLeftString(CardSuit.CLUB)
+        heartNumbersLeftTextLiveData.value = gameState.getNumberOfSuitNumberCardsLeftString(CardSuit.HEART)
+        diamondNumbersLeftTextLiveData.value = gameState.getNumberOfSuitNumberCardsLeftString(CardSuit.DIAMOND)
+
+        currentLevelLiveData.value = gameState.currentLevel
         redCardLiveData.value = gameState.redCard
         blackCardLiveData.value = gameState.blackCard
 
@@ -178,25 +192,11 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
         updateLiveData(context)
     }
 
-    override fun getCardImageBitmap(card: Card): Bitmap? {
-        return cardBitmapMap[card]
-    }
-
-    override fun hasNotBroken(): Boolean {
-        return gameState.brokenFaceValue == null
-    }
-
-    override fun hasMultiplierBonus(): Boolean {
-        return gameState.multiplierBonus
-    }
-
-    override fun endGame() {
-        gameState = GameState()
-    }
-
     override fun enableCompleteMode(context: Context) {
-        gameState.enableCompleteMode()
-        updateLiveData(context)
+        if (BuildConfig.DEBUG) {
+            gameState.enableCompleteMode()
+            updateLiveData(context)
+        }
     }
 
     override fun onBreakClick(view: View) {
@@ -213,8 +213,10 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
     }
 
     override fun onNewGameClick(view: View) {
-//        val i = Intent(this@GameActivity, GameActivity::class.java)
-//        startActivity(i)
-//        finish()
+        gameState = GameState()
+        (view.context as? Activity)?.let {
+            it.startActivity(Intent(it, GameActivity::class.java))
+            it.finish()
+        }
     }
 }

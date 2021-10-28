@@ -15,17 +15,11 @@ import gms.angus.angussoli.model.FaceCardState
 import gms.angus.angussoli.viewmodel.impl.GameViewModelImpl
 
 interface GameViewModel {
-    fun onDeckFrameClick(view: View)
-    fun onRedFrameClick(view: View)
-    fun onBlackFrameClick(view: View)
-    fun onBreakClick(view: View)
-    fun onToPlayClick(view: View)
-    fun onNewGameClick(view: View)
-    fun endGame()
-
+    val loadingSpinnerVisibilityLiveData: LiveData<Int>
     val redDiscardTextVisibilityLiveData: LiveData<Int>
     val blackDiscardTextVisibilityLiveData: LiveData<Int>
     val deckTopCardVisibilityLiveData: LiveData<Int>
+    val breakButtonVisibilityLiveData: LiveData<Int>
     val underDeckTextLiveData: LiveData<String>
     val cardLeftTextLiveData: LiveData<String>
     val cardSquanderedTextLiveData: LiveData<String>
@@ -33,12 +27,14 @@ interface GameViewModel {
     val spadeNumbersLeftTextLiveData: LiveData<String>
     val diamondNumbersLeftTextLiveData: LiveData<String>
     val heartNumbersLeftTextLiveData: LiveData<String>
+    val scoreTextLiveData: LiveData<String>
+    val multiplierTextLiveData: LiveData<String>
+    val levelTextLiveData: LiveData<String>
+    val pileScoreTextLiveData: LiveData<String>
+
     val deckTopCardLiveData: LiveData<Card?>
     val redCardLiveData: LiveData<Card?>
     val blackCardLiveData: LiveData<Card?>
-    val scoreTextLiveData: LiveData<String>
-    val multiplierTextLiveData: LiveData<String>
-    val pileScoreTextLiveData: LiveData<String>
     val clearedFaceCardsLiveData: LiveData<List<CardValue>>
     val currentLevelLiveData: LiveData<CardValue?>
     val brokenFaceValueLiveData: LiveData<CardValue?>
@@ -48,17 +44,21 @@ interface GameViewModel {
     val kingPoolLiveData: LiveData<Map<CardSuit, FaceCardState>>
     val acePoolLiveData: LiveData<Map<CardSuit, FaceCardState>>
     val collectedCardsLiveData: LiveData<Map<CardSuit, Card?>>
-    val loadingSpinnerVisibilityLiveData: LiveData<Int>
+
+    fun onDeckFrameClick(view: View)
+    fun onRedFrameClick(view: View)
+    fun onBlackFrameClick(view: View)
+    fun onBreakClick(view: View)
+    fun onToPlayClick(view: View)
+    fun onNewGameClick(view: View)
+
+    fun enableCompleteMode(context: Context)
+    fun onFaceCardClick(cardValue: CardValue, cardSuit: CardSuit, context: Context)
+    fun getCardImageBitmap(card: Card): Bitmap?
 
     class GameViewModelFactory(val application: Application) : ViewModelProvider.AndroidViewModelFactory(application) {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return GameViewModelImpl(application) as T
         }
     }
-
-    fun enableCompleteMode(context: Context)
-    fun onFaceCardClick(cardValue: CardValue, cardSuit: CardSuit, context: Context)
-    fun getCardImageBitmap(card: Card): Bitmap?
-    fun hasNotBroken(): Boolean
-    fun hasMultiplierBonus(): Boolean
 }
