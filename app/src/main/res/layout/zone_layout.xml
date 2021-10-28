@@ -14,7 +14,7 @@
             tools:ignore="ObsoleteLayoutParam">
 
         <TextView
-                android:id="@+id/pool_textView"
+                android:id="@+id/zone_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
@@ -26,48 +26,48 @@
                 android:textSize="17sp"/>
 
         <ImageView
-                android:id="@+id/pool_clubs"
+                android:id="@+id/zone_clubs"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:paddingVertical="3dp"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@id/pool_spades"
-                app:layout_constraintTop_toBottomOf="@id/pool_textView"
+                app:layout_constraintBottom_toTopOf="@id/zone_spades"
+                app:layout_constraintTop_toBottomOf="@id/zone_textView"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/pool_diamonds"
+                app:layout_constraintEnd_toStartOf="@id/zone_diamonds"
         />
 
         <ImageView
-                android:id="@+id/pool_diamonds"
+                android:id="@+id/zone_diamonds"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:paddingVertical="3dp"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@id/pool_hearts"
-                app:layout_constraintTop_toBottomOf="@id/pool_textView"
+                app:layout_constraintBottom_toTopOf="@id/zone_hearts"
+                app:layout_constraintTop_toBottomOf="@id/zone_textView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/pool_clubs"/>
+                app:layout_constraintStart_toEndOf="@id/zone_clubs"/>
 
         <ImageView
-                android:id="@+id/pool_spades"
+                android:id="@+id/zone_spades"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:paddingVertical="3dp"
                 android:visibility="invisible"
-                app:layout_constraintTop_toBottomOf="@id/pool_clubs"
+                app:layout_constraintTop_toBottomOf="@id/zone_clubs"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/pool_hearts"
+                app:layout_constraintEnd_toStartOf="@id/zone_hearts"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
         <ImageView
-                android:id="@+id/pool_hearts"
+                android:id="@+id/zone_hearts"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:paddingVertical="3dp"
                 android:visibility="invisible"
-                app:layout_constraintTop_toBottomOf="@id/pool_diamonds"
+                app:layout_constraintTop_toBottomOf="@id/zone_diamonds"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/pool_spades"
+                app:layout_constraintStart_toEndOf="@id/zone_spades"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

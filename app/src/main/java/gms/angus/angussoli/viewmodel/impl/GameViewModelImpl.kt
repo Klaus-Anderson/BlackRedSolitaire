@@ -47,11 +47,11 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
     override val clearedFaceCardsLiveData = MutableLiveData<List<CardValue>>()
     override val currentLevelLiveData = MutableLiveData<CardValue?>()
     override val brokenFaceValueLiveData = MutableLiveData<CardValue?>()
-    override val tenPoolLiveData = MutableLiveData<Map<CardSuit, FaceCardState>>()
-    override val jackPoolLiveData = MutableLiveData<Map<CardSuit, FaceCardState>>()
-    override val queenPoolLiveData = MutableLiveData<Map<CardSuit, FaceCardState>>()
-    override val kingPoolLiveData = MutableLiveData<Map<CardSuit, FaceCardState>>()
-    override val acePoolLiveData = MutableLiveData<Map<CardSuit, FaceCardState>>()
+    override val tenZoneLiveData = MutableLiveData<Map<CardSuit, FaceCardState>>()
+    override val jackZoneLiveData = MutableLiveData<Map<CardSuit, FaceCardState>>()
+    override val queenZoneLiveData = MutableLiveData<Map<CardSuit, FaceCardState>>()
+    override val kingZoneLiveData = MutableLiveData<Map<CardSuit, FaceCardState>>()
+    override val aceZoneLiveData = MutableLiveData<Map<CardSuit, FaceCardState>>()
     override val collectedCardsLiveData = MutableLiveData<Map<CardSuit, Card?>>()
     override val loadingSpinnerVisibilityLiveData = MutableLiveData<Int>()
     private val cardBitmapMap = mutableMapOf<Card, Bitmap>()
@@ -164,11 +164,11 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
         //update Face Card state based on
         clearedFaceCardsLiveData.value = gameState.clearedFaceValues
         brokenFaceValueLiveData.value = gameState.brokenFaceValue
-        tenPoolLiveData.value = gameState.tenPool
-        jackPoolLiveData.value = gameState.jackPool
-        queenPoolLiveData.value = gameState.queenPool
-        kingPoolLiveData.value = gameState.kingPool
-        acePoolLiveData.value = gameState.acePool
+        tenZoneLiveData.value = gameState.tenZone
+        jackZoneLiveData.value = gameState.jackZone
+        queenZoneLiveData.value = gameState.queenZone
+        kingZoneLiveData.value = gameState.kingZone
+        aceZoneLiveData.value = gameState.aceZone
         collectedCardsLiveData.value = gameState.pileCards
     }
 

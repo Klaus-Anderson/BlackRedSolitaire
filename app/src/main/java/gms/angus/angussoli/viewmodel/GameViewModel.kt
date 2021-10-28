@@ -38,11 +38,11 @@ interface GameViewModel {
     val clearedFaceCardsLiveData: LiveData<List<CardValue>>
     val currentLevelLiveData: LiveData<CardValue?>
     val brokenFaceValueLiveData: LiveData<CardValue?>
-    val tenPoolLiveData: LiveData<Map<CardSuit, FaceCardState>>
-    val jackPoolLiveData: LiveData<Map<CardSuit, FaceCardState>>
-    val queenPoolLiveData: LiveData<Map<CardSuit, FaceCardState>>
-    val kingPoolLiveData: LiveData<Map<CardSuit, FaceCardState>>
-    val acePoolLiveData: LiveData<Map<CardSuit, FaceCardState>>
+    val tenZoneLiveData: LiveData<Map<CardSuit, FaceCardState>>
+    val jackZoneLiveData: LiveData<Map<CardSuit, FaceCardState>>
+    val queenZoneLiveData: LiveData<Map<CardSuit, FaceCardState>>
+    val kingZoneLiveData: LiveData<Map<CardSuit, FaceCardState>>
+    val aceZoneLiveData: LiveData<Map<CardSuit, FaceCardState>>
     val collectedCardsLiveData: LiveData<Map<CardSuit, Card?>>
 
     fun onDeckFrameClick(view: View)

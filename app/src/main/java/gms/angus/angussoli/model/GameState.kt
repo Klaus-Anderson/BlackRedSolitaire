@@ -25,15 +25,15 @@ class GameState() {
         private set
     var deckTopCard: Card? = null
         private set
-    var tenPool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
+    var tenZone: MutableMap<CardSuit, FaceCardState> = createEmptyZone()
         private set
-    var jackPool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
+    var jackZone: MutableMap<CardSuit, FaceCardState> = createEmptyZone()
         private set
-    var queenPool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
+    var queenZone: MutableMap<CardSuit, FaceCardState> = createEmptyZone()
         private set
-    var kingPool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
+    var kingZone: MutableMap<CardSuit, FaceCardState> = createEmptyZone()
         private set
-    var acePool: MutableMap<CardSuit, FaceCardState> = createEmptyPool()
+    var aceZone: MutableMap<CardSuit, FaceCardState> = createEmptyZone()
         private set
     var pileCards: MutableMap<CardSuit, Card?> = mutableMapOf<CardSuit, Card?>().apply {
         CardSuit.values().forEach {
@@ -42,10 +42,10 @@ class GameState() {
     }
         private set
 
-    private var poolMap: MutableMap<CardValue, MutableMap<CardSuit, FaceCardState>> =
+    private var zoneMap: MutableMap<CardValue, MutableMap<CardSuit, FaceCardState>> =
         mutableMapOf(
-            CardValue.TEN to tenPool, CardValue.JACK to jackPool, CardValue.QUEEN to queenPool,
-            CardValue.KING to kingPool, CardValue.ACE to acePool
+            CardValue.TEN to tenZone, CardValue.JACK to jackZone, CardValue.QUEEN to queenZone,
+            CardValue.KING to kingZone, CardValue.ACE to aceZone
         )
 
 
@@ -58,7 +58,7 @@ class GameState() {
         deck.shuffle()
     }
 
-    private fun createEmptyPool(): MutableMap<CardSuit, FaceCardState> {
+    private fun createEmptyZone(): MutableMap<CardSuit, FaceCardState> {
         return mutableMapOf<CardSuit, FaceCardState>().apply {
             CardSuit.values().forEach {
                 put(it, FaceCardState.NOT_DRAWN)
@@ -67,7 +67,7 @@ class GameState() {
     }
 
     private fun handleDrawnFaceCard(faceCard: Card) {
-        poolMap[faceCard.cardValue]!!.also {
+        zoneMap[faceCard.cardValue]!!.also {
             it[faceCard.cardSuit] = FaceCardState.NOT_USABLE
         }
         deck.removeFirst()
@@ -97,13 +97,13 @@ class GameState() {
     }
 
     private fun updateFaceCardStates() {
-        poolMap.flatMap { pool ->
-            pool.value.mapNotNull {
+        zoneMap.flatMap { zone ->
+            zone.value.mapNotNull {
                 when (it.value) {
                     FaceCardState.NOT_DRAWN -> null
-                    FaceCardState.NOT_USABLE -> pool.key to it.key
-                    FaceCardState.USABLE_AS_FACE -> pool.key to it.key
-                    FaceCardState.USABLE_AS_COLOR -> pool.key to it.key
+                    FaceCardState.NOT_USABLE -> zone.key to it.key
+                    FaceCardState.USABLE_AS_FACE -> zone.key to it.key
+                    FaceCardState.USABLE_AS_COLOR -> zone.key to it.key
                     FaceCardState.USED -> null
                     FaceCardState.BROKEN -> null
                 }
@@ -117,7 +117,7 @@ class GameState() {
                 listOf(blackCard, redCard).first {
                     it?.cardSuit?.isRed == faceCardSuit.isRed
                 }?.let { colorCard ->
-                    poolMap[faceCardValue]?.set(
+                    zoneMap[faceCardValue]?.set(
                         faceCardSuit,
                         if (colorCard.cardSuit == faceCardSuit) {
                             if (currentLevel == faceCardValue && faceEligible) {
@@ -141,18 +141,18 @@ class GameState() {
                     )
                 }
             } else if (brokenFaceValue == faceCardValue) {
-                poolMap[faceCardValue]?.set(faceCardSuit, FaceCardState.BROKEN)
+                zoneMap[faceCardValue]?.set(faceCardSuit, FaceCardState.BROKEN)
             } else if (clearedFaceValues.contains(faceCardValue)) {
-                poolMap[faceCardValue]?.set(faceCardSuit, FaceCardState.USABLE_AS_COLOR)
+                zoneMap[faceCardValue]?.set(faceCardSuit, FaceCardState.USABLE_AS_COLOR)
             } else {
-                poolMap[faceCardValue]?.set(faceCardSuit, FaceCardState.NOT_USABLE)
+                zoneMap[faceCardValue]?.set(faceCardSuit, FaceCardState.NOT_USABLE)
             }
         }
     }
 
     fun breakLevel() {
         if (brokenFaceValue == null) {
-            poolMap[currentLevel]?.apply {
+            zoneMap[currentLevel]?.apply {
                 forEach {
                     when (it.value) {
                         FaceCardState.USABLE_AS_FACE, FaceCardState.USABLE_AS_COLOR -> put(
@@ -214,13 +214,13 @@ class GameState() {
 
     fun onFaceCardTouched(cardValue: CardValue, cardSuit: CardSuit) {
         deckTopCard ?: run {
-            poolMap[cardValue]?.let { mutableMap ->
+            zoneMap[cardValue]?.let { mutableMap ->
                 mutableMap[cardSuit]?.let { faceCardState ->
                     when (faceCardState) {
                         FaceCardState.USABLE_AS_FACE -> run {
                             pileScores[cardSuit] =
                                 blackCard!!.cardValue.getPointValue() + redCard!!.cardValue.getPointValue()
-                            poolMap[cardValue]?.let {
+                            zoneMap[cardValue]?.let {
                                 it[cardSuit] = FaceCardState.USED
                             }
                             pileCards[cardSuit] = Card(cardValue, cardSuit)
@@ -264,7 +264,7 @@ class GameState() {
                                 }
                                 blackCard = Card(cardValue, cardSuit)
                             }
-                            poolMap[cardValue]?.let {
+                            zoneMap[cardValue]?.let {
                                 it[cardSuit] = FaceCardState.USED
                             }
                             updateFaceCardStates()

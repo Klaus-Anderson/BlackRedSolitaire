@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import gms.angus.angussoli.R
 import gms.angus.angussoli.databinding.FragmentGameBinding
-import gms.angus.angussoli.databinding.PoolLayoutBinding
+import gms.angus.angussoli.databinding.ZoneLayoutBinding
 import gms.angus.angussoli.model.Card
 import gms.angus.angussoli.model.CardSuit
 import gms.angus.angussoli.model.CardValue
@@ -36,33 +36,33 @@ class GameFragment : Fragment() {
         binding.viewModel = gameViewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.tensPool.apply {
+        binding.tensZone.apply {
             setFaceCardOnClickListeners(gameViewModel, this, CardValue.TEN)
         }
-        binding.jacksPool.apply {
+        binding.jacksZone.apply {
             root.background = activity?.getDrawable(R.drawable.zone_current)
-            poolTextView.text = getString(R.string.jack)
+            zoneTextView.text = getString(R.string.jack)
             setFaceCardOnClickListeners(gameViewModel, this, CardValue.JACK)
         }
-        binding.queensPool.apply {
+        binding.queensZone.apply {
             root.background = activity?.getDrawable(R.drawable.zone_locked)
-            poolTextView.text = getString(R.string.queen)
+            zoneTextView.text = getString(R.string.queen)
             setFaceCardOnClickListeners(gameViewModel, this, CardValue.QUEEN)
         }
-        binding.kingsPool.apply {
+        binding.kingsZone.apply {
             root.background = activity?.getDrawable(R.drawable.zone_locked)
-            poolTextView.text = getString(R.string.king)
+            zoneTextView.text = getString(R.string.king)
             setFaceCardOnClickListeners(gameViewModel, this, CardValue.KING)
         }
-        binding.acesPool.apply {
+        binding.acesZone.apply {
             root.background = activity?.getDrawable(R.drawable.zone_locked)
-            poolTextView.text = getString(R.string.ace)
+            zoneTextView.text = getString(R.string.ace)
             setFaceCardOnClickListeners(gameViewModel, this, CardValue.ACE)
         }
-        binding.pilePool.apply {
+        binding.pileZone.apply {
             root.background = activity?.getDrawable(R.drawable.zone_current)
-            poolTextView.text = getString(R.string.pile)
-            poolTextView.setTextColor(Color.BLACK)
+            zoneTextView.text = getString(R.string.pile)
+            zoneTextView.setTextColor(Color.BLACK)
         }
 
         binding.newGameButton.setOnLongClickListener {
@@ -98,40 +98,40 @@ class GameFragment : Fragment() {
             }
         }
 
-        gameViewModel.tenPoolLiveData.observe(viewLifecycleOwner) { poolMap ->
-            poolMap.forEach { mapEntry ->
-                setFaceCard(binding.tensPool as PoolLayoutBinding, mapEntry, CardValue.TEN, gameViewModel)
+        gameViewModel.tenZoneLiveData.observe(viewLifecycleOwner) { zoneMap ->
+            zoneMap.forEach { mapEntry ->
+                setFaceCard(binding.tensZone as ZoneLayoutBinding, mapEntry, CardValue.TEN, gameViewModel)
             }
         }
-        gameViewModel.jackPoolLiveData.observe(viewLifecycleOwner) { poolMap ->
-            poolMap.forEach { mapEntry ->
-                setFaceCard(binding.jacksPool as PoolLayoutBinding, mapEntry, CardValue.JACK, gameViewModel)
+        gameViewModel.jackZoneLiveData.observe(viewLifecycleOwner) { zoneMap ->
+            zoneMap.forEach { mapEntry ->
+                setFaceCard(binding.jacksZone as ZoneLayoutBinding, mapEntry, CardValue.JACK, gameViewModel)
             }
         }
-        gameViewModel.queenPoolLiveData.observe(viewLifecycleOwner) { poolMap ->
-            poolMap.forEach { mapEntry ->
-                setFaceCard(binding.queensPool as PoolLayoutBinding, mapEntry, CardValue.QUEEN, gameViewModel)
+        gameViewModel.queenZoneLiveData.observe(viewLifecycleOwner) { zoneMap ->
+            zoneMap.forEach { mapEntry ->
+                setFaceCard(binding.queensZone as ZoneLayoutBinding, mapEntry, CardValue.QUEEN, gameViewModel)
             }
         }
-        gameViewModel.kingPoolLiveData.observe(viewLifecycleOwner) { poolMap ->
-            poolMap.forEach { mapEntry ->
-                setFaceCard(binding.kingsPool as PoolLayoutBinding, mapEntry, CardValue.KING, gameViewModel)
+        gameViewModel.kingZoneLiveData.observe(viewLifecycleOwner) { zoneMap ->
+            zoneMap.forEach { mapEntry ->
+                setFaceCard(binding.kingsZone as ZoneLayoutBinding, mapEntry, CardValue.KING, gameViewModel)
             }
         }
-        gameViewModel.acePoolLiveData.observe(viewLifecycleOwner) { poolMap ->
-            poolMap.forEach { mapEntry ->
-                setFaceCard(binding.acesPool as PoolLayoutBinding, mapEntry, CardValue.ACE, gameViewModel)
+        gameViewModel.aceZoneLiveData.observe(viewLifecycleOwner) { zoneMap ->
+            zoneMap.forEach { mapEntry ->
+                setFaceCard(binding.acesZone as ZoneLayoutBinding, mapEntry, CardValue.ACE, gameViewModel)
             }
         }
 
-        gameViewModel.collectedCardsLiveData.observe(viewLifecycleOwner) { poolMap ->
-            poolMap.forEach {
-                binding.pilePool.run {
+        gameViewModel.collectedCardsLiveData.observe(viewLifecycleOwner) { zoneMap ->
+            zoneMap.forEach {
+                binding.pileZone.run {
                     when (it.key) {
-                        CardSuit.CLUB -> poolClubs
-                        CardSuit.DIAMOND -> poolDiamonds
-                        CardSuit.SPADE -> poolSpades
-                        CardSuit.HEART -> poolHearts
+                        CardSuit.CLUB -> zoneClubs
+                        CardSuit.DIAMOND -> zoneDiamonds
+                        CardSuit.SPADE -> zoneSpades
+                        CardSuit.HEART -> zoneHearts
                     }
                 }.run {
                     it.value?.let { card ->
@@ -148,39 +148,39 @@ class GameFragment : Fragment() {
         gameViewModel.clearedFaceCardsLiveData.observe(viewLifecycleOwner) { list ->
             list.map {
                 when (it) {
-                    CardValue.TEN -> binding.tensPool
-                    CardValue.JACK -> binding.jacksPool
-                    CardValue.QUEEN -> binding.queensPool
-                    CardValue.KING -> binding.kingsPool
-                    CardValue.ACE -> binding.acesPool
+                    CardValue.TEN -> binding.tensZone
+                    CardValue.JACK -> binding.jacksZone
+                    CardValue.QUEEN -> binding.queensZone
+                    CardValue.KING -> binding.kingsZone
+                    CardValue.ACE -> binding.acesZone
                     else -> throw IllegalStateException()
                 }
             }.forEach {
                 it.root.setBackgroundResource(R.drawable.zone_cleared)
-                it.poolTextView.setTextColor(Color.BLACK)
+                it.zoneTextView.setTextColor(Color.BLACK)
             }
         }
 
         gameViewModel.currentLevelLiveData.observe(viewLifecycleOwner) {
             it?.let {
                 when (it) {
-                    CardValue.TEN -> binding.tensPool
-                    CardValue.JACK -> binding.jacksPool
-                    CardValue.QUEEN -> binding.queensPool
-                    CardValue.KING -> binding.kingsPool
+                    CardValue.TEN -> binding.tensZone
+                    CardValue.JACK -> binding.jacksZone
+                    CardValue.QUEEN -> binding.queensZone
+                    CardValue.KING -> binding.kingsZone
                     CardValue.ACE -> run {
                         //todo: move this to ViewModel
                         if (binding.breakButton.visibility == View.VISIBLE) {
                             binding.breakButton.visibility = View.INVISIBLE
                             binding.breakButton.isClickable = false
                         }
-                        binding.acesPool
+                        binding.acesZone
                     }
                     else -> throw IllegalStateException()
                 }
             }?.run {
                 root.setBackgroundResource(R.drawable.zone_current)
-                poolTextView.setTextColor(Color.BLACK)
+                zoneTextView.setTextColor(Color.BLACK)
             }
         }
 
@@ -188,16 +188,16 @@ class GameFragment : Fragment() {
             it?.let {
                 binding.breakButton.visibility = View.INVISIBLE
                 when (it) {
-                    CardValue.TEN -> binding.tensPool
-                    CardValue.JACK -> binding.jacksPool
-                    CardValue.QUEEN -> binding.queensPool
-                    CardValue.KING -> binding.kingsPool
-                    CardValue.ACE -> binding.acesPool
+                    CardValue.TEN -> binding.tensZone
+                    CardValue.JACK -> binding.jacksZone
+                    CardValue.QUEEN -> binding.queensZone
+                    CardValue.KING -> binding.kingsZone
+                    CardValue.ACE -> binding.acesZone
                     else -> throw IllegalStateException()
                 }
             }?.apply {
                 root.setBackgroundResource(R.drawable.zone_broken)
-                poolTextView.setTextColor(Color.BLACK)
+                zoneTextView.setTextColor(Color.BLACK)
             }
 
         }
@@ -213,37 +213,37 @@ class GameFragment : Fragment() {
 
     private fun setFaceCardOnClickListeners(
         gameViewModel: GameViewModel,
-        poolLayoutBinding: PoolLayoutBinding,
+        zoneLayoutBinding: ZoneLayoutBinding,
         cardValue: CardValue
     ) {
-        poolLayoutBinding.apply {
-            poolClubs.setOnClickListener {
+        zoneLayoutBinding.apply {
+            zoneClubs.setOnClickListener {
                 gameViewModel.onFaceCardClick(cardValue, CardSuit.CLUB, activity!!)
             }
-            poolSpades.setOnClickListener {
+            zoneSpades.setOnClickListener {
                 gameViewModel.onFaceCardClick(cardValue, CardSuit.SPADE, activity!!)
             }
-            poolDiamonds.setOnClickListener {
+            zoneDiamonds.setOnClickListener {
                 gameViewModel.onFaceCardClick(cardValue, CardSuit.DIAMOND, activity!!)
             }
-            poolHearts.setOnClickListener {
+            zoneHearts.setOnClickListener {
                 gameViewModel.onFaceCardClick(cardValue, CardSuit.HEART, activity!!)
             }
         }
     }
 
     private fun setFaceCard(
-        binding: PoolLayoutBinding,
+        binding: ZoneLayoutBinding,
         mapEntry: Map.Entry<CardSuit, FaceCardState>,
         cardValue: CardValue,
         gameViewModel: GameViewModel
     ) {
         binding.let {
             when (mapEntry.key) {
-                CardSuit.SPADE -> it.poolSpades
-                CardSuit.CLUB -> it.poolClubs
-                CardSuit.DIAMOND -> it.poolDiamonds
-                CardSuit.HEART -> it.poolHearts
+                CardSuit.SPADE -> it.zoneSpades
+                CardSuit.CLUB -> it.zoneClubs
+                CardSuit.DIAMOND -> it.zoneDiamonds
+                CardSuit.HEART -> it.zoneHearts
             }
         }.run {
             when (mapEntry.value) {
