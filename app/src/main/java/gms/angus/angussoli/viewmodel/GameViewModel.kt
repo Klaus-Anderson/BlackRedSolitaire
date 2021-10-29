@@ -20,6 +20,7 @@ interface GameViewModel {
     val blackDiscardTextVisibilityLiveData: LiveData<Int>
     val deckTopCardVisibilityLiveData: LiveData<Int>
     val breakButtonVisibilityLiveData: LiveData<Int>
+    val breakButtonClickableLiveData: LiveData<Boolean>
     val underDeckTextLiveData: LiveData<String>
     val cardLeftTextLiveData: LiveData<String>
     val cardSquanderedTextLiveData: LiveData<String>
@@ -53,7 +54,7 @@ interface GameViewModel {
     fun onNewGameClick(view: View)
 
     fun enableCompleteMode(context: Context)
-    fun onFaceCardClick(cardValue: CardValue, cardSuit: CardSuit, context: Context)
+    fun onFaceCardClick(cardValue: CardValue?, cardSuit: CardSuit) : View.OnClickListener
     fun getCardImageBitmap(card: Card): Bitmap?
 
     class GameViewModelFactory(val application: Application) : ViewModelProvider.AndroidViewModelFactory(application) {

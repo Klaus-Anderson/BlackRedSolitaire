@@ -30,6 +30,7 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
     override val blackDiscardTextVisibilityLiveData = MutableLiveData<Int>(View.INVISIBLE)
     override val deckTopCardVisibilityLiveData = MutableLiveData<Int>(View.VISIBLE)
     override val breakButtonVisibilityLiveData = MutableLiveData<Int>(View.VISIBLE)
+    override val breakButtonClickableLiveData = MutableLiveData<Boolean>(true)
     override val underDeckTextLiveData = MutableLiveData<String>()
     override val cardLeftTextLiveData = MutableLiveData<String>("52")
     override val cardSquanderedTextLiveData = MutableLiveData<String>("0")
@@ -78,7 +79,7 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
                             .asBitmap()
                             .load(
                                 Firebase.storage.reference.child(
-                                    String.format("simple-cards/%s_%s.png", value.identity, suit.identity)
+                                    String.format("simple-cards/%s_%s.png", value.identity.lowercase(), suit.identity)
                                 )
                             )
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
@@ -140,10 +141,12 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
                 View.INVISIBLE
             })
         }
-        breakButtonVisibilityLiveData.value = if(gameState.isBreakButtonEligible()){
-            View.VISIBLE
+        if (gameState.isBreakButtonEligible()) {
+            breakButtonVisibilityLiveData.value = View.VISIBLE
+            breakButtonClickableLiveData.value = true
         } else {
-            View.INVISIBLE
+            breakButtonVisibilityLiveData.value = View.INVISIBLE
+            breakButtonClickableLiveData.value = false
         }
 
         cardLeftTextLiveData.value = gameState.getCardsLeftText()
@@ -187,9 +190,13 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
         updateLiveData(view.context)
     }
 
-    override fun onFaceCardClick(cardValue: CardValue, cardSuit: CardSuit, context: Context) {
-        gameState.onFaceCardTouched(cardValue, cardSuit)
-        updateLiveData(context)
+    override fun onFaceCardClick(cardValue: CardValue?, cardSuit: CardSuit): View.OnClickListener {
+        return View.OnClickListener { view ->
+            cardValue?.let {
+                gameState.onFaceCardTouched(cardValue, cardSuit)
+                updateLiveData(view.context)
+            }
+        }
     }
 
     override fun enableCompleteMode(context: Context) {

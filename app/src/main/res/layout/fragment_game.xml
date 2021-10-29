@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
                 name="viewModel"
                 type="gms.angus.angussoli.viewmodel.GameViewModel"/>
+        <import type="gms.angus.angussoli.model.CardValue"/>
     </data>
     <RelativeLayout
             android:layout_width="match_parent"
@@ -42,6 +45,8 @@
                         app:layout_constraintEnd_toStartOf="@id/jacks_zone"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
+                        bind:viewModel="@{viewModel}"
+                        bind:value="@{CardValue.TEN}"
                         layout="@layout/zone_layout"/>
 
                 <include
@@ -52,6 +57,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/tens_zone"
                         app:layout_constraintEnd_toStartOf="@id/queens_zone"
+                        bind:viewModel="@{viewModel}"
+                        bind:value="@{CardValue.JACK}"
                         layout="@layout/zone_layout"/>
 
                 <include
@@ -62,6 +69,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/jacks_zone"
                         app:layout_constraintEnd_toStartOf="@id/kings_zone"
+                        bind:viewModel="@{viewModel}"
+                        bind:value="@{CardValue.QUEEN}"
                         layout="@layout/zone_layout"/>
 
                 <include
@@ -72,6 +81,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/queens_zone"
                         app:layout_constraintEnd_toStartOf="@id/aces_zone"
+                        bind:viewModel="@{viewModel}"
+                        bind:value="@{CardValue.KING}"
                         layout="@layout/zone_layout"/>
 
                 <include
@@ -82,6 +93,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/kings_zone"
                         app:layout_constraintEnd_toStartOf="@id/pile_zone"
+                        bind:viewModel="@{viewModel}"
+                        bind:value="@{CardValue.ACE}"
                         layout="@layout/zone_layout"/>
 
                 <include
@@ -92,6 +105,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/aces_zone"
                         app:layout_constraintEnd_toEndOf="parent"
+                        bind:viewModel="@{viewModel}"
                         layout="@layout/zone_layout"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -564,6 +578,7 @@
                             android:text="@string/breakString"
                             android:textSize="13sp"
                             android:background="@drawable/button_break"
+                            android:clickable="@{viewModel.breakButtonClickableLiveData}"
                             android:visibility="@{viewModel.breakButtonVisibilityLiveData}"
                             android:onClick="@{viewModel::onBreakClick}"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>

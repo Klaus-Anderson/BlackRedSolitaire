@@ -22,10 +22,6 @@ import gms.angus.angussoli.viewmodel.impl.GameViewModelImpl
 
 class GameFragment : Fragment() {
 
-    companion object {
-        const val CARD_IMAGES_INTENT_FLAG = "CARD_IMAGES_INTENT_FLAG"
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val binding = FragmentGameBinding.inflate(inflater, container, false)
         val gameViewModel: GameViewModel = ViewModelProvider(
@@ -36,28 +32,21 @@ class GameFragment : Fragment() {
         binding.viewModel = gameViewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.tensZone.apply {
-            setFaceCardOnClickListeners(gameViewModel, this, CardValue.TEN)
-        }
         binding.jacksZone.apply {
             root.background = activity?.getDrawable(R.drawable.zone_current)
             zoneTextView.text = getString(R.string.jack)
-            setFaceCardOnClickListeners(gameViewModel, this, CardValue.JACK)
         }
         binding.queensZone.apply {
             root.background = activity?.getDrawable(R.drawable.zone_locked)
             zoneTextView.text = getString(R.string.queen)
-            setFaceCardOnClickListeners(gameViewModel, this, CardValue.QUEEN)
         }
         binding.kingsZone.apply {
             root.background = activity?.getDrawable(R.drawable.zone_locked)
             zoneTextView.text = getString(R.string.king)
-            setFaceCardOnClickListeners(gameViewModel, this, CardValue.KING)
         }
         binding.acesZone.apply {
             root.background = activity?.getDrawable(R.drawable.zone_locked)
             zoneTextView.text = getString(R.string.ace)
-            setFaceCardOnClickListeners(gameViewModel, this, CardValue.ACE)
         }
         binding.pileZone.apply {
             root.background = activity?.getDrawable(R.drawable.zone_current)
@@ -100,27 +89,27 @@ class GameFragment : Fragment() {
 
         gameViewModel.tenZoneLiveData.observe(viewLifecycleOwner) { zoneMap ->
             zoneMap.forEach { mapEntry ->
-                setFaceCard(binding.tensZone as ZoneLayoutBinding, mapEntry, CardValue.TEN, gameViewModel)
+                setFaceCard(binding.tensZone, mapEntry, CardValue.TEN, gameViewModel)
             }
         }
         gameViewModel.jackZoneLiveData.observe(viewLifecycleOwner) { zoneMap ->
             zoneMap.forEach { mapEntry ->
-                setFaceCard(binding.jacksZone as ZoneLayoutBinding, mapEntry, CardValue.JACK, gameViewModel)
+                setFaceCard(binding.jacksZone, mapEntry, CardValue.JACK, gameViewModel)
             }
         }
         gameViewModel.queenZoneLiveData.observe(viewLifecycleOwner) { zoneMap ->
             zoneMap.forEach { mapEntry ->
-                setFaceCard(binding.queensZone as ZoneLayoutBinding, mapEntry, CardValue.QUEEN, gameViewModel)
+                setFaceCard(binding.queensZone, mapEntry, CardValue.QUEEN, gameViewModel)
             }
         }
         gameViewModel.kingZoneLiveData.observe(viewLifecycleOwner) { zoneMap ->
             zoneMap.forEach { mapEntry ->
-                setFaceCard(binding.kingsZone as ZoneLayoutBinding, mapEntry, CardValue.KING, gameViewModel)
+                setFaceCard(binding.kingsZone, mapEntry, CardValue.KING, gameViewModel)
             }
         }
         gameViewModel.aceZoneLiveData.observe(viewLifecycleOwner) { zoneMap ->
             zoneMap.forEach { mapEntry ->
-                setFaceCard(binding.acesZone as ZoneLayoutBinding, mapEntry, CardValue.ACE, gameViewModel)
+                setFaceCard(binding.acesZone, mapEntry, CardValue.ACE, gameViewModel)
             }
         }
 
@@ -168,14 +157,7 @@ class GameFragment : Fragment() {
                     CardValue.JACK -> binding.jacksZone
                     CardValue.QUEEN -> binding.queensZone
                     CardValue.KING -> binding.kingsZone
-                    CardValue.ACE -> run {
-                        //todo: move this to ViewModel
-                        if (binding.breakButton.visibility == View.VISIBLE) {
-                            binding.breakButton.visibility = View.INVISIBLE
-                            binding.breakButton.isClickable = false
-                        }
-                        binding.acesZone
-                    }
+                    CardValue.ACE -> binding.acesZone
                     else -> throw IllegalStateException()
                 }
             }?.run {
@@ -208,27 +190,6 @@ class GameFragment : Fragment() {
         gameViewModel.getCardImageBitmap(card)?.let {
             imageView.setImageBitmap(it.scale(imageView.width, imageView.height, false))
             imageView.visibility = View.VISIBLE
-        }
-    }
-
-    private fun setFaceCardOnClickListeners(
-        gameViewModel: GameViewModel,
-        zoneLayoutBinding: ZoneLayoutBinding,
-        cardValue: CardValue
-    ) {
-        zoneLayoutBinding.apply {
-            zoneClubs.setOnClickListener {
-                gameViewModel.onFaceCardClick(cardValue, CardSuit.CLUB, activity!!)
-            }
-            zoneSpades.setOnClickListener {
-                gameViewModel.onFaceCardClick(cardValue, CardSuit.SPADE, activity!!)
-            }
-            zoneDiamonds.setOnClickListener {
-                gameViewModel.onFaceCardClick(cardValue, CardSuit.DIAMOND, activity!!)
-            }
-            zoneHearts.setOnClickListener {
-                gameViewModel.onFaceCardClick(cardValue, CardSuit.HEART, activity!!)
-            }
         }
     }
 
