@@ -4,10 +4,10 @@
 
     <stroke
             android:width="@dimen/zone_border_width"
-            android:color="@color/white"/>
+            android:color="?attr/buttonBorderColor"/>
 
     <solid
-            android:color="@color/black"/>
+            android:color="?attr/blackZoneBackgroundColor"/>
 
     <corners
             android:radius="@dimen/zone_corner_radius"

@@ -287,13 +287,13 @@ class GameState() {
     }
 
     fun enableCompleteMode() {
-        currentLevel = CardValue.KING
+        currentLevel = CardValue.ACE
         clearedFaceValues = levels.toMutableList().apply {
             removeAll {
-                it.value > 12
+                it.value > 13
             }
         }
-        multiplierScore = 5
+        multiplierScore = 7
         rawScore = 1
     }
 
@@ -340,7 +340,7 @@ class GameState() {
         } ?: run {
             currentLevel?.let {
                 it != CardValue.ACE
-            } ?: true
+            } ?: false
         }
     }
 

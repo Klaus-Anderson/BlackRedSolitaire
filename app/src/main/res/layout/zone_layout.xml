@@ -33,7 +33,7 @@
                 android:layout_gravity="center"
                 android:text="@{value != null ? value.identity : context.getString(R.string.pile)}"
                 tools:text="10"
-                android:textAppearance="?android:attr/textAppearanceInverse"
+                android:textColor="?attr/clearedZoneTextColor"
                 android:textSize="17sp"/>
 
         <ImageView

@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="white">#FFFFFF</color>
-    <color name="dark_brown">#5e3939</color>
     <color name="black">#000000</color>
-    <color name="light_grey">#DBDBDB</color>
+    <color name="red">#FF0000</color>
+    <color name="light_grey">#e8e8e8</color>
+    <color name="dark_grey">#c2c2c2</color>
     <color name="dark_red">#d94141</color>
     <color name="light_green">#a3f0a3</color>
     <color name="brown">#7B3F00</color>
     <color name="green">#3fb03f</color>
-    <color name="red">#FF0000</color>
     <color name="light_blue">#7b7bE8</color>
-    <color name="peach">#BA8080</color>
+    <color name="dark_pink">#BA8080</color>
     <color name="dark_purple">#3b1F30</color>
-    <color name="see_through_dark_purple">#663b1F30</color>
+
+    <color name="black_2">#11111d</color>
+    <color name="red_2">#d12121</color>
+    <color name="light_grey_2">#C1C1D4</color>
+    <color name="dark_grey_2">#21212E</color>
+    <color name="dark_red_2">#46464D</color>
+    <color name="light_green_2">#414163</color>
+    <color name="brown_2">#B32222</color>
+    <color name="green_2">#0D0Dd6</color>
+    <color name="light_blue_2">#8888CF</color>
+    <color name="dark_pink_2">#191994</color>
+    <color name="dark_purple_2">#ffffff</color>
+
+
 </resources>
