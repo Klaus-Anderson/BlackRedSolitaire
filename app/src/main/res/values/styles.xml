@@ -73,8 +73,8 @@
         <item name="lockedZoneBackgroundColor">@color/brown_2</item>
         <item name="lockedZoneTextColor">?attr/positiveTextColor</item>
 
-        <item name="brokenZoneBackgroundColor">@color/dark_grey_2</item>
-        <item name="brokenZoneTextColor">?attr/positiveTextColor</item>
+        <item name="brokenZoneBackgroundColor">@color/light_grey_2</item>
+        <item name="brokenZoneTextColor">?attr/negativeTextColor</item>
 
         <item name="blackZoneBackgroundColor">@color/black_2</item>
         <item name="blackZoneTextColor">?attr/positiveTextColor</item>

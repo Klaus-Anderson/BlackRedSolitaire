@@ -2,6 +2,7 @@ package gms.angus.angussoli.view
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,7 +52,9 @@ class GameFragment : Fragment() {
         binding.pileZone.apply {
             root.background = activity?.getDrawable(R.drawable.zone_current)
             zoneTextView.text = getString(R.string.pile)
-            zoneTextView.setTextColor(Color.BLACK)
+            zoneTextView.setTextColor(TypedValue().also{
+                context?.theme?.resolveAttribute(R.attr.currentZoneTextColor, it, true)
+            }.data)
         }
 
         binding.newGameButton.setOnLongClickListener {
@@ -144,14 +147,16 @@ class GameFragment : Fragment() {
                     CardValue.ACE -> binding.acesZone
                     else -> throw IllegalStateException()
                 }
-            }.forEach {
-                it.root.setBackgroundResource(R.drawable.zone_cleared)
-                it.zoneTextView.setTextColor(Color.BLACK)
+            }.forEach { zoneLayoutBinding ->
+                zoneLayoutBinding.root.setBackgroundResource(R.drawable.zone_cleared)
+                zoneLayoutBinding.zoneTextView.setTextColor(TypedValue().also{
+                    context?.theme?.resolveAttribute(R.attr.clearedZoneTextColor, it, true)
+                }.data)
             }
         }
 
-        gameViewModel.currentLevelLiveData.observe(viewLifecycleOwner) {
-            it?.let {
+        gameViewModel.currentLevelLiveData.observe(viewLifecycleOwner) { cardValue ->
+            cardValue?.let {
                 when (it) {
                     CardValue.TEN -> binding.tensZone
                     CardValue.JACK -> binding.jacksZone
@@ -162,12 +167,14 @@ class GameFragment : Fragment() {
                 }
             }?.run {
                 root.setBackgroundResource(R.drawable.zone_current)
-                zoneTextView.setTextColor(Color.BLACK)
+                zoneTextView.setTextColor(TypedValue().also{
+                    context?.theme?.resolveAttribute(R.attr.currentZoneTextColor, it, true)
+                }.data)
             }
         }
 
-        gameViewModel.brokenFaceValueLiveData.observe(viewLifecycleOwner) {
-            it?.let {
+        gameViewModel.brokenFaceValueLiveData.observe(viewLifecycleOwner) { cardValue ->
+            cardValue?.let {
                 binding.breakButton.visibility = View.INVISIBLE
                 when (it) {
                     CardValue.TEN -> binding.tensZone
@@ -179,7 +186,9 @@ class GameFragment : Fragment() {
                 }
             }?.apply {
                 root.setBackgroundResource(R.drawable.zone_broken)
-                zoneTextView.setTextColor(Color.BLACK)
+                zoneTextView.setTextColor(TypedValue().also{
+                    context?.theme?.resolveAttribute(R.attr.brokenZoneTextColor, it, true)
+                }.data)
             }
 
         }
