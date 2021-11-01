@@ -108,4 +108,13 @@
         <item name="android:textColor">?attr/positiveTextColor</item>
         <item name="android:layout_weight">1</item>
     </style>
+
+    <style name="zone_style">
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginHorizontal">@dimen/zone_horizontal_margins</item>
+        <item name="android:layout_marginVertical">@dimen/zone_vertical_margins</item>
+    </style>
 </resources>

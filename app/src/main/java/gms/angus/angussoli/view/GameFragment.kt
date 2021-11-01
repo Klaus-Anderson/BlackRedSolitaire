@@ -235,9 +235,9 @@ class GameFragment : Fragment() {
                 FaceCardState.BROKEN -> run {
                     if (visibility == View.INVISIBLE) {
                         setImageResource(R.drawable.card_back)
-                        setBackgroundResource(0)
                         visibility = View.VISIBLE
                     }
+                    setBackgroundResource(0)
                 }
                 FaceCardState.USED -> run {
                     setBackgroundResource(R.drawable.zone_cover)
