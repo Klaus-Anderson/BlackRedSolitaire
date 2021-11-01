@@ -2,6 +2,7 @@
 <resources>
     <color name="black">#000000</color>
     <color name="red">#FF0000</color>
+    <color name="magenta">#FF00FF</color>
     <color name="light_grey">#e8e8e8</color>
     <color name="dark_grey">#c2c2c2</color>
     <color name="dark_red">#d94141</color>
@@ -12,17 +13,20 @@
     <color name="dark_pink">#BA8080</color>
     <color name="dark_purple">#3b1F30</color>
 
+    <color name="blue">#0000FF</color>
+    <color name="cyan">#00FFFF</color>
+
     <color name="black_2">#11111d</color>
     <color name="red_2">#d12121</color>
     <color name="light_grey_2">#C1C1D4</color>
     <color name="dark_grey_2">#21212E</color>
-    <color name="dark_red_2">#46464D</color>
-    <color name="light_green_2">#414163</color>
-    <color name="brown_2">#B32222</color>
-    <color name="green_2">#0D0Dd6</color>
-    <color name="light_blue_2">#8888CF</color>
-    <color name="dark_pink_2">#191994</color>
-    <color name="dark_purple_2">#ffffff</color>
+    <color name="dark_grey_3">#46464D</color>
+    <color name="dark_blue_2">#414163</color>
+    <color name="crimson_red">#B32222</color>
+    <color name="blue_2">#0D0Dd6</color>
+    <color name="light_purple">#8888CF</color>
+    <color name="dark_blue">#191994</color>
+    <color name="off_white">#DCDCE0</color>
 
 
 </resources>

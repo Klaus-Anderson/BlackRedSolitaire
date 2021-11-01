@@ -31,5 +31,8 @@
     <attr name="buttonTextColor" format="color" />
     <attr name="buttonBorderColor" format="color" />
 
+    <attr name="outline_hint_face" format="color"/>
+    <attr name="outline_hint_number" format="color"/>
+
     <attr name="zoneCoverColor" format="color" />
 </resources>

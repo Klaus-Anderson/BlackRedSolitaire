@@ -11,6 +11,7 @@
         <item name="blackZoneTextColor">@android:color/white</item>
         <item name="redZoneTextColor">@android:color/white</item>
         <item name="deckZoneTextColor">@android:color/white</item>
+        <item name="colorAccent">?attr/lockedZoneBackgroundColor</item>
 
         <!-- inactive thumb color -->
         <item name="colorSwitchThumbNormal">?attr/greyTextColor</item>
@@ -52,6 +53,8 @@
         <item name="buttonTextColor">?attr/negativeTextColor</item>
         <item name="buttonBorderColor">?attr/negativeTextColor</item>
 
+        <item name="outline_hint_number">@color/cyan</item>
+        <item name="outline_hint_face">@color/blue</item>
         <item name="zoneCoverColor">@color/light_blue</item>
 
     </style>
@@ -62,15 +65,15 @@
         <item name="greyTextColor">@color/light_grey_2</item>
         <item name="lightGreyTextColor">@color/dark_grey_2</item>
 
-        <item name="backgroundColor">@color/dark_purple_2</item>
+        <item name="backgroundColor">@color/off_white</item>
 
-        <item name="clearedZoneBackgroundColor">@color/dark_pink_2</item>
+        <item name="clearedZoneBackgroundColor">@color/dark_blue_2</item>
         <item name="clearedZoneTextColor">?attr/positiveTextColor</item>
 
-        <item name="currentZoneBackgroundColor">@color/light_green_2</item>
+        <item name="currentZoneBackgroundColor">@color/dark_blue</item>
         <item name="currentZoneTextColor">?attr/positiveTextColor</item>
 
-        <item name="lockedZoneBackgroundColor">@color/brown_2</item>
+        <item name="lockedZoneBackgroundColor">@color/crimson_red</item>
         <item name="lockedZoneTextColor">?attr/positiveTextColor</item>
 
         <item name="brokenZoneBackgroundColor">@color/light_grey_2</item>
@@ -82,14 +85,17 @@
         <item name="redZoneBackgroundColor">@color/red_2</item>
         <item name="redZoneTextColor">?attr/positiveTextColor</item>
 
-        <item name="deckZoneBackgroundColor">@color/green_2</item>
+        <item name="deckZoneBackgroundColor">@color/blue_2</item>
         <item name="deckZoneTextColor">?attr/positiveTextColor</item>
 
-        <item name="buttonBackgroundColor">@color/dark_red_2</item>
+        <item name="buttonBackgroundColor">@color/dark_grey_3</item>
         <item name="buttonTextColor">?attr/positiveTextColor</item>
         <item name="buttonBorderColor">?attr/negativeTextColor</item>
 
-        <item name="zoneCoverColor">@color/light_blue_2</item>
+        <item name="outline_hint_number">@color/magenta</item>
+        <item name="outline_hint_face">@color/red</item>
+
+        <item name="zoneCoverColor">@color/light_purple</item>
 
     </style>
 
