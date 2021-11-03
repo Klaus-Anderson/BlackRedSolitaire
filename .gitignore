@@ -183,3 +183,5 @@ MAlonzo/**
 hs_err_pid*
 
 /local.properties
+/.idea/modules/app/black-red-solitaire.app.iml
+/gradle/wrapper/gradle-wrapper.properties
