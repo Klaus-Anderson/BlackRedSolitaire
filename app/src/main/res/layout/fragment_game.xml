@@ -103,7 +103,8 @@
                         android:layout_marginHorizontal="0dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/black"
-                        android:padding="12dp">
+                        android:padding="12dp"
+                        tools:ignore="MissingConstraints">
 
                     <TextView
                             android:id="@+id/cards_remaining"
@@ -266,7 +267,8 @@
                         style="@style/zone_style"
                         app:layout_constraintStart_toEndOf="@id/discard"
                         app:layout_constraintEnd_toStartOf="@id/red"
-                        android:background="@drawable/zone_black">
+                        android:background="@drawable/zone_black"
+                        tools:ignore="MissingConstraints">
 
                     <TextView
                             app:layout_constraintTop_toTopOf="parent"
@@ -311,10 +313,10 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/red"
                         style="@style/zone_style"
-
                         app:layout_constraintStart_toEndOf="@id/black"
                         app:layout_constraintEnd_toStartOf="@id/deck"
-                        android:background="@drawable/zone_red">
+                        android:background="@drawable/zone_red"
+                        tools:ignore="MissingConstraints">
 
                     <TextView
                             app:layout_constraintTop_toTopOf="parent"
@@ -360,10 +362,10 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/deck"
                         style="@style/zone_style"
-
                         app:layout_constraintStart_toEndOf="@id/red"
                         app:layout_constraintEnd_toStartOf="@id/score_layout"
-                        android:background="@drawable/zone_deck">
+                        android:background="@drawable/zone_deck"
+                        tools:ignore="MissingConstraints">
 
                     <TextView
                             app:layout_constraintTop_toTopOf="parent"
@@ -560,7 +562,7 @@
                         style="@style/zone_style"
                         android:layout_marginHorizontal="0dp"
                         app:layout_constraintStart_toEndOf="@id/score_layout"
-                        app:layout_constraintEnd_toEndOf="parent">
+                        app:layout_constraintEnd_toEndOf="parent" tools:ignore="MissingConstraints">
 
                     <Button
                             app:layout_constraintTop_toTopOf="parent"

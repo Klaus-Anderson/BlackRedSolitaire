@@ -1,6 +1,6 @@
 package gms.angus.angussoli.model
 
-class GameState() {
+class GameState {
     private val discardedCards = ArrayDeque<Card>()
     private val levels = listOf(CardValue.TEN, CardValue.JACK, CardValue.QUEEN, CardValue.KING, CardValue.ACE)
     private var rawScore = 0
