@@ -44,7 +44,8 @@
                         app:layout_constraintEnd_toStartOf="@id/jacks_zone"
                         bind:viewModel="@{viewModel}"
                         bind:value="@{CardValue.TEN}"
-                        layout="@layout/face_zone_layout" android:layoutMode="clipBounds"/>
+                        layout="@layout/face_zone_layout"
+                        android:layoutMode="clipBounds"/>
 
                 <include
                         android:id="@+id/jacks_zone"
@@ -297,9 +298,10 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 android:id="@+id/blackFrame"
+                                android:scaleType="fitXY"
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
-                                app:layout_constraintWidth_percent=".75"
+                                app:layout_constraintDimensionRatio="@string/card_size_ratio"
                                 android:onClick="@{viewModel::onBlackFrameClick}"/>
 
                         <TextView
@@ -360,7 +362,8 @@
                                 android:id="@+id/redFrame"
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
-                                app:layout_constraintWidth_percent=".75"
+                                android:scaleType="fitXY"
+                                app:layout_constraintDimensionRatio="@string/card_size_ratio"
                                 android:onClick="@{viewModel::onRedFrameClick}"/>
 
                         <TextView
@@ -421,7 +424,8 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
-                                app:layout_constraintWidth_percent=".75"
+                                app:layout_constraintDimensionRatio="@string/card_size_ratio"
+                                android:scaleType="fitXY"
                                 android:src="@drawable/card_back"
                                 android:visibility="@{viewModel.deckTopCardVisibilityLiveData}"
                                 android:contentDescription="@string/top_card_access"

@@ -100,4 +100,10 @@
         <item name="android:layout_marginHorizontal">@dimen/zone_horizontal_margins</item>
         <item name="android:layout_marginVertical">@dimen/zone_vertical_margins</item>
     </style>
+
+    <style name="card_imageview_style">
+        <item name="android:scaleType">fitXY</item>
+        <item name="layout_constraintDimensionRatio">@string/card_size_ratio</item>
+
+    </style>
 </resources>

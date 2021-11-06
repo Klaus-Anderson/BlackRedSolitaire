@@ -9,15 +9,15 @@
     <dimen name="zone_border_width">1dp</dimen>
     <dimen name="zone_corner_radius">10dp</dimen>
     <dimen name="zone_vertical_margins">5dp</dimen>
-    <dimen name="zone_horizontal_margins">5dp</dimen>
-    <dimen name="zone_title_margin_bottom">8dp</dimen>
+    <dimen name="zone_horizontal_margins">3dp</dimen>
+    <dimen name="zone_title_margin_bottom">4dp</dimen>
 
     <dimen name="face_zone_pool_padding">2dp</dimen>
     <dimen name="face_zone_pool_suit_imageview_horizontal_padding">2dp</dimen>
     <dimen name="face_zone_pool_suit_imageview_vertical_padding">2dp</dimen>
 
     <dimen name="color_zone_padding_vertical">6dp</dimen>
-    <dimen name="discard_text_margin_top">5dp</dimen>
+    <dimen name="discard_text_margin_top">2dp</dimen>
 
     <dimen name="zone_title_text_size">19sp</dimen>
     <dimen name="button_text_size">15sp</dimen>
