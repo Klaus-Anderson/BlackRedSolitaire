@@ -1,6 +1,5 @@
 package gms.angus.angussoli.view
 
-import android.graphics.Color
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -11,8 +10,8 @@ import androidx.core.graphics.scale
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import gms.angus.angussoli.R
+import gms.angus.angussoli.databinding.FaceZoneLayoutBinding
 import gms.angus.angussoli.databinding.FragmentGameBinding
-import gms.angus.angussoli.databinding.ZoneLayoutBinding
 import gms.angus.angussoli.model.Card
 import gms.angus.angussoli.model.CardSuit
 import gms.angus.angussoli.model.CardValue
@@ -34,25 +33,25 @@ class GameFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.jacksZone.apply {
-            zonePool.background = activity?.getDrawable(R.drawable.zone_current)
-            zoneTextView.text = getString(R.string.jack)
+            faceZonePool.background = activity?.getDrawable(R.drawable.zone_current)
+            zoneTitleTextView.text = getString(R.string.jack)
         }
         binding.queensZone.apply {
-            zonePool.background = activity?.getDrawable(R.drawable.zone_locked)
-            zoneTextView.text = getString(R.string.queen)
+            faceZonePool.background = activity?.getDrawable(R.drawable.zone_locked)
+            zoneTitleTextView.text = getString(R.string.queen)
         }
         binding.kingsZone.apply {
-            zonePool.background = activity?.getDrawable(R.drawable.zone_locked)
-            zoneTextView.text = getString(R.string.king)
+            faceZonePool.background = activity?.getDrawable(R.drawable.zone_locked)
+            zoneTitleTextView.text = getString(R.string.king)
         }
         binding.acesZone.apply {
-            zonePool.background = activity?.getDrawable(R.drawable.zone_locked)
-            zoneTextView.text = getString(R.string.ace)
+            faceZonePool.background = activity?.getDrawable(R.drawable.zone_locked)
+            zoneTitleTextView.text = getString(R.string.ace)
         }
         binding.pileZone.apply {
-            zonePool.background = activity?.getDrawable(R.drawable.zone_current)
-            zoneTextView.text = getString(R.string.pile)
-            zoneTextView.setTextColor(TypedValue().also{
+            faceZonePool.background = activity?.getDrawable(R.drawable.zone_current)
+            zoneTitleTextView.text = getString(R.string.pile)
+            zoneTitleTextView.setTextColor(TypedValue().also {
                 context?.theme?.resolveAttribute(R.attr.currentZoneTextColor, it, true)
             }.data)
         }
@@ -120,10 +119,10 @@ class GameFragment : Fragment() {
             zoneMap.forEach {
                 binding.pileZone.run {
                     when (it.key) {
-                        CardSuit.CLUB -> zoneClubs
-                        CardSuit.DIAMOND -> zoneDiamonds
-                        CardSuit.SPADE -> zoneSpades
-                        CardSuit.HEART -> zoneHearts
+                        CardSuit.CLUB -> faceZoneClubsImageview
+                        CardSuit.DIAMOND -> faceZoneDiamondsImageview
+                        CardSuit.SPADE -> faceZoneSpadesImageview
+                        CardSuit.HEART -> faceZoneHeartImageview
                     }
                 }.run {
                     it.value?.let { card ->
@@ -147,9 +146,9 @@ class GameFragment : Fragment() {
                     CardValue.ACE -> binding.acesZone
                     else -> throw IllegalStateException()
                 }
-            }.forEach { zoneLayoutBinding ->
-                zoneLayoutBinding.zonePool.setBackgroundResource(R.drawable.zone_cleared)
-                zoneLayoutBinding.zoneTextView.setTextColor(TypedValue().also{
+            }.forEach { faceZoneLayoutBinding ->
+                faceZoneLayoutBinding.faceZonePool.setBackgroundResource(R.drawable.zone_cleared)
+                faceZoneLayoutBinding.zoneTitleTextView.setTextColor(TypedValue().also {
                     context?.theme?.resolveAttribute(R.attr.clearedZoneTextColor, it, true)
                 }.data)
             }
@@ -166,8 +165,8 @@ class GameFragment : Fragment() {
                     else -> throw IllegalStateException()
                 }
             }?.run {
-                zonePool.setBackgroundResource(R.drawable.zone_current)
-                zoneTextView.setTextColor(TypedValue().also{
+                faceZonePool.setBackgroundResource(R.drawable.zone_current)
+                zoneTitleTextView.setTextColor(TypedValue().also {
                     context?.theme?.resolveAttribute(R.attr.currentZoneTextColor, it, true)
                 }.data)
             }
@@ -185,8 +184,8 @@ class GameFragment : Fragment() {
                     else -> throw IllegalStateException()
                 }
             }?.apply {
-                zonePool.setBackgroundResource(R.drawable.zone_broken)
-                zoneTextView.setTextColor(TypedValue().also{
+                faceZonePool.setBackgroundResource(R.drawable.zone_broken)
+                zoneTitleTextView.setTextColor(TypedValue().also {
                     context?.theme?.resolveAttribute(R.attr.brokenZoneTextColor, it, true)
                 }.data)
             }
@@ -203,17 +202,17 @@ class GameFragment : Fragment() {
     }
 
     private fun setFaceCard(
-        binding: ZoneLayoutBinding,
+        binding: FaceZoneLayoutBinding,
         mapEntry: Map.Entry<CardSuit, FaceCardState>,
         cardValue: CardValue,
         gameViewModel: GameViewModel
     ) {
         binding.let {
             when (mapEntry.key) {
-                CardSuit.SPADE -> it.zoneSpades
-                CardSuit.CLUB -> it.zoneClubs
-                CardSuit.DIAMOND -> it.zoneDiamonds
-                CardSuit.HEART -> it.zoneHearts
+                CardSuit.SPADE -> it.faceZoneSpadesImageview
+                CardSuit.CLUB -> it.faceZoneClubsImageview
+                CardSuit.DIAMOND -> it.faceZoneDiamondsImageview
+                CardSuit.HEART -> it.faceZoneHeartImageview
             }
         }.run {
             when (mapEntry.value) {

@@ -16,4 +16,6 @@
     <dimen name="face_zone_pool_vertical_padding">2dp</dimen>
     <dimen name="info_text_size_small">13sp</dimen>
     <dimen name="info_text_size_large">17sp</dimen>
+    <dimen name="color_zone_padding_vertical">12dp</dimen>
+    <dimen name="discard_text_margin_top">5dp</dimen>
 </resources>

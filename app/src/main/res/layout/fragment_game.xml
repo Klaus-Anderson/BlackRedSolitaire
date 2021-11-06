@@ -285,6 +285,7 @@
                             android:id="@+id/black_pool"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
+                            android:paddingVertical="@dimen/color_zone_padding_vertical"
                             app:layout_constraintTop_toBottomOf="@id/textViewBlack"
                             app:layout_constraintBottom_toBottomOf="parent"
                             android:background="@drawable/zone_black"
@@ -298,7 +299,6 @@
                                 android:id="@+id/blackFrame"
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
-                                android:layout_marginVertical="5dp"
                                 app:layout_constraintWidth_percent=".75"
                                 android:onClick="@{viewModel::onBlackFrameClick}"/>
 
@@ -311,10 +311,10 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/blackFrame"
                                 android:text="@string/press_to_discard"
+                                android:layout_marginTop="@dimen/discard_text_margin_top"
                                 android:textColor="?attr/blackZoneTextColor"
-                                android:textSize="13sp"
+                                android:textSize="@dimen/info_text_size_small"
                                 android:visibility="@{viewModel.blackDiscardTextVisibilityLiveData}"
-                                android:layout_marginBottom="12dp"
                                 android:layout_weight="1"/>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -346,6 +346,7 @@
                             android:id="@+id/red_pool"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
+                            android:paddingVertical="@dimen/color_zone_padding_vertical"
                             app:layout_constraintTop_toBottomOf="@id/textViewRed"
                             app:layout_constraintBottom_toBottomOf="parent"
                             android:background="@drawable/zone_red"
@@ -359,7 +360,6 @@
                                 android:id="@+id/redFrame"
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
-                                android:layout_marginVertical="5dp"
                                 app:layout_constraintWidth_percent=".75"
                                 android:onClick="@{viewModel::onRedFrameClick}"/>
 
@@ -373,10 +373,9 @@
                                 app:layout_constraintTop_toBottomOf="@id/redFrame"
                                 android:text="@string/press_to_discard"
                                 android:textColor="?attr/redZoneTextColor"
-
-                                android:textSize="13sp"
+                                android:textSize="@dimen/info_text_size_small"
+                                android:layout_marginTop="@dimen/discard_text_margin_top"
                                 android:visibility="@{viewModel.redDiscardTextVisibilityLiveData}"
-                                android:layout_marginBottom="12dp"
                                 android:layout_weight="1"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -409,47 +408,49 @@
                             android:layout_height="0dp"
                             app:layout_constraintTop_toBottomOf="@id/textViewDeck"
                             app:layout_constraintBottom_toBottomOf="parent"
+                            android:paddingVertical="@dimen/color_zone_padding_vertical"
                             android:background="@drawable/zone_deck"
                             tools:ignore="MissingConstraints">
-                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <FrameLayout
-                            app:layout_constraintTop_toBottomOf="@id/textViewDeck"
-                            app:layout_constraintBottom_toTopOf="@id/underDeckText"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            android:layout_gravity="center"
-                            android:id="@+id/deckFrame"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_marginVertical="5dp"
-                            app:layout_constraintWidth_percent=".75">
-                        <ImageView
+                        <FrameLayout
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toTopOf="@id/underDeckText"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:layout_gravity="center"
+                                android:id="@+id/deckFrame"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_marginVertical="5dp"
+                                app:layout_constraintWidth_percent=".75">
+                            <ImageView
+                                    android:gravity="center"
+                                    android:id="@+id/topCard"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:src="@drawable/card_back"
+                                    android:visibility="@{viewModel.deckTopCardVisibilityLiveData}"
+                                    android:contentDescription="@string/top_card_access"
+                                    android:onClick="@{viewModel::onDeckFrameClick}"/>
+                        </FrameLayout>
+
+                        <TextView
+                                android:id="@+id/underDeckText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/deckFrame"
+                                android:text="@{viewModel.underDeckTextLiveData}"
                                 android:gravity="center"
-                                android:id="@+id/topCard"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:src="@drawable/card_back"
-                                android:visibility="@{viewModel.deckTopCardVisibilityLiveData}"
-                                android:contentDescription="@string/top_card_access"
-                                android:onClick="@{viewModel::onDeckFrameClick}"/>
-                    </FrameLayout>
+                                android:layout_marginTop="@dimen/discard_text_margin_top"
+                                android:textColor="?attr/deckZoneTextColor"
+                                android:textSize="@dimen/info_text_size_small"/>
 
-                    <TextView
-                            android:id="@+id/underDeckText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/deckFrame"
-                            android:text="@{viewModel.underDeckTextLiveData}"
-                            android:gravity="center"
-                            android:layout_marginBottom="12dp"
-                            android:textColor="?attr/deckZoneTextColor"
-                            android:textSize="13sp"/>
-
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
+`
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/score_layout"
@@ -460,7 +461,6 @@
                         app:layout_constraintStart_toEndOf="@id/deck"
                         app:layout_constraintEnd_toStartOf="@id/menu"
                 >
-
                     <TextView
                             android:id="@+id/score"
                             android:layout_width="0dp"
@@ -473,7 +473,7 @@
                             android:gravity="end"
                             android:text="@string/scoreColon"
                             android:textColor="?attr/negativeTextColor"
-                            android:textSize="13sp"/>
+                            android:textSize="@dimen/info_text_size_small"/>
 
                     <TextView
                             android:id="@+id/scoreText"
@@ -488,7 +488,7 @@
                             android:text="@{viewModel.scoreTextLiveData}"
                             tools:text="0"
                             android:textColor="?attr/negativeTextColor"
-                            android:textSize="13sp"/>
+                            android:textSize="@dimen/info_text_size_small"/>
 
                     <TextView
                             android:id="@+id/pile"
@@ -530,7 +530,7 @@
                             android:textColor="?attr/negativeTextColor"
                             android:gravity="end"
                             android:text="@string/level"
-                            android:textSize="13sp"/>
+                            android:textSize="@dimen/info_text_size_small"/>
 
                     <TextView
                             android:id="@+id/levelText"
@@ -544,7 +544,7 @@
                             android:gravity="center"
                             android:text="@{viewModel.levelTextLiveData}"
                             android:textColor="?attr/negativeTextColor"
-                            android:textSize="13sp"/>
+                            android:textSize="@dimen/info_text_size_small"/>
 
                     <TextView
                             android:id="@+id/multiplier"
@@ -572,18 +572,19 @@
                             android:gravity="center"
                             android:text="@{viewModel.multiplierTextLiveData}"
                             android:textColor="?attr/negativeTextColor"
-                            android:textSize="13sp"/>
+                            android:textSize="@dimen/info_text_size_small"/>
 
                     <Button
                             android:id="@+id/breakButton"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            style="@style/gameButtonStyle"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/multiplier"
                             android:text="@string/breakString"
-                            android:textSize="13sp"
+                            android:textSize="@dimen/info_text_size_small"
                             android:background="@drawable/button_break"
                             android:textColor="?attr/brokenZoneTextColor"
                             android:clickable="@{viewModel.breakButtonClickableLiveData}"
