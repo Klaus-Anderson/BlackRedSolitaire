@@ -51,9 +51,6 @@ class GameFragment : Fragment() {
         binding.pileZone.apply {
             faceZonePool.background = activity?.getDrawable(R.drawable.zone_current)
             zoneTitleTextView.text = getString(R.string.pile)
-            zoneTitleTextView.setTextColor(TypedValue().also {
-                context?.theme?.resolveAttribute(R.attr.currentZoneTextColor, it, true)
-            }.data)
         }
 
         binding.newGameButton.setOnLongClickListener {
@@ -148,9 +145,6 @@ class GameFragment : Fragment() {
                 }
             }.forEach { faceZoneLayoutBinding ->
                 faceZoneLayoutBinding.faceZonePool.setBackgroundResource(R.drawable.zone_cleared)
-                faceZoneLayoutBinding.zoneTitleTextView.setTextColor(TypedValue().also {
-                    context?.theme?.resolveAttribute(R.attr.clearedZoneTextColor, it, true)
-                }.data)
             }
         }
 
@@ -166,9 +160,6 @@ class GameFragment : Fragment() {
                 }
             }?.run {
                 faceZonePool.setBackgroundResource(R.drawable.zone_current)
-                zoneTitleTextView.setTextColor(TypedValue().also {
-                    context?.theme?.resolveAttribute(R.attr.currentZoneTextColor, it, true)
-                }.data)
             }
         }
 
@@ -185,9 +176,6 @@ class GameFragment : Fragment() {
                 }
             }?.apply {
                 faceZonePool.setBackgroundResource(R.drawable.zone_broken)
-                zoneTitleTextView.setTextColor(TypedValue().also {
-                    context?.theme?.resolveAttribute(R.attr.brokenZoneTextColor, it, true)
-                }.data)
             }
 
         }

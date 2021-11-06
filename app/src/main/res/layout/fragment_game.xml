@@ -278,7 +278,7 @@
                             android:layout_marginBottom="@dimen/zone_title_margin_bottom"
                             android:layout_gravity="center"
                             android:text="@string/black"
-                            android:textColor="?attr/blackZoneTextColor"
+                            android:textColor="?attr/zoneTitleTextColor"
                             android:textSize="@dimen/zone_title_text_size"/>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -312,7 +312,7 @@
                                 app:layout_constraintTop_toBottomOf="@id/blackFrame"
                                 android:text="@string/press_to_discard"
                                 android:layout_marginTop="@dimen/discard_text_margin_top"
-                                android:textColor="?attr/blackZoneTextColor"
+                                android:textColor="?attr/blackDiscardTextColor"
                                 android:textSize="@dimen/info_text_size_small"
                                 android:visibility="@{viewModel.blackDiscardTextVisibilityLiveData}"
                                 android:layout_weight="1"/>
@@ -339,7 +339,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/red"
-                            android:textColor="?attr/redZoneTextColor"
+                            android:textColor="?attr/zoneTitleTextColor"
                             android:textSize="@dimen/zone_title_text_size"/>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -372,7 +372,7 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/redFrame"
                                 android:text="@string/press_to_discard"
-                                android:textColor="?attr/redZoneTextColor"
+                                android:textColor="?attr/redDiscardTextColor"
                                 android:textSize="@dimen/info_text_size_small"
                                 android:layout_marginTop="@dimen/discard_text_margin_top"
                                 android:visibility="@{viewModel.redDiscardTextVisibilityLiveData}"
@@ -399,7 +399,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/zone_title_margin_bottom"
                             android:text="@string/deck"
-                            android:textColor="?attr/deckZoneTextColor"
+                            android:textColor="?attr/zoneTitleTextColor"
                             android:textSize="@dimen/zone_title_text_size"/>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -412,27 +412,20 @@
                             android:background="@drawable/zone_deck"
                             tools:ignore="MissingConstraints">
 
-                        <FrameLayout
+                        <ImageView
+                                android:gravity="center"
+                                android:id="@+id/topCard"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintBottom_toTopOf="@id/underDeckText"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                android:layout_gravity="center"
-                                android:id="@+id/deckFrame"
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
-                                android:layout_marginVertical="5dp"
-                                app:layout_constraintWidth_percent=".75">
-                            <ImageView
-                                    android:gravity="center"
-                                    android:id="@+id/topCard"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:src="@drawable/card_back"
-                                    android:visibility="@{viewModel.deckTopCardVisibilityLiveData}"
-                                    android:contentDescription="@string/top_card_access"
-                                    android:onClick="@{viewModel::onDeckFrameClick}"/>
-                        </FrameLayout>
+                                app:layout_constraintWidth_percent=".75"
+                                android:src="@drawable/card_back"
+                                android:visibility="@{viewModel.deckTopCardVisibilityLiveData}"
+                                android:contentDescription="@string/top_card_access"
+                                android:onClick="@{viewModel::onDeckFrameClick}"/>
 
                         <TextView
                                 android:id="@+id/underDeckText"
@@ -441,16 +434,17 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/deckFrame"
+                                app:layout_constraintTop_toBottomOf="@id/topCard"
                                 android:text="@{viewModel.underDeckTextLiveData}"
                                 android:gravity="center"
+                                tools:text="Draw"
                                 android:layout_marginTop="@dimen/discard_text_margin_top"
-                                android:textColor="?attr/deckZoneTextColor"
+                                android:textColor="?attr/deckDiscardTextColor"
                                 android:textSize="@dimen/info_text_size_small"/>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-`
+                `
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/score_layout"
@@ -586,7 +580,7 @@
                             android:text="@string/breakString"
                             android:textSize="@dimen/info_text_size_small"
                             android:background="@drawable/button_break"
-                            android:textColor="?attr/brokenZoneTextColor"
+                            android:textColor="?attr/breakButtonTextColor"
                             android:clickable="@{viewModel.breakButtonClickableLiveData}"
                             android:visibility="@{viewModel.breakButtonVisibilityLiveData}"
                             android:onClick="@{viewModel::onBreakClick}"/>

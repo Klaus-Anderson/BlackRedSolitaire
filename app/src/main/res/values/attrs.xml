@@ -5,30 +5,21 @@
     <attr name="positiveTextColor" format="color" />
     <attr name="greyTextColor" format="color" />
     <attr name="lightGreyTextColor" format="color" />
+    <attr name="redDiscardTextColor" format="color" />
+    <attr name="blackDiscardTextColor" format="color" />
+    <attr name="deckDiscardTextColor" format="color" />
 
+    <attr name="zoneTitleTextColor" format="color" />
     <attr name="lockedZoneBackgroundColor" format="color" />
-    <attr name="lockedZoneTextColor" format="color" />
-
     <attr name="currentZoneBackgroundColor" format="color" />
-    <attr name="currentZoneTextColor" format="color" />
-
     <attr name="blackZoneBackgroundColor" format="color" />
-    <attr name="blackZoneTextColor" format="color" />
-
     <attr name="redZoneBackgroundColor" format="color" />
-    <attr name="redZoneTextColor" format="color" />
-
     <attr name="brokenZoneBackgroundColor" format="color" />
-    <attr name="brokenZoneTextColor" format="color" />
-
     <attr name="deckZoneBackgroundColor" format="color" />
-    <attr name="deckZoneTextColor" format="color" />
-
     <attr name="clearedZoneBackgroundColor" format="color" />
-    <attr name="clearedZoneTextColor" format="color" />
-
     <attr name="buttonBackgroundColor" format="color" />
     <attr name="buttonTextColor" format="color" />
+    <attr name="breakButtonTextColor" format="color" />
     <attr name="buttonBorderColor" format="color" />
 
     <attr name="outline_hint_face" format="color"/>
