@@ -185,3 +185,14 @@ hs_err_pid*
 /local.properties
 /.idea/modules/app/black-red-solitaire.app.iml
 /gradle/wrapper/gradle-wrapper.properties
+/.idea/.name
+/.idea/modules/black-red-solitaire.iml
+/.idea/codeStyles/codeStyleConfig.xml
+/.idea/compiler.xml
+/.idea/discord.xml
+/.idea/jarRepositories.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/codeStyles/Project.xml
+/.idea/runConfigurations.xml
+/.idea/vcs.xml
