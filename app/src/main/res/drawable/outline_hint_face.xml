@@ -3,7 +3,7 @@
     android:shape="rectangle" >
 
     <stroke
-        android:width="3dp"
+        android:width="@dimen/eligible_card_border"
         android:color="?attr/outline_hint_face" />
 
     <corners

@@ -6,6 +6,8 @@
         <item name="titleTextColor">?attr/backgroundColor</item>
         <item name="android:textColorPrimary">?attr/negativeTextColor</item>
         <item name="android:textColorSecondary">?attr/greyTextColor</item>
+        <item name="android:fontFamily">@font/raleway</item>
+
 
         <item name="android:windowBackground">?attr/backgroundColor</item>
         <item name="colorAccent">?attr/lockedZoneBackgroundColor</item>

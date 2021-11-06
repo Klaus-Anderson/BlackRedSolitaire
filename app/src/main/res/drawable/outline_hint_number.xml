@@ -3,8 +3,8 @@
     android:shape="rectangle" >
 
     <stroke
-        android:width="3dp"
-        android:color="?attr/outline_hint_number" />
+            android:width="@dimen/eligible_card_border"
+            android:color="?attr/outline_hint_number" />
 
     <corners
         android:bottomLeftRadius="@dimen/eligible_card_radius"
