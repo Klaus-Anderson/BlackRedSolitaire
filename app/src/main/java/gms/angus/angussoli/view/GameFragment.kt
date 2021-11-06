@@ -34,23 +34,23 @@ class GameFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.jacksZone.apply {
-            root.background = activity?.getDrawable(R.drawable.zone_current)
+            zonePool.background = activity?.getDrawable(R.drawable.zone_current)
             zoneTextView.text = getString(R.string.jack)
         }
         binding.queensZone.apply {
-            root.background = activity?.getDrawable(R.drawable.zone_locked)
+            zonePool.background = activity?.getDrawable(R.drawable.zone_locked)
             zoneTextView.text = getString(R.string.queen)
         }
         binding.kingsZone.apply {
-            root.background = activity?.getDrawable(R.drawable.zone_locked)
+            zonePool.background = activity?.getDrawable(R.drawable.zone_locked)
             zoneTextView.text = getString(R.string.king)
         }
         binding.acesZone.apply {
-            root.background = activity?.getDrawable(R.drawable.zone_locked)
+            zonePool.background = activity?.getDrawable(R.drawable.zone_locked)
             zoneTextView.text = getString(R.string.ace)
         }
         binding.pileZone.apply {
-            root.background = activity?.getDrawable(R.drawable.zone_current)
+            zonePool.background = activity?.getDrawable(R.drawable.zone_current)
             zoneTextView.text = getString(R.string.pile)
             zoneTextView.setTextColor(TypedValue().also{
                 context?.theme?.resolveAttribute(R.attr.currentZoneTextColor, it, true)
@@ -148,7 +148,7 @@ class GameFragment : Fragment() {
                     else -> throw IllegalStateException()
                 }
             }.forEach { zoneLayoutBinding ->
-                zoneLayoutBinding.root.setBackgroundResource(R.drawable.zone_cleared)
+                zoneLayoutBinding.zonePool.setBackgroundResource(R.drawable.zone_cleared)
                 zoneLayoutBinding.zoneTextView.setTextColor(TypedValue().also{
                     context?.theme?.resolveAttribute(R.attr.clearedZoneTextColor, it, true)
                 }.data)
@@ -166,7 +166,7 @@ class GameFragment : Fragment() {
                     else -> throw IllegalStateException()
                 }
             }?.run {
-                root.setBackgroundResource(R.drawable.zone_current)
+                zonePool.setBackgroundResource(R.drawable.zone_current)
                 zoneTextView.setTextColor(TypedValue().also{
                     context?.theme?.resolveAttribute(R.attr.currentZoneTextColor, it, true)
                 }.data)
@@ -185,7 +185,7 @@ class GameFragment : Fragment() {
                     else -> throw IllegalStateException()
                 }
             }?.apply {
-                root.setBackgroundResource(R.drawable.zone_broken)
+                zonePool.setBackgroundResource(R.drawable.zone_broken)
                 zoneTextView.setTextColor(TypedValue().also{
                     context?.theme?.resolveAttribute(R.attr.brokenZoneTextColor, it, true)
                 }.data)

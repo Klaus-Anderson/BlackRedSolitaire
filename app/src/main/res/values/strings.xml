@@ -11,7 +11,7 @@
     <string name="hintOne">The objective of the game is to score as many points as possible before
         the deck runs out of cards. Scores less than 75 points are not submitted to High Scores.</string>
     <string name="hintTwo">Press on the deck to draw a card. If the card drawn is a face card
-        (10s are face cards),it will automatically go to its “Place”.
+        (10s are face cards), it will automatically go to its “Place”.
         If the card drawn is any other card it will automatically go to the Black or Red
         “Place” based on its color.</string>
     <string name="hintThree">The Black and Red “Places” can only contain one card at a time.

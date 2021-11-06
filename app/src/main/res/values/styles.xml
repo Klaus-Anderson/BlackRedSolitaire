@@ -32,13 +32,13 @@
         <item name="clearedZoneTextColor">?attr/negativeTextColor</item>
 
         <item name="currentZoneBackgroundColor">@color/light_green</item>
-        <item name="currentZoneTextColor">?attr/positiveTextColor</item>
+        <item name="currentZoneTextColor">?attr/negativeTextColor</item>
 
         <item name="lockedZoneBackgroundColor">@color/brown</item>
         <item name="lockedZoneTextColor">?attr/negativeTextColor</item>
 
         <item name="brokenZoneBackgroundColor">@color/dark_grey</item>
-        <item name="brokenZoneTextColor">?attr/positiveTextColor</item>
+        <item name="brokenZoneTextColor">?attr/negativeTextColor</item>
 
         <item name="blackZoneBackgroundColor">@color/black</item>
         <item name="blackZoneTextColor">?attr/negativeTextColor</item>
@@ -68,25 +68,25 @@
         <item name="backgroundColor">@color/off_white</item>
 
         <item name="clearedZoneBackgroundColor">@color/dark_blue_2</item>
-        <item name="clearedZoneTextColor">?attr/positiveTextColor</item>
+        <item name="clearedZoneTextColor">?attr/negativeTextColor</item>
 
         <item name="currentZoneBackgroundColor">@color/dark_blue</item>
-        <item name="currentZoneTextColor">?attr/positiveTextColor</item>
+        <item name="currentZoneTextColor">?attr/negativeTextColor</item>
 
         <item name="lockedZoneBackgroundColor">@color/crimson_red</item>
-        <item name="lockedZoneTextColor">?attr/positiveTextColor</item>
+        <item name="lockedZoneTextColor">?attr/negativeTextColor</item>
 
         <item name="brokenZoneBackgroundColor">@color/light_grey_2</item>
         <item name="brokenZoneTextColor">?attr/negativeTextColor</item>
 
         <item name="blackZoneBackgroundColor">@color/black_2</item>
-        <item name="blackZoneTextColor">?attr/positiveTextColor</item>
+        <item name="blackZoneTextColor">?attr/negativeTextColor</item>
 
         <item name="redZoneBackgroundColor">@color/red_2</item>
-        <item name="redZoneTextColor">?attr/positiveTextColor</item>
+        <item name="redZoneTextColor">?attr/negativeTextColor</item>
 
         <item name="deckZoneBackgroundColor">@color/blue_2</item>
-        <item name="deckZoneTextColor">?attr/positiveTextColor</item>
+        <item name="deckZoneTextColor">?attr/negativeTextColor</item>
 
         <item name="buttonBackgroundColor">@color/dark_grey_3</item>
         <item name="buttonTextColor">?attr/positiveTextColor</item>
@@ -102,7 +102,7 @@
     <style name="gameButtonStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
         <item name="android:background">@drawable/button_game</item>
         <item name="android:padding">@dimen/card_padding</item>
         <item name="android:textColor">?attr/positiveTextColor</item>
