@@ -105,6 +105,7 @@
                     android:onClick="@{viewModel.onFaceCardClick(value, CardSuit.HEART)}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

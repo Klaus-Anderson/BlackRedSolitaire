@@ -6,6 +6,7 @@ enum class CardSuit(val identity: String) {
     SPADE("spades"),
     HEART("hearts");
 
+    @Suppress("unused")
     val isBlack: Boolean
         get() = this == CLUB || this == SPADE
     val isRed: Boolean

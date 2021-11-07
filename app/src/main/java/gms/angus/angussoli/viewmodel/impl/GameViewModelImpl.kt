@@ -22,29 +22,29 @@ import gms.angus.angussoli.model.*
 import gms.angus.angussoli.module.GlideApp
 import gms.angus.angussoli.view.GameActivity
 import gms.angus.angussoli.viewmodel.GameViewModel
-import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewModel(application) {
-    override val redDiscardTextVisibilityLiveData = MutableLiveData<Int>(View.INVISIBLE)
-    override val blackDiscardTextVisibilityLiveData = MutableLiveData<Int>(View.INVISIBLE)
-    override val deckTopCardVisibilityLiveData = MutableLiveData<Int>(View.VISIBLE)
-    override val breakButtonVisibilityLiveData = MutableLiveData<Int>(View.VISIBLE)
-    override val breakButtonClickableLiveData = MutableLiveData<Boolean>(true)
+    override val redDiscardTextVisibilityLiveData = MutableLiveData(View.INVISIBLE)
+    override val blackDiscardTextVisibilityLiveData = MutableLiveData(View.INVISIBLE)
+    override val deckTopCardVisibilityLiveData = MutableLiveData(View.VISIBLE)
+    override val breakButtonVisibilityLiveData = MutableLiveData(View.VISIBLE)
+    override val breakButtonClickableLiveData = MutableLiveData(true)
     override val underDeckTextLiveData = MutableLiveData<String>()
-    override val cardLeftTextLiveData = MutableLiveData<String>("52")
-    override val cardSquanderedTextLiveData = MutableLiveData<String>("0")
-    override val clubNumbersLeftTextLiveData = MutableLiveData<String>(8.toString())
-    override val spadeNumbersLeftTextLiveData = MutableLiveData<String>(8.toString())
-    override val diamondNumbersLeftTextLiveData = MutableLiveData<String>(8.toString())
-    override val heartNumbersLeftTextLiveData = MutableLiveData<String>(8.toString())
+    override val cardLeftTextLiveData = MutableLiveData("52")
+    override val cardSquanderedTextLiveData = MutableLiveData("0")
+    override val clubNumbersLeftTextLiveData = MutableLiveData(8.toString())
+    override val spadeNumbersLeftTextLiveData = MutableLiveData(8.toString())
+    override val diamondNumbersLeftTextLiveData = MutableLiveData(8.toString())
+    override val heartNumbersLeftTextLiveData = MutableLiveData(8.toString())
     override val deckTopCardLiveData = MutableLiveData<Card?>()
     override val redCardLiveData = MutableLiveData<Card?>()
     override val blackCardLiveData = MutableLiveData<Card?>()
-    override val scoreTextLiveData = MutableLiveData<String>(0.toString())
+    override val scoreTextLiveData = MutableLiveData(0.toString())
     override val levelTextLiveData = MutableLiveData<String>()
-    override val multiplierTextLiveData = MutableLiveData<String>(1.toString())
-    override val pileScoreTextLiveData = MutableLiveData<String>(0.toString())
+    override val multiplierTextLiveData = MutableLiveData(1.toString())
+    override val pileScoreTextLiveData = MutableLiveData(0.toString())
     override val clearedFaceCardsLiveData = MutableLiveData<List<CardValue>>()
     override val currentLevelLiveData = MutableLiveData<CardValue?>()
     override val brokenFaceValueLiveData = MutableLiveData<CardValue?>()
@@ -74,7 +74,7 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
         runBlocking {
             CardValue.values().forEach { value ->
                 CardSuit.values().forEach { suit ->
-                    async {
+                    launch {
                         GlideApp.with(context)
                             .asBitmap()
                             .load(

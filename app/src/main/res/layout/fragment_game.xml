@@ -448,7 +448,6 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-                `
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/score_layout"

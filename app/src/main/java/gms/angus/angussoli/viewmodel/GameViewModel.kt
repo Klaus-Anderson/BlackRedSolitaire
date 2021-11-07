@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.view.View
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import gms.angus.angussoli.model.Card
@@ -54,10 +53,10 @@ interface GameViewModel {
     fun onNewGameClick(view: View)
 
     fun enableCompleteMode(context: Context)
-    fun onFaceCardClick(cardValue: CardValue?, cardSuit: CardSuit) : View.OnClickListener
+    fun onFaceCardClick(cardValue: CardValue?, cardSuit: CardSuit): View.OnClickListener
     fun getCardImageBitmap(card: Card): Bitmap?
 
-    class GameViewModelFactory(val application: Application) : ViewModelProvider.AndroidViewModelFactory(application) {
+    class GameViewModelFactory(private val application: Application) : ViewModelProvider.AndroidViewModelFactory(application) {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return GameViewModelImpl(application) as T
         }
