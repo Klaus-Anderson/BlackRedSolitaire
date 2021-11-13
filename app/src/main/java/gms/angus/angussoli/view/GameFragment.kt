@@ -1,6 +1,7 @@
 package gms.angus.angussoli.view
 
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,10 +59,13 @@ class GameFragment : Fragment() {
             true
         }
 
-        gameViewModel.deckTopCardLiveData.observe(viewLifecycleOwner) {
-            it?.let {
+        gameViewModel.deckTopCardLiveData.observe(viewLifecycleOwner) { card ->
+            card?.let {
                 addCardImageToImageView(binding.topCard, it, gameViewModel)
-            } ?: binding.topCard.setImageResource(R.drawable.card_back)
+            } ?: binding.topCard.setImageResource(TypedValue().let {
+                activity?.theme?.resolveAttribute(R.attr.cardBackDrawable, it, true)
+                it.resourceId
+            })
         }
 
         gameViewModel.loadingSpinnerVisibilityLiveData.observe(viewLifecycleOwner) {
@@ -221,7 +225,10 @@ class GameFragment : Fragment() {
                 }
                 FaceCardState.BROKEN -> run {
                     if (visibility == View.INVISIBLE) {
-                        setImageResource(R.drawable.card_back)
+                        setImageResource(TypedValue().let {
+                            activity?.theme?.resolveAttribute(R.attr.cardBackDrawable, it, true)
+                            it.resourceId
+                        })
                         visibility = View.VISIBLE
                     }
                     setBackgroundResource(0)

@@ -26,4 +26,6 @@
     <attr name="outline_hint_number" format="color"/>
 
     <attr name="zoneCoverColor" format="color" />
+
+    <attr name="cardBackDrawable" format="reference" />
 </resources>

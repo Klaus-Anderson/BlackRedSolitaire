@@ -172,3 +172,4 @@ MAlonzo/**
 /.idea/runConfigurations.xml
 /.idea/vcs.xml
 /gradle/wrapper/gradle-wrapper.jar
+/.idea/assetWizardSettings.xml

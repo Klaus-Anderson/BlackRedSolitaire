@@ -48,6 +48,7 @@
         <item name="outline_hint_number">@color/cyan</item>
         <item name="outline_hint_face">@color/blue</item>
         <item name="zoneCoverColor">@color/light_blue</item>
+        <item name="cardBackDrawable">@drawable/angus_cat</item>
 
     </style>
 
@@ -81,6 +82,7 @@
         <item name="outline_hint_face">@color/red</item>
 
         <item name="zoneCoverColor">@color/light_purple</item>
+        <item name="cardBackDrawable">@drawable/angus_cat_2</item>
 
     </style>
 

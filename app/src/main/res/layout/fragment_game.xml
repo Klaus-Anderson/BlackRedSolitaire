@@ -286,9 +286,11 @@
                             android:id="@+id/black_pool"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
-                            android:paddingVertical="@dimen/color_zone_padding_vertical"
+                            android:padding="@dimen/color_zone_padding_vertical"
                             app:layout_constraintTop_toBottomOf="@id/textViewBlack"
                             app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
                             android:background="@drawable/zone_black"
                             tools:ignore="MissingConstraints">
 
@@ -348,9 +350,11 @@
                             android:id="@+id/red_pool"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
-                            android:paddingVertical="@dimen/color_zone_padding_vertical"
+                            android:padding="@dimen/color_zone_padding_vertical"
                             app:layout_constraintTop_toBottomOf="@id/textViewRed"
                             app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
                             android:background="@drawable/zone_red"
                             tools:ignore="MissingConstraints">
 
@@ -411,9 +415,11 @@
                             android:layout_height="0dp"
                             app:layout_constraintTop_toBottomOf="@id/textViewDeck"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            android:paddingVertical="@dimen/color_zone_padding_vertical"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:padding="@dimen/color_zone_padding_vertical"
                             android:background="@drawable/zone_deck"
-                            tools:ignore="MissingConstraints">
+                    >
 
                         <ImageView
                                 android:gravity="center"
@@ -425,8 +431,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
                                 app:layout_constraintDimensionRatio="@string/card_size_ratio"
-                                android:scaleType="fitXY"
-                                android:src="@drawable/card_back"
+                                android:src="?attr/cardBackDrawable"
                                 android:visibility="@{viewModel.deckTopCardVisibilityLiveData}"
                                 android:contentDescription="@string/top_card_access"
                                 android:onClick="@{viewModel::onDeckFrameClick}"/>

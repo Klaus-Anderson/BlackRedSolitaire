@@ -79,7 +79,7 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
                             .asBitmap()
                             .load(
                                 Firebase.storage.reference.child(
-                                    String.format("simple-cards/%s_%s.png", value.identity.lowercase(), suit.identity)
+                                    String.format("pretty_cards/%s_%s.png", value.identity.lowercase(), suit.identity)
                                 )
                             )
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)

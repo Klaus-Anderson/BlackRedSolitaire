@@ -7,7 +7,7 @@
             android:label="@string/app_name"
             android:roundIcon="@drawable/brsoli"
             android:supportsRtl="true"
-            android:theme="@style/AngusTheme"
+            android:theme="@style/LightTheme"
 
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:fullBackupContent="@xml/backup_descriptor">

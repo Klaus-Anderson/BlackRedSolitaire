@@ -13,9 +13,9 @@
     <dimen name="zone_horizontal_margins">2dp</dimen>
     <dimen name="zone_title_margin_bottom">4dp</dimen>
 
-    <dimen name="face_zone_pool_padding">2dp</dimen>
+    <dimen name="face_zone_pool_padding">4dp</dimen>
     <dimen name="face_zone_pool_suit_imageview_horizontal_padding">4dp</dimen>
-    <dimen name="face_zone_pool_suit_imageview_vertical_padding">3dp</dimen>
+    <dimen name="face_zone_pool_suit_imageview_vertical_padding">1dp</dimen>
 
     <dimen name="color_zone_padding_vertical">6dp</dimen>
     <dimen name="discard_text_margin_top">1dp</dimen>
