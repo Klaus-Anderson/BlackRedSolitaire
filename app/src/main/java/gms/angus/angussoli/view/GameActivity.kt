@@ -42,15 +42,14 @@ class GameActivity : AppCompatActivity(R.layout.activity_game), SharedPreference
                     R.style.LightTheme
                 }
             )
+            supportFragmentManager.popBackStack()
             supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view, GameFragment()).commit()
         }
     }
 
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 0) {
-            supportFragmentManager.findFragmentByTag(PreferencesFragment::class.simpleName)?.let{
-                supportFragmentManager.beginTransaction().remove(it).commit()
-            }
+            supportFragmentManager.popBackStack()
         } else {
             super.onBackPressed()
         }

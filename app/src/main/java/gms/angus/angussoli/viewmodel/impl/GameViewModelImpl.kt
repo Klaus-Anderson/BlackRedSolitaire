@@ -23,6 +23,7 @@ import gms.angus.angussoli.model.*
 import gms.angus.angussoli.module.GlideApp
 import gms.angus.angussoli.view.GameActivity
 import gms.angus.angussoli.view.PreferencesFragment
+import gms.angus.angussoli.view.ToPlayFragment
 import gms.angus.angussoli.viewmodel.GameViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -216,9 +217,9 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
     }
 
     override fun onToPlayClick(view: View) {
-//        fragmentManager.beginTransaction()
-//            .add(R.id.container, ToPlayFragment(), ToPlayFragment::class.java.simpleName)
-//            .addToBackStack(ToPlayFragment::class.java.simpleName).commit()
+        (view.context as? AppCompatActivity)?.supportFragmentManager?.beginTransaction()?.add(
+            R.id.fragment_container_view, ToPlayFragment::class.java, null
+        )?.addToBackStack(ToPlayFragment::class.simpleName)?.commit()
     }
 
     override fun onNewGameClick(view: View) {

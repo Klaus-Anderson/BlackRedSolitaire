@@ -643,7 +643,8 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             style="@style/gameButtonStyle"
                             android:id="@+id/toPlayButton"
-                            android:text="@string/how_to_play"/>
+                            android:text="@string/how_to_play"
+                    android:onClick="@{viewModel::onToPlayClick}"/>
 
                     <Button
                             android:id="@+id/high_scores_button"
