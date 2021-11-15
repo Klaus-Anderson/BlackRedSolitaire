@@ -49,7 +49,7 @@ class GameActivity : AppCompatActivity(R.layout.activity_game), SharedPreference
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.findFragmentByTag(PreferencesFragment::class.simpleName)?.let{
-                supportFragmentManager.beginTransaction().remove(it)
+                supportFragmentManager.beginTransaction().remove(it).commit()
             }
         } else {
             super.onBackPressed()
