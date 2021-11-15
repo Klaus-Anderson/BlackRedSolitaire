@@ -11,6 +11,7 @@ import gms.angus.angussoli.model.Card
 import gms.angus.angussoli.model.CardSuit
 import gms.angus.angussoli.model.CardValue
 import gms.angus.angussoli.model.FaceCardState
+import gms.angus.angussoli.view.GameActivity
 import gms.angus.angussoli.viewmodel.impl.GameViewModelImpl
 
 interface GameViewModel {
@@ -51,6 +52,8 @@ interface GameViewModel {
     fun onBreakClick(view: View)
     fun onToPlayClick(view: View)
     fun onNewGameClick(view: View)
+    fun onThemeChanged(context: Context)
+    fun onOptionsClick(view: View)
 
     fun enableCompleteMode(context: Context)
     fun onFaceCardClick(cardValue: CardValue?, cardSuit: CardSuit): View.OnClickListener

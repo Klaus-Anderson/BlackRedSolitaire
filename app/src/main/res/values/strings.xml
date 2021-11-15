@@ -49,7 +49,7 @@
     <string name="pile">Pile</string>
     <string name="discard">Discard</string>
     <string name="card_left">Cards Left:</string>
-    <string name="cards_squandered">Squander:</string>
+    <string name="cards_squandered">Gone:</string>
     <string name="clubs">\u2663</string>
     <string name="_8">8</string>
     <string name="diamond">\u2666</string>
@@ -74,8 +74,9 @@
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="high_scores">High Scores</string>
+    <string name="options">Options</string>
     <string name="rankColon">Rank: </string>
-    <string name="multiplier_colon">Multiplier: </string>
+    <string name="multiplier_colon">Multi: </string>
     <string name="average_game_score">Average Game Score: </string>
     <string name="card_size_ratio">6:7</string>
 
@@ -101,4 +102,10 @@
     <string name="number_of_games">Number of Games</string>
     <string name="average_game_pro_rank">Average Game (pro rank)</string>
     <string name="achievements">Achievements</string>
+
+    <!--Preferences Keys-->
+    <string name="visual_preference_category_title">Visual Preferences</string>
+    <string name="dark_theme_preference_key">dark_theme_preference_key</string>
+    <string name="dark_mode_preference_title">Dark Mode (changing this will end current game)</string>
+
 </resources>

@@ -1,11 +1,19 @@
 package gms.angus.angussoli.view
 
+import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
+import com.google.android.gms.games.Game
 import gms.angus.angussoli.R
+import gms.angus.angussoli.viewmodel.GameViewModel
+import gms.angus.angussoli.viewmodel.impl.GameViewModelImpl
 
-class GameActivity : AppCompatActivity(R.layout.activity_game) {
+class GameActivity : AppCompatActivity(R.layout.activity_game), SharedPreferences.OnSharedPreferenceChangeListener {
+
+    lateinit var gameViewModel: GameViewModel
 //    private var apiClient: GoogleApiClient? = null
 
     //    @JvmField
@@ -13,9 +21,42 @@ class GameActivity : AppCompatActivity(R.layout.activity_game) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        gameViewModel = ViewModelProvider(
+            viewModelStore,
+            GameViewModel.GameViewModelFactory(application)
+        )[GameViewModelImpl::class.java]
+        // get and display preferences
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        if (sharedPreferences.getBoolean(getString(R.string.dark_theme_preference_key), false)) {
+            setTheme(R.style.AngusTheme)
+        }
     }
 
-//    private fun submitScore() {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (key == getString(R.string.dark_theme_preference_key)) {
+            setTheme(
+                if (sharedPreferences?.getBoolean(key, false) == true) {
+                    R.style.AngusTheme
+                } else {
+                    R.style.LightTheme
+                }
+            )
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view, GameFragment()).commit()
+        }
+    }
+
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.findFragmentByTag(PreferencesFragment::class.simpleName)?.let{
+                supportFragmentManager.beginTransaction().remove(it)
+            }
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    //    private fun submitScore() {
 //        if (userAccount != null) {
 //            if (scoreTotal >= 20) {
 //                val leaderboardsClient = Games.getLeaderboardsClient(

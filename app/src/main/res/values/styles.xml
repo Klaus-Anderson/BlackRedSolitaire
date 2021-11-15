@@ -93,7 +93,8 @@
         <item name="android:background">@drawable/button_game</item>
         <item name="android:padding">@dimen/card_padding</item>
         <item name="android:textColor">?attr/positiveTextColor</item>
-        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+
     </style>
 
     <style name="zone_style">
@@ -110,4 +111,5 @@
         <item name="layout_constraintDimensionRatio">@string/card_size_ratio</item>
 
     </style>
+
 </resources>

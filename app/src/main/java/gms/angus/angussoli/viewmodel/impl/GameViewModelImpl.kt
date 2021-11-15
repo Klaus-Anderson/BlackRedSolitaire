@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.load.DataSource
@@ -21,6 +22,7 @@ import gms.angus.angussoli.R
 import gms.angus.angussoli.model.*
 import gms.angus.angussoli.module.GlideApp
 import gms.angus.angussoli.view.GameActivity
+import gms.angus.angussoli.view.PreferencesFragment
 import gms.angus.angussoli.viewmodel.GameViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -225,5 +227,16 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
             it.startActivity(Intent(it, GameActivity::class.java))
             it.finish()
         }
+    }
+
+    override fun onOptionsClick(view: View) {
+        (view.context as? AppCompatActivity)?.supportFragmentManager?.beginTransaction()?.add(
+            R.id.fragment_container_view, PreferencesFragment::class.java, null
+        )?.addToBackStack(PreferencesFragment::class.simpleName)?.commit()
+    }
+
+    override fun onThemeChanged(context: Context) {
+        gameState = GameState()
+        updateLiveData(context)
     }
 }
