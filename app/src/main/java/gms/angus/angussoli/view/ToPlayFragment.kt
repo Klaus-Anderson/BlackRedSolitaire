@@ -9,32 +9,9 @@ import androidx.fragment.app.Fragment
 import gms.angus.angussoli.R
 import gms.angus.angussoli.databinding.FragmentToPlayBinding
 
-/**
- * A simple [Fragment] subclass.
- */
 class ToPlayFragment : Fragment() {
     var hintNumber = 1
 
-    //    @JvmField
-//    @BindView(R.id.hint_textview)
-//    var hintTextview: TextView? = null
-//
-//    @JvmField
-//    @BindView(R.id.hint_imageview)
-//    var hintImageview: ImageView? = null
-//
-//    @JvmField
-//    @BindView(R.id.previousButton)
-//    var previousButton: Button? = null
-//
-//    @JvmField
-//    @BindView(R.id.nextButton)
-//    var nextButton: Button? = null
-//
-//    @JvmField
-//    @BindView(R.id.toPlayFragmentLayout)
-//    var toPlayFragmentLayout: RelativeLayout? = null
-//    private var hintNumber = 1
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val binding = FragmentToPlayBinding.inflate(inflater, container, false)
