@@ -493,7 +493,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toStartOf="@id/scoreText"
                             app:layout_constraintBottom_toTopOf="@id/pile"
-                            app:layout_constraintHorizontal_weight="2"
+                            app:layout_constraintHorizontal_weight="1"
                             android:gravity="end"
                             android:text="@string/scoreColon"
                             android:textColor="?attr/negativeTextColor"

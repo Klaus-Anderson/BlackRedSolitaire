@@ -15,6 +15,14 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.games.AnnotatedData
+import com.google.android.gms.games.Games
+import com.google.android.gms.games.LeaderboardsClient
+import com.google.android.gms.games.leaderboard.LeaderboardScore
+import com.google.android.gms.games.leaderboard.LeaderboardVariant
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import gms.angus.angussoli.BuildConfig
@@ -27,6 +35,7 @@ import gms.angus.angussoli.view.ToPlayFragment
 import gms.angus.angussoli.viewmodel.GameViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+
 
 class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewModel(application) {
     override val redDiscardTextVisibilityLiveData = MutableLiveData(View.INVISIBLE)
@@ -69,6 +78,59 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
 
     override fun getCardImageBitmap(card: Card): Bitmap? {
         return cardBitmapMap[card]
+    }
+
+    override fun testAchievements(activity: Activity) {
+        GoogleSignIn.getLastSignedInAccount(activity)?.let {
+            Games.getAchievementsClient(activity, it).apply {
+                if (gameState.getFinalScore() > 500) {
+                    unlock(activity.getString(R.string.achievement_500_points))
+                }
+                if (gameState.getFinalScore() > 750) {
+                    unlock(activity.getString(R.string.achievement_750_points))
+                }
+                if (gameState.getFinalScore() > 900) {
+                    unlock(activity.getString(R.string.achievement_900_points))
+                }
+                if (gameState.getFinalScore() > 1000) {
+                    unlock(activity.getString(R.string.achievement_1000_points))
+                }
+                if (gameState.getFinalScore() > 1100) {
+                    unlock(activity.getString(R.string.achievement_1100_points))
+                }
+                if (gameState.currentLevel == CardValue.QUEEN && gameState.brokenFaceValue == null) {
+                    unlock(activity.getString(R.string.achievement_figured_it_out))
+                }
+                if (gameState.currentLevel == CardValue.KING) {
+                    unlock(activity.getString(R.string.achievement_moving_on_up))
+                }
+                if (gameState.currentLevel == CardValue.ACE) {
+                    unlock(activity.getString(R.string.achievement_officially_a_real_player))
+                }
+                if (gameState.currentLevel == null) {
+                    unlock(activity.getString(R.string.achievement_finisher))
+                    if(gameState.brokenFaceValue == null){
+                        unlock(activity.getString(R.string.achievement_improbable_but_not_impossible))
+                    }
+                }
+            }
+        }
+    }
+
+    override fun submitToLeaderBoard(activity: Activity) {
+//        if(gameState.getCardsLeft() == 0 && gameState.getFinalScore() >=75){
+//            GoogleSignIn.getLastSignedInAccount(activity)?.let {
+//                Games.getLeaderboardsClient(activity, it).apply {
+//                    submitScore(activity.getString(R.string.leaderboard_highest_score), gameState.getFinalScore().toLong())
+//                    loadCurrentPlayerLeaderboardScore(activity.getString(R.string.leaderboard_total_score),
+//                        LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC).addOnCompleteListener {
+//
+//                    }
+//                    submitScore(activity.getString(R.string.leaderboard_highest_score), gameState.getFinalScore().toLong())
+//
+//                }
+//            }
+//        }
     }
 
     private fun loadCardBitmapMap(context: Context) {
@@ -213,7 +275,14 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
         gameState.breakLevel()
         updateLiveData(view.context)
 
-//        unlockAchievement(getString(R.string.achievement_break))
+        GoogleSignIn.getLastSignedInAccount(view.context as Activity)?.let {
+            Games.getAchievementsClient(view.context as Activity, it).apply {
+                unlock(view.context.getString(R.string.achievement_hmm_whats_this))
+                if(gameState.pileCards.values.filterNotNull().size == 3){
+                    unlock(view.context.getString(R.string.achievement_well_played))
+                }
+            }
+        }
     }
 
     override fun onToPlayClick(view: View) {

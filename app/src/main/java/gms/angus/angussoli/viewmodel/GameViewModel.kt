@@ -1,5 +1,6 @@
 package gms.angus.angussoli.viewmodel
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
@@ -58,6 +59,8 @@ interface GameViewModel {
     fun enableCompleteMode(context: Context)
     fun onFaceCardClick(cardValue: CardValue?, cardSuit: CardSuit): View.OnClickListener
     fun getCardImageBitmap(card: Card): Bitmap?
+    fun testAchievements(activity: Activity)
+    fun submitToLeaderBoard(activity: Activity)
 
     class GameViewModelFactory(private val application: Application) : ViewModelProvider.AndroidViewModelFactory(application) {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

@@ -1,5 +1,7 @@
 package gms.angus.angussoli.model
 
+import android.app.Activity
+
 class GameState {
     private val discardedCards = ArrayDeque<Card>()
     private val levels = listOf(CardValue.TEN, CardValue.JACK, CardValue.QUEEN, CardValue.KING, CardValue.ACE)
@@ -298,7 +300,11 @@ class GameState {
     }
 
     fun getFinalScoreString(): String {
-        return (rawScore * multiplierScore).toString()
+        return getFinalScore().toString()
+    }
+
+    fun getFinalScore(): Int {
+        return rawScore * multiplierScore
     }
 
     fun getMultiplierString(): String {
@@ -345,7 +351,11 @@ class GameState {
     }
 
     fun getCardsLeftText(): String {
-        return deck.size.toString()
+        return getCardsLeft().toString()
+    }
+
+    fun getCardsLeft(): Int {
+        return deck.size
     }
 
 }

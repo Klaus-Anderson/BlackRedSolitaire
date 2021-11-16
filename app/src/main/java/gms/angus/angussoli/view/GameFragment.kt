@@ -1,5 +1,6 @@
 package gms.angus.angussoli.view
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -9,6 +10,10 @@ import android.widget.ImageView
 import androidx.core.graphics.scale
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.tasks.OnCompleteListener
 import gms.angus.angussoli.R
 import gms.angus.angussoli.databinding.FaceZoneLayoutBinding
 import gms.angus.angussoli.databinding.FragmentGameBinding
@@ -23,9 +28,15 @@ import gms.angus.angussoli.viewmodel.impl.GameViewModelImpl
 @Suppress("unused")
 class GameFragment : Fragment() {
 
+    lateinit var gameViewModel: GameViewModel
+
+    companion object {
+        const val RC_SIGN_IN = 87654
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val binding = FragmentGameBinding.inflate(inflater, container, false)
-        val gameViewModel: GameViewModel = ViewModelProvider(
+        gameViewModel = ViewModelProvider(
             viewModelStore,
             GameViewModel.GameViewModelFactory(activity!!.application)
         )[GameViewModelImpl::class.java]
@@ -66,6 +77,7 @@ class GameFragment : Fragment() {
                 activity?.theme?.resolveAttribute(R.attr.cardBackDrawable, it, true)
                 it.resourceId
             })
+            gameViewModel.testAchievements(activity as Activity)
         }
 
         gameViewModel.loadingSpinnerVisibilityLiveData.observe(viewLifecycleOwner) {
@@ -260,5 +272,50 @@ class GameFragment : Fragment() {
                 addCardImageToImageView(imageView, Card(cardValue, cardSuit), gameViewModel)
             }
         }
+    }
+
+    private fun signInSilently() {
+        val signInOptions = GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN
+        val account = GoogleSignIn.getLastSignedInAccount(activity as Activity)
+        if (GoogleSignIn.hasPermissions(account, *signInOptions.scopeArray)) {
+            // Already signed in.
+            // The signed in account is stored in the 'account' variable.
+            val signedInAccount = account
+        } else {
+            // Haven't been signed-in before. Try the silent sign-in first.
+            val signInClient = GoogleSignIn.getClient(activity as Activity, signInOptions)
+            signInClient
+                .silentSignIn()
+                .addOnCompleteListener(
+                    activity as Activity,
+                    OnCompleteListener<GoogleSignInAccount?> { task ->
+                        if (task.isSuccessful) {
+                            // The signed in account is stored in the task's result.
+                            val signedInAccount = task.result
+                        } else {
+                            // Player will need to sign-in explicitly using via UI.
+                            startSignInIntent()
+                        }
+                    })
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        signInSilently()
+    }
+
+    private fun startSignInIntent() {
+        val signInClient = GoogleSignIn.getClient(
+            activity as Activity,
+            GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN
+        )
+        val intent = signInClient.signInIntent
+        startActivityForResult(intent, RC_SIGN_IN)
+    }
+
+    override fun onDestroy() {
+        gameViewModel.submitToLeaderBoard(activity as Activity)
+        super.onDestroy()
     }
 }

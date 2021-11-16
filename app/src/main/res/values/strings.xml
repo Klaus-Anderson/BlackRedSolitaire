@@ -89,23 +89,6 @@
     <string name="average_game_score">Average Game Score: </string>
     <string name="card_size_ratio">6:7</string>
 
-    <string name="highScore_board_id">CgkIvvHOjI4eEAIQDg</string>
-    <string name="totalScore_board_id">CgkIvvHOjI4eEAIQDA</string>
-    <string name="numOfGame_board_id">CgkIvvHOjI4eEAIQDQ</string>
-    <string name="app_id">1034576705726</string>
-    <string name="achievement_75_points">CgkIvvHOjI4eEAIQAA</string>
-    <string name="achievement_100_points">CgkIvvHOjI4eEAIQAQ</string>
-    <string name="achievement_150_points">CgkIvvHOjI4eEAIQAg</string>
-    <string name="achievement_200_points">CgkIvvHOjI4eEAIQAw</string>
-    <string name="achievement_300_points">CgkIvvHOjI4eEAIQBA</string>
-    <string name="achievement_improbable">CgkIvvHOjI4eEAIQCw</string>
-    <string name="achievement_jacks">CgkIvvHOjI4eEAIQBQ</string>
-    <string name="achievement_queens">CgkIvvHOjI4eEAIQBg</string>
-    <string name="achievement_kings">CgkIvvHOjI4eEAIQBw</string>
-    <string name="achievement_aces">CgkIvvHOjI4eEAIQCA</string>
-    <string name="achievement_break">CgkIvvHOjI4eEAIQCQ</string>
-    <string name="achievement_well_played">CgkIvvHOjI4eEAIQCg</string>
-
     <string name="high_score">High Score</string>
     <string name="total_score">Total Score</string>
     <string name="number_of_games">Number of Games</string>
