@@ -1,18 +1,27 @@
 package gms.angus.angussoli.view
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.games.Game
+import com.google.android.gms.games.Games
 import gms.angus.angussoli.R
 import gms.angus.angussoli.viewmodel.GameViewModel
 import gms.angus.angussoli.viewmodel.impl.GameViewModelImpl
 
 class GameActivity : AppCompatActivity(R.layout.activity_game), SharedPreferences.OnSharedPreferenceChangeListener {
 
+    companion object {
+        const val RC_SIGN_IN = 87654
+        const val RC_ACHIEVEMENT_UI = 87653
+    }
     lateinit var gameViewModel: GameViewModel
 //    private var apiClient: GoogleApiClient? = null
 
@@ -110,22 +119,15 @@ class GameActivity : AppCompatActivity(R.layout.activity_game), SharedPreference
 //        }
 //    }
 //
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == RC_SIGN_IN) {
-//            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-//            try {
-//                userAccount = task.getResult(ApiException::class.java)
-//            } catch (e: ApiException) {
-//                // The ApiException status code indicates the detailed failure reason.
-//                // Please refer to the GoogleSignInStatusCodes class reference for more information.
-//                Log.w(GameActivity::class.java.simpleName, "signInResult:failed code=" + e.statusCode)
-//            }
-//            hideLoadingDialog()
-//        }
-//    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+    }
 
-//    @OnClick(R.id.high_scores_button)
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
+    //    @OnClick(R.id.high_scores_button)
 //    fun onHighScoresClick() {
 //        if (userAccount != null) {
 //            showLoadingDialog()
@@ -307,21 +309,5 @@ class GameActivity : AppCompatActivity(R.layout.activity_game), SharedPreference
 //                }
 //            }
 //        }
-//    }
-//
-//    override fun onConnectionSuspended(i: Int) {
-//        hideLoadingDialog()
-//    }
-
-//    private fun showLoadingDialog() {
-//        progress = ProgressDialog(this)
-//        progress.setTitle("Loading")
-//        progress.setMessage("Wait while loading...")
-//        progress.setCancelable(false) // disable dismiss by tapping outside of the dialog
-//        progress.show()
-//    }
-
-//    private fun hideLoadingDialog() {
-//        progress.hide()
 //    }
 }

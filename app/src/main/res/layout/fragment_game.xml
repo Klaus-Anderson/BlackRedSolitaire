@@ -653,7 +653,8 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             style="@style/gameButtonStyle"
-                            android:text="@string/high_scores"/>
+                            android:text="@string/achievements"
+                            android:onClick="@{viewModel::onHighScoreClick}"/>
 
                     <Button
                             android:id="@+id/options_button"

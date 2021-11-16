@@ -8,6 +8,7 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import gms.angus.angussoli.model.Card
 import gms.angus.angussoli.model.CardSuit
 import gms.angus.angussoli.model.CardValue
@@ -53,6 +54,7 @@ interface GameViewModel {
     fun onBreakClick(view: View)
     fun onToPlayClick(view: View)
     fun onNewGameClick(view: View)
+    fun onHighScoreClick(view: View)
     fun onThemeChanged(context: Context)
     fun onOptionsClick(view: View)
 
@@ -60,11 +62,12 @@ interface GameViewModel {
     fun onFaceCardClick(cardValue: CardValue?, cardSuit: CardSuit): View.OnClickListener
     fun getCardImageBitmap(card: Card): Bitmap?
     fun testAchievements(activity: Activity)
-    fun submitToLeaderBoard(activity: Activity)
 
     class GameViewModelFactory(private val application: Application) : ViewModelProvider.AndroidViewModelFactory(application) {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return GameViewModelImpl(application) as T
         }
     }
+
+    fun loadCardBitmapMap(activity: Activity)
 }

@@ -1,51 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="?attr/backgroundColor">
+<layout
+>
 
-    <Button
-        android:id="@+id/high_score"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large.Inverse"
-        android:text="@string/high_score"
-        android:background="@drawable/zone_deck"/>
-    <Button
-        android:id="@+id/total_score"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large.Inverse"
-        android:text="@string/total_score"
-        android:background="@drawable/zone_current"/>
-    <Button
-        android:id="@+id/number_of_games"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large.Inverse"
-        android:text="@string/number_of_games"
-        android:background="@drawable/zone_cleared"/>
-    <Button
-        android:id="@+id/average_game_pro_rank"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large.Inverse"
-        android:text="@string/average_game_pro_rank"
-        android:background="@drawable/zone_red"/>
+    <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="?attr/backgroundColor">
 
-    <Button
-        android:id="@+id/achievements"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large.Inverse"
-        android:text="@string/achievements"
-        android:background="@drawable/zone_locked"/>
+        <Button
+                android:id="@+id/high_score"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large.Inverse"
+                android:text="@string/high_score"
+                android:background="@drawable/zone_deck"/>
+        <Button
+                android:id="@+id/total_score"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large.Inverse"
+                android:text="@string/total_score"
+                android:background="@drawable/zone_current"/>
+        <Button
+                android:id="@+id/number_of_games"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large.Inverse"
+                android:text="@string/number_of_games"
+                android:background="@drawable/zone_cleared"/>
+        <Button
+                android:id="@+id/average_game_pro_rank"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large.Inverse"
+                android:text="@string/average_game_pro_rank"
+                android:background="@drawable/zone_red"/>
 
-</LinearLayout>
+        <Button
+                android:id="@+id/achievements"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large.Inverse"
+                android:text="@string/achievements"
+                android:background="@drawable/zone_locked"/>
+
+    </LinearLayout>
+</layout>
