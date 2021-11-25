@@ -51,8 +51,10 @@ class GameActivity : AppCompatActivity(R.layout.activity_game), SharedPreference
                     R.style.LightTheme
                 }
             )
-            supportFragmentManager.popBackStack()
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view, GameFragment()).commit()
+            if(!supportFragmentManager.isDestroyed) {
+                supportFragmentManager.popBackStack()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view, GameFragment()).commit()
+            }
         }
     }
 
