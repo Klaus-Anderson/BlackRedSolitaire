@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle" >
+
+    <stroke
+        android:width="@dimen/eligible_card_border"
+        android:color="?attr/outline_hint_face" />
+
+    <corners
+        android:bottomLeftRadius="@dimen/eligible_card_radius"
+        android:bottomRightRadius="@dimen/eligible_card_radius"
+        android:topLeftRadius="@dimen/eligible_card_radius"
+        android:topRightRadius="@dimen/eligible_card_radius" />
+
+</shape>

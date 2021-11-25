@@ -8,53 +8,64 @@
     <string name="king">King</string>
     <string name="ace">Ace</string>
     <string name="howToPlay">How to Play Angus Solitaire</string>
+    <string name="hintOneTitle">Game Objective</string>
     <string name="hintOne">The objective of the game is to score as many points as possible before
         the deck runs out of cards. Scores less than 75 points are not submitted to High Scores.</string>
+    <string name="hintTwoTitle">Drawing Cards</string>
     <string name="hintTwo">Press on the deck to draw a card. If the card drawn is a face card
-        (10s are face cards),it will automatically go to its “Place”.
+        (10s are face cards), it will automatically go to its Position.
         If the card drawn is any other card it will automatically go to the Black or Red
-        “Place” based on its color.</string>
-    <string name="hintThree">The Black and Red “Places” can only contain one card at a time.
-        For example, if a Black number card is drawn and there is already a card in the Black “Place”,
-        you must either discard the drawn card or discard the card in the Black “Place”.</string>
-    <string name="hintFour">To score points, the “Pile” must contain one face card of each suit
+        Box based on its color.</string>
+    <string name="hintThreeTitle">Red and Black Boxes</string>
+    <string name="hintThree">The Black and Red boxes can only contain one card at a time.
+        For example, if a Red number card is drawn but there is already a Red card in the Red Box,
+        you must either discard the drawn Red number card or discard the card in the Red Box.</string>
+    <string name="hintFourTitle">Scoring Points</string>
+    <string name="hintFour">To score points, the Pile must contain one face card of each suit
         (one club, one diamond, one spade, and one heart) based on the current level,
         starting with Jack. Points are not scored until a level is completed.
-        Having a complete “Pile” will move you to next level.</string>
-    <string name="hintFive">To “Collect” a face card into the “Pile”, you must have the following
-        cards on the board (example shown above): The face card you want to “Collect” into the “Pile”,
-        A number card that matches the suit of the face card in one of the color “Places”,
-        and another number card of the opposing color in the other color “Place”.
-        Once all of these cards are on the board, press the face card to “collect” it and
-        move that card onto the pile. Face cards that can be “Collected” are surrounded with a red border.</string>
+        Having a complete Pile will move you to the next level.</string>
+    <string name="hintFiveTitle">Collecting Face Cards</string>
+    <string name="hintFive">To Collect a face card into the Pile, you must have the following
+        cards on the board (example shown above): The face card you want to Collect into the Pile,
+        a number card in one of the color Boxes which matches the suit of the face card,
+        and another number card in the other color Box. Once all of these cards are on the board,
+        press the face card in its position to Collect it and move that card onto the Pile.
+        Face cards that can be Collected are surrounded with a dark border.
+        The sum of the number cards used to Collect a face card is put towards your Pile total.</string>
+    <string name="hintSixTitle">Wild Face Cards as Face Cards</string>
     <string name="hintSix">
-        The sum of the number cards used to “Collect” a face card is put towards your “Pile” total.
-        Once a level has been completed the face cards from that level become “Wild”. “Wild” face
-        cards can be “Collected” instead of the current level’s face cards. “Wild” face cards which
-        can be “Collected” are surrounded with a red border. “Wild” face cards have the same
+        Once a level has been completed, the face cards from that level become Wild. Wild face
+        cards can be Collected into the Pile instead of face cards of the current level. Wild face cards which
+        can be Collected as face cards are surrounded with a dark border. Wild face cards have the same
         prerequisites as the current level face cards to be collected onto the pile. 10s start the
-        game as “Wild”.</string>
-    <string name="hintSeven">“Wild” face cards can also be used as number cards. To use a “Wild”
-        face card as a number card, press on that card and it will move to it’s respective color
-        “Place”. “Wild” face cards that can be used as number cards will be surrounded with a yellow
-        border. Pressing a “Wild” face card will only move it to it’s respective color “Place” if
-        that “Wild” face card cannot “Collected”.</string>
-    <string name="hintEight">If you wish to skip the level you are currently on, press the “BREAK”
-        button. Skipping a level will “break” the face cards of that level. You can only use the
-        “BREAK” button once per game.</string>
-    <string name="hintNine">Once a level has been “Broken”, the face cards from that level cannot be
-        “Collected”. The face cards from the “Broken” level cannot be used as “Wild” face cards.</string>
+        game as Wild.</string>
+    <string name="hintSevenTitle">Wild Face Cards as Number Cards</string>
+    <string name="hintSeven">Wild face cards can also be used as number cards. To use a Wild
+        face card as a number card, press on that card and it will move to its respective color
+        Box. Wild face cards that can be used as number cards will be surrounded with a lighter
+        border. Pressing a Wild face card will only move it to its respective color Box if
+        that Wild face card cannot Collected into the Pile as a face card instead.</string>
+    <string name="hintEightTitle">The BREAK Button</string>
+    <string name="hintEight">If you wish to skip the level you are currently on, press the BREAK
+        button. Skipping a level will break the face cards of that level. You can only use the
+        BREAK button once per game.</string>
+    <string name="hintNineTitle">Broken Level</string>
+    <string name="hintNine">Once a level has been Broken, the face cards from that level cannot be
+        Collected. The face cards from the Broken level cannot be used as Wild face cards.</string>
     <string name="back">Back</string>
     <string name="top_card_access">Top Card</string>
     <string name="pile">Pile</string>
     <string name="discard">Discard</string>
+    <string name="card_left">Cards Left:</string>
+    <string name="cards_squandered">Gone:</string>
     <string name="clubs">\u2663</string>
     <string name="_8">8</string>
     <string name="diamond">\u2666</string>
     <string name="spade">\u2660</string>
     <string name="heart">\u2665</string>
     <string name="black">Black</string>
-    <string name="press_to_discard">Press to Discard</string>
+    <string name="press_to_discard">Discard</string>
     <string name="red">Red</string>
     <string name="deck">Deck</string>
     <string name="_52">52</string>
@@ -65,36 +76,28 @@
     <string name="press_here_for_game_over">Press Here for Game Over</string>
     <string name="new_game">New Game</string>
     <string name="how_to_play">How to Play</string>
-    <string name="god_Tier">Done</string>
+    <string name="done">\u2713</string>
     <string name="scoreColon">Score:</string>
     <string name="breakString">break</string>
-    <string name="press_to_draw">Press Card to Draw</string>
+    <string name="press_to_draw">Draw</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="high_scores">High Scores</string>
+    <string name="options">Options</string>
     <string name="rankColon">Rank: </string>
+    <string name="multiplier_colon">Multi: </string>
     <string name="average_game_score">Average Game Score: </string>
-
-    <string name="highScore_board_id">CgkIvvHOjI4eEAIQDg</string>
-    <string name="totalScore_board_id">CgkIvvHOjI4eEAIQDA</string>
-    <string name="numOfGame_board_id">CgkIvvHOjI4eEAIQDQ</string>
-    <string name="app_id">1034576705726</string>
-    <string name="achievement_75_points">CgkIvvHOjI4eEAIQAA</string>
-    <string name="achievement_100_points">CgkIvvHOjI4eEAIQAQ</string>
-    <string name="achievement_150_points">CgkIvvHOjI4eEAIQAg</string>
-    <string name="achievement_200_points">CgkIvvHOjI4eEAIQAw</string>
-    <string name="achievement_300_points">CgkIvvHOjI4eEAIQBA</string>
-    <string name="achievement_improbable">CgkIvvHOjI4eEAIQCw</string>
-    <string name="achievement_jacks">CgkIvvHOjI4eEAIQBQ</string>
-    <string name="achievement_queens">CgkIvvHOjI4eEAIQBg</string>
-    <string name="achievement_kings">CgkIvvHOjI4eEAIQBw</string>
-    <string name="achievement_aces">CgkIvvHOjI4eEAIQCA</string>
-    <string name="achievement_break">CgkIvvHOjI4eEAIQCQ</string>
-    <string name="achievement_well_played">CgkIvvHOjI4eEAIQCg</string>
+    <string name="card_size_ratio">6:7</string>
 
     <string name="high_score">High Score</string>
     <string name="total_score">Total Score</string>
     <string name="number_of_games">Number of Games</string>
     <string name="average_game_pro_rank">Average Game (pro rank)</string>
     <string name="achievements">Achievements</string>
+
+    <!--Preferences Keys-->
+    <string name="visual_preference_category_title">Visual Preferences</string>
+    <string name="dark_theme_preference_key">dark_theme_preference_key</string>
+    <string name="dark_mode_preference_title">Dark Mode (changing this will end current game)</string>
+
 </resources>

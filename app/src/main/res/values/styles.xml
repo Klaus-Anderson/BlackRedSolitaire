@@ -1,32 +1,115 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="titleTextColor">?attr/backgroundColor</item>
+        <item name="android:textColorPrimary">?attr/negativeTextColor</item>
+        <item name="android:textColorSecondary">?attr/greyTextColor</item>
+        <item name="android:fontFamily">@font/raleway</item>
+
+
+        <item name="android:windowBackground">?attr/backgroundColor</item>
+        <item name="colorAccent">?attr/lockedZoneBackgroundColor</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">?attr/greyTextColor</item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">?attr/lightGreyTextColor</item>
     </style>
 
-    <style name="frameStyle">
-        <item name="android:layout_width">45dp</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:padding">@dimen/frame_padding</item>
+    <style name="AngusTheme" parent="BaseTheme">
+        <item name="negativeTextColor">@android:color/white</item>
+        <item name="positiveTextColor">@android:color/black</item>
+        <item name="greyTextColor">@color/light_grey</item>
+        <item name="lightGreyTextColor">@color/dark_grey</item>
+        <item name="redDiscardTextColor">?attr/negativeTextColor</item>
+        <item name="blackDiscardTextColor">?attr/negativeTextColor</item>
+        <item name="deckDiscardTextColor">?attr/negativeTextColor</item>
+
+        <item name="backgroundColor">@color/dark_purple</item>
+
+        <item name="zoneTitleTextColor">?attr/negativeTextColor</item>
+
+        <item name="clearedZoneBackgroundColor">@color/dark_pink</item>
+        <item name="currentZoneBackgroundColor">@color/light_green</item>
+        <item name="lockedZoneBackgroundColor">@color/brown</item>
+        <item name="brokenZoneBackgroundColor">@color/dark_grey</item>
+        <item name="blackZoneBackgroundColor">@color/black</item>
+        <item name="redZoneBackgroundColor">@color/red</item>
+        <item name="deckZoneBackgroundColor">@color/green</item>
+
+        <item name="buttonBackgroundColor">@color/dark_red</item>
+        <item name="buttonTextColor">?attr/negativeTextColor</item>
+        <item name="breakButtonTextColor">?attr/positiveTextColor</item>
+        <item name="buttonBorderColor">?attr/negativeTextColor</item>
+
+        <item name="outline_hint_number">@color/cyan</item>
+        <item name="outline_hint_face">@color/blue</item>
+        <item name="zoneCoverColor">@color/light_blue</item>
+        <item name="cardBackDrawable">@drawable/angus_cat</item>
+
     </style>
 
-    <style name="cardLayoutStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:paddingTop">@dimen/card_padding</item>
-        <item name="android:orientation">vertical</item>
+    <style name="LightTheme" parent="BaseTheme">
+        <item name="negativeTextColor">@android:color/black</item>
+        <item name="positiveTextColor">@android:color/white</item>
+        <item name="greyTextColor">@color/light_grey_2</item>
+        <item name="lightGreyTextColor">@color/dark_grey_2</item>
+        <item name="redDiscardTextColor">?attr/positiveTextColor</item>
+        <item name="blackDiscardTextColor">?attr/positiveTextColor</item>
+        <item name="deckDiscardTextColor">?attr/positiveTextColor</item>
+
+        <item name="backgroundColor">@color/off_white</item>
+
+        <item name="zoneTitleTextColor">?attr/negativeTextColor</item>
+
+        <item name="clearedZoneBackgroundColor">@color/dark_blue_2</item>
+        <item name="currentZoneBackgroundColor">@color/dark_blue</item>
+        <item name="lockedZoneBackgroundColor">@color/crimson_red</item>
+        <item name="brokenZoneBackgroundColor">@color/light_grey_2</item>
+        <item name="blackZoneBackgroundColor">@color/black_2</item>
+        <item name="redZoneBackgroundColor">@color/red_2</item>
+        <item name="deckZoneBackgroundColor">@color/blue_2</item>
+
+        <item name="buttonBackgroundColor">@color/dark_grey_3</item>
+        <item name="buttonTextColor">?attr/positiveTextColor</item>
+        <item name="breakButtonTextColor">?attr/negativeTextColor</item>
+        <item name="buttonBorderColor">?attr/negativeTextColor</item>
+
+        <item name="outline_hint_number">@color/magenta</item>
+        <item name="outline_hint_face">@color/red</item>
+
+        <item name="zoneCoverColor">@color/light_purple</item>
+        <item name="cardBackDrawable">@drawable/angus_cat_2</item>
+
     </style>
 
     <style name="gameButtonStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">15sp</item>
-        <item name="android:background">@drawable/game_button_shape</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
+        <item name="android:background">@drawable/button_game</item>
         <item name="android:padding">@dimen/card_padding</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">?attr/positiveTextColor</item>
+        <item name="android:gravity">center</item>
+
+    </style>
+
+    <style name="zone_style">
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginHorizontal">@dimen/zone_horizontal_margins</item>
+        <item name="android:layout_marginVertical">@dimen/zone_vertical_margins</item>
+    </style>
+
+    <style name="card_imageview_style">
+        <item name="android:scaleType">fitXY</item>
+        <item name="layout_constraintDimensionRatio">@string/card_size_ratio</item>
+
     </style>
 
 </resources>

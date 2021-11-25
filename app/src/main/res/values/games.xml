@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Google Play game services IDs. Save this file as res/values/games-ids.xml in your project.-->
+<resources>
+    <!--app_id-->
+    <string name="app_id" translatable="false">503920804061</string>
+    <!--package_name-->
+    <string name="package_name" translatable="false">gms.angus.angussoli</string>
+    <!--achievement 500 Points-->
+    <string name="achievement_500_points" translatable="false">CgkI3YGVoNUOEAIQAA</string>
+    <!--achievement 750 Points-->
+    <string name="achievement_750_points" translatable="false">CgkI3YGVoNUOEAIQAQ</string>
+    <!--achievement 900 Points-->
+    <string name="achievement_900_points" translatable="false">CgkI3YGVoNUOEAIQAg</string>
+    <!--achievement 1000 Points-->
+    <string name="achievement_1000_points" translatable="false">CgkI3YGVoNUOEAIQAw</string>
+    <!--achievement 1100 points-->
+    <string name="achievement_1100_points" translatable="false">CgkI3YGVoNUOEAIQBA</string>
+    <!--achievement Figured It Out-->
+    <string name="achievement_figured_it_out" translatable="false">CgkI3YGVoNUOEAIQBQ</string>
+    <!--achievement Moving On Up-->
+    <string name="achievement_moving_on_up" translatable="false">CgkI3YGVoNUOEAIQBg</string>
+    <!--achievement Officially a Real Player-->
+    <string name="achievement_officially_a_real_player" translatable="false">CgkI3YGVoNUOEAIQBw</string>
+    <!--achievement Finisher-->
+    <string name="achievement_finisher" translatable="false">CgkI3YGVoNUOEAIQCA</string>
+    <!--achievement Hmm, What's This?-->
+    <string name="achievement_hmm_whats_this" translatable="false">CgkI3YGVoNUOEAIQCQ</string>
+    <!--achievement Well Played-->
+    <string name="achievement_well_played" translatable="false">CgkI3YGVoNUOEAIQCg</string>
+    <!--achievement Improbable, but not Impossible-->
+    <string name="achievement_improbable_but_not_impossible" translatable="false">CgkI3YGVoNUOEAIQCw</string>
+    <!--leaderboard Total Score-->
+    <string name="leaderboard_total_score" translatable="false">CgkI3YGVoNUOEAIQDA</string>
+    <!--leaderboard Number of Games-->
+    <string name="leaderboard_number_of_games" translatable="false">CgkI3YGVoNUOEAIQDQ</string>
+    <!--leaderboard Highest Score-->
+    <string name="leaderboard_highest_score" translatable="false">CgkI3YGVoNUOEAIQDg</string>
+</resources>

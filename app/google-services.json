@@ -1,45 +1,44 @@
 {
   "project_info": {
-    "project_number": "1034576705726",
-    "project_id": "angus-solitaire-55249404"
+    "project_number": "503920804061",
+    "project_id": "angus-solitaire-53987154",
+    "storage_bucket": "angus-solitaire-53987154.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1034576705726:android:583087c8740a6b44",
+        "mobilesdk_app_id": "1:503920804061:android:1aa76fa48d1f3a91ed5b34",
         "android_client_info": {
           "package_name": "gms.angus.angussoli"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1034576705726-snld87oikv8crjuej5orc35akmf6cqdu.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "1034576705726-c04ulbtiv3cqun40licoa9fur1mmm996.apps.googleusercontent.com",
+          "client_id": "503920804061-2o4pb73utcacdpofh75pgspvjinab1i7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "gms.angus.angussoli",
-            "certificate_hash": "c9d9566556a182c0b95db074bc109c6e867ba043"
+            "certificate_hash": "f8aa621aebd018fe8251bb5f5f0eee6c9e35d830"
           }
+        },
+        {
+          "client_id": "503920804061-u403qqg4h8q7sf0p05s15ml9pn7fgonl.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB5zxhwqWKw9mxKBZ0dlm13tXk_nnadd24"
+          "current_key": "AIzaSyCpmnVIRVwV0AI-RqLDqzRhb4ih8d5NZE8"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 1
+          "other_platform_oauth_client": [
+            {
+              "client_id": "503920804061-u403qqg4h8q7sf0p05s15ml9pn7fgonl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

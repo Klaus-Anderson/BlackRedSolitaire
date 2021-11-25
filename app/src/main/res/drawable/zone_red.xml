@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle" >
+
+    <stroke
+            android:width="@dimen/zone_border_width"
+            android:color="?attr/buttonBorderColor"/>
+
+    <solid
+        android:color="?attr/redZoneBackgroundColor" />
+
+    <corners
+        android:bottomLeftRadius="@dimen/zone_corner_radius"
+        android:bottomRightRadius="@dimen/zone_corner_radius"
+        android:topLeftRadius="@dimen/zone_corner_radius"
+        android:topRightRadius="@dimen/zone_corner_radius" />
+
+</shape>

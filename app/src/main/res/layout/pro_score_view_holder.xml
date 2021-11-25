@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/bottom_row_shape">
+    android:background="@drawable/zone_deck">
     <TextView
         android:id="@+id/playerName"
         android:layout_width="wrap_content"
