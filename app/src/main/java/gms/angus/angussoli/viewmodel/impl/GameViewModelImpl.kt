@@ -156,7 +156,7 @@ class GameViewModelImpl(application: Application) : GameViewModel, AndroidViewMo
                                     ): Boolean {
                                         cardBitmapMap[Card(value, suit)] = resource!!
                                         if (cardBitmapMap.size == 52) {
-                                            loadingSpinnerVisibilityLiveData.value = View.GONE
+                                            loadingSpinnerVisibilityLiveData.postValue(View.GONE)
                                         }
                                         return true
                                     }
